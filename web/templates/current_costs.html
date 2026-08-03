@@ -1,0 +1,93 @@
+{% extends "base.html" %}
+{% block title %}Current Ontario costs — Ontario Home Energy Futures{% endblock %}
+{% block content %}
+<h1>Current Ontario electricity costs</h1>
+<p class="page-intro">
+  Standardized monthly bills for Hydro Ottawa, broken into their component
+  charges, so "electricity rate" isn't treated as one undifferentiated
+  number. {% include "partials/assumption_tag.html" with context %}
+</p>
+
+<h2>Standardized monthly bills</h2>
+<p>Time-of-use pricing, {{ bill_period }}.</p>
+
+<div class="table-scroll" tabindex="0">
+<table>
+  <caption>Standardized monthly bill by consumption level, Hydro Ottawa time-of-use, {{ bill_period }}</caption>
+  <thead>
+    <tr>
+      <th scope="col">Consumption</th>
+      <th scope="col">Energy charge</th>
+      <th scope="col">Fixed delivery</th>
+      <th scope="col">Variable delivery</th>
+      <th scope="col">Regulatory</th>
+      <th scope="col">Rebate</th>
+      <th scope="col">Tax</th>
+      <th scope="col">Total</th>
+      <th scope="col">Effective ¢/kWh</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for row in standard_profiles %}
+    <tr id="profile-{{ row.kwh }}">
+      <th scope="row">{{ row.kwh }} kWh</th>
+      <td>{{ row.energy_charge_formatted }}</td>
+      <td>{{ row.fixed_delivery_formatted }}</td>
+      <td>{{ row.variable_delivery_formatted }}</td>
+      <td>{{ row.regulatory_formatted }}</td>
+      <td>{{ row.rebate_formatted }}</td>
+      <td>{{ row.tax_formatted }}</td>
+      <td>{{ row.total_formatted }}</td>
+      <td>{{ row.effective_cents_formatted }}</td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+</div>
+
+<h2>Tiered pricing comparison</h2>
+<div class="table-scroll" tabindex="0">
+<table>
+  <caption>Standardized monthly bill by consumption level, Hydro Ottawa tiered plan, {{ bill_period }}</caption>
+  <thead>
+    <tr>
+      <th scope="col">Consumption</th>
+      <th scope="col">Energy charge</th>
+      <th scope="col">Fixed delivery</th>
+      <th scope="col">Total</th>
+      <th scope="col">Effective ¢/kWh</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for row in tiered_profiles %}
+    <tr>
+      <th scope="row">{{ row.kwh }} kWh</th>
+      <td>{{ row.energy_charge_formatted }}</td>
+      <td>{{ row.fixed_delivery_formatted }}</td>
+      <td>{{ row.total_formatted }}</td>
+      <td>{{ row.effective_cents_formatted }}</td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+</div>
+
+<div class="callout">
+  <h2>Ultra-low overnight pricing</h2>
+  <p>
+    Not yet shown here. Ontario Home Energy Futures does not present
+    ultra-low overnight results until a verified representative overnight
+    household load-share assumption for the Ottawa region is documented. See
+    <a href="methodology.html#1-bill-reconstruction">Methodology</a>.
+  </p>
+</div>
+
+<h2>Statistics Canada context (not a retail rate)</h2>
+<p class="page-intro">
+  The Electric Power Selling Price Index tracks wholesale/industrial
+  electricity selling prices, not residential retail bills. It is shown here
+  only as general market context — never as a household bill estimate. See
+  <a href="data-sources.html">Data sources</a> for details; this integration
+  is planned for Phase 2 and is not yet live in this build.
+</p>
+{% endblock %}

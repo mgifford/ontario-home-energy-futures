@@ -1,0 +1,32 @@
+{# Renders the primary scenario-comparison table.
+   Expects `rows`: list of dicts with keys matching the columns below,
+   and `caption`: a string describing the table for screen-reader users. #}
+<div class="table-scroll" tabindex="0" role="group" aria-label="{{ caption }}">
+<table>
+  <caption>{{ caption }}</caption>
+  <thead>
+    <tr>
+      <th scope="col">Decision</th>
+      <th scope="col">Initial cost</th>
+      <th scope="col">Financing interest</th>
+      <th scope="col">10-year cost</th>
+      <th scope="col">20-year cost</th>
+      <th scope="col">Grid imports (20yr)</th>
+      <th scope="col">Uncertainty range</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for row in rows %}
+    <tr>
+      <th scope="row">{{ row.label }}</th>
+      <td>{{ row.initial_cost }}</td>
+      <td>{{ row.financing_interest }}</td>
+      <td>{{ row.cost_10yr }}</td>
+      <td>{{ row.cost_20yr }}</td>
+      <td>{{ row.grid_imports_kwh }}</td>
+      <td>{{ row.uncertainty_range }}</td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+</div>

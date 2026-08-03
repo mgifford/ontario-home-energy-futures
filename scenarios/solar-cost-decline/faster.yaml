@@ -1,0 +1,13 @@
+id: solar-cost-decline-faster-2026-08
+label: Faster decline
+real_annual_installed_cost_change: -0.040
+status: scenario
+created_at: 2026-08-01
+supersedes: null
+notes: >
+  Illustrative scenario assuming a 4% real annual decline in complete Ontario
+  residential installed solar cost. Global module-price declines have
+  historically exceeded this; this scenario deliberately does not apply the
+  global module-price decline rate directly to full Ontario installed cost,
+  since labour, permitting, connection, and overhead do not track module
+  prices at the same rate. Not a forecast. See METHODOLOGY.md section 8.

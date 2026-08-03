@@ -1,0 +1,150 @@
+{% extends "base.html" %}
+{% block title %}Explore your household — Ontario Home Energy Futures{% endblock %}
+{% block content %}
+<h1>Explore your household</h1>
+<p class="page-intro">
+  Choose how you'd like to describe your electricity use. No account is
+  required, and nothing you enter here is sent to or stored on a server —
+  calculations run in your browser or are precomputed for standard profiles.
+</p>
+
+<noscript>
+  <div class="callout callout--warning">
+    <p>
+      JavaScript is off, so this page shows the standard consumption
+      profiles below instead of an interactive form. Every standard profile
+      result is fully computed and available for download from
+      <a href="download.html">Download data</a>.
+    </p>
+  </div>
+</noscript>
+
+<h2>Quick estimate</h2>
+<p>Pick a standard monthly consumption profile.</p>
+<div class="table-scroll" tabindex="0">
+<table>
+  <caption>Standard monthly consumption profiles</caption>
+  <thead><tr><th scope="col">Monthly consumption</th><th scope="col">Explore this profile</th></tr></thead>
+  <tbody>
+    {% for profile in standard_profiles %}
+    <tr>
+      <th scope="row">{{ profile.kwh }} kWh</th>
+      <td><a href="compare-timing.html?profile={{ profile.kwh }}">Compare purchase timing at {{ profile.kwh }} kWh/month</a></td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+</div>
+
+<h2>Annual estimate</h2>
+<form class="js-only" aria-describedby="annual-help">
+  <p id="annual-help" class="field__help">
+    Annual kWh is more useful than annual cost alone, because rates and rate
+    plans change the relationship between the two.
+  </p>
+  <div class="field">
+    <label for="annual-kwh">Annual electricity consumption (kWh)</label>
+    <input type="number" id="annual-kwh" name="annual-kwh" min="0" step="1" inputmode="numeric">
+  </div>
+  <div class="field">
+    <label for="annual-cost">Annual electricity cost (CAD, optional)</label>
+    <input type="number" id="annual-cost" name="annual-cost" min="0" step="1" inputmode="numeric">
+  </div>
+  <div class="field">
+    <label for="distributor">Distributor</label>
+    <select id="distributor" name="distributor">
+      <option value="hydro-ottawa">Hydro Ottawa</option>
+    </select>
+  </div>
+  <fieldset>
+    <legend>Rate plan</legend>
+    <div class="field">
+      <input type="radio" id="rate-tou" name="rate-plan" value="time_of_use" checked>
+      <label for="rate-tou" style="display:inline;font-weight:normal;">Time-of-use</label>
+    </div>
+    <div class="field">
+      <input type="radio" id="rate-tiered" name="rate-plan" value="tiered">
+      <label for="rate-tiered" style="display:inline;font-weight:normal;">Tiered</label>
+    </div>
+  </fieldset>
+  <button type="submit">Calculate</button>
+</form>
+
+<h2>Detailed estimate</h2>
+<p class="js-only">
+  Enter twelve monthly kWh values (and, optionally, twelve monthly bill
+  totals) for the most accurate seasonal picture.
+</p>
+<div class="js-only field">
+  <fieldset>
+    <legend>Monthly kWh</legend>
+    {% for m in range(1, 13) %}
+    <div class="field">
+      <label for="month-{{ m }}">Month {{ m }} (kWh)</label>
+      <input type="number" id="month-{{ m }}" name="month-{{ m }}" min="0" step="1" inputmode="numeric">
+    </div>
+    {% endfor %}
+  </fieldset>
+</div>
+
+<h2>Planned household changes</h2>
+<fieldset class="js-only">
+  <legend>Electric vehicle</legend>
+  <div class="field">
+    <label for="ev-km">Annual kilometres driven</label>
+    <input type="number" id="ev-km" name="ev-km" min="0" step="100" value="{{ ev_default_annual_km }}">
+  </div>
+  <div class="field">
+    <label for="ev-efficiency">Vehicle efficiency (kWh per 100 km)</label>
+    <input type="number" id="ev-efficiency" name="ev-efficiency" min="0" step="0.1" value="{{ ev_default_efficiency }}">
+  </div>
+  <div class="field">
+    <label for="ev-home-share">Percentage charged at home</label>
+    <input type="number" id="ev-home-share" name="ev-home-share" min="0" max="100" step="1" value="{{ ev_default_home_share_pct }}">
+  </div>
+</fieldset>
+
+<fieldset class="js-only">
+  <legend>Heat pump</legend>
+  <p class="field__help">
+    Heat-pump electricity use is not estimated from floor area alone — it
+    requires an approximate current annual heating consumption.
+  </p>
+  <div class="field">
+    <label for="hp-heating-kwh">Approximate annual heating consumption (kWh-equivalent)</label>
+    <input type="number" id="hp-heating-kwh" name="hp-heating-kwh" min="0" step="100" value="{{ hp_default_heating_kwh }}">
+  </div>
+  <div class="field">
+    <label for="hp-cop">Heat-pump seasonal efficiency (COP)</label>
+    <input type="number" id="hp-cop" name="hp-cop" min="1" step="0.1" value="{{ hp_default_cop }}">
+  </div>
+</fieldset>
+
+<fieldset class="js-only">
+  <legend>Other additions</legend>
+  <div class="field">
+    <label for="wh-annual">Water heating (annual kWh)</label>
+    <input type="number" id="wh-annual" name="wh-annual" min="0" step="50" value="0">
+  </div>
+  <div class="field">
+    <label for="ac-annual">Cooling (annual kWh)</label>
+    <input type="number" id="ac-annual" name="ac-annual" min="0" step="50" value="0">
+  </div>
+  <div class="field">
+    <label for="other-annual">Other (annual kWh)</label>
+    <input type="number" id="other-annual" name="other-annual" min="0" step="50" value="0">
+  </div>
+  <div class="field">
+    <label for="ee-annual">Efficiency upgrade savings (annual kWh)</label>
+    <input type="number" id="ee-annual" name="ee-annual" min="0" step="50" value="0">
+  </div>
+</fieldset>
+
+<p class="callout">
+  Bill upload is not available in this first release. Manual entry avoids
+  processing your account information. If bill upload is added later, it
+  will process locally in your browser, will not transmit or retain the
+  document, and will never send a bill to a third-party AI service without
+  your explicit informed consent.
+</p>
+{% endblock %}

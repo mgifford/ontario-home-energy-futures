@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% block title %}Ontario Home Energy Futures{% endblock %}</title>
+  <meta name="description" content="{% block description %}An open solar and electricity cost explorer for Ontario households.{% endblock %}">
+  <link rel="stylesheet" href="{{ asset_prefix }}static/styles.css">
+</head>
+<body>
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+
+  <header class="site-header">
+    <div class="site-header__inner">
+      <p class="site-title">
+        <a href="{{ asset_prefix }}index.html">Ontario Home Energy Futures</a>
+      </p>
+      <p class="site-subtitle">An open solar and electricity cost explorer</p>
+    </div>
+    <nav class="site-nav" aria-label="Main">
+      <ul>
+        <li><a href="{{ asset_prefix }}index.html">Home</a></li>
+        <li><a href="{{ asset_prefix }}current-costs.html">Current Ontario costs</a></li>
+        <li><a href="{{ asset_prefix }}household.html">Explore your household</a></li>
+        <li><a href="{{ asset_prefix }}compare-timing.html">Compare purchase timing</a></li>
+        <li><a href="{{ asset_prefix }}net-metering.html">Solar and net metering</a></li>
+        <li><a href="{{ asset_prefix }}battery-generator.html">Battery vs. generator</a></li>
+        <li><a href="{{ asset_prefix }}assumptions.html">Assumptions</a></li>
+        <li><a href="{{ asset_prefix }}data-sources.html">Data sources</a></li>
+        <li><a href="{{ asset_prefix }}methodology.html">Methodology</a></li>
+        <li><a href="{{ asset_prefix }}download.html">Download data</a></li>
+        <li><a href="{{ asset_prefix }}accessibility.html">Accessibility</a></li>
+        <li><a href="{{ asset_prefix }}about.html">About and limitations</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main id="main-content">
+    {% block content %}{% endblock %}
+  </main>
+
+  <footer class="site-footer">
+    <p>
+      Ontario Home Energy Futures is a planning and scenario tool. It does not
+      predict future prices and does not guarantee savings. See
+      <a href="{{ asset_prefix }}about.html">About and limitations</a> and
+      <a href="{{ asset_prefix }}methodology.html">Methodology</a>.
+    </p>
+    <p>
+      Model version {{ model_version }} &middot; data cutoff {{ data_cutoff }} &middot;
+      <a href="https://github.com/mgifford/ontario-home-energy-futures">source code</a>
+      (AGPL-3.0-or-later)
+    </p>
+    <p>
+      <a href="{{ asset_prefix }}accessibility.html#how-to-report-a-problem">Report an accessibility problem</a>
+    </p>
+  </footer>
+</body>
+</html>

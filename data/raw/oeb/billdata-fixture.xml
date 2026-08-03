@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Illustrative fixture approximating the OEB BillData.xml structure.
+  STATUS: estimate, not a live retrieval. See README.md in this directory
+  and DATA_SOURCES.md for verification requirements.
+-->
+<OEBBillData effectiveDate="2026-08-01" retrievedAt="2026-08-02">
+  <RegulatedPriceplan>
+    <Tier>
+      <Name>Tier1</Name>
+      <ThresholdKwhSummer>600</ThresholdKwhSummer>
+      <ThresholdKwhWinter>1000</ThresholdKwhWinter>
+      <RateCadPerKwh>0.087</RateCadPerKwh>
+    </Tier>
+    <Tier>
+      <Name>Tier2</Name>
+      <RateCadPerKwh>0.104</RateCadPerKwh>
+    </Tier>
+    <TimeOfUse>
+      <Period name="off_peak" rateCadPerKwh="0.076"/>
+      <Period name="mid_peak" rateCadPerKwh="0.122"/>
+      <Period name="on_peak" rateCadPerKwh="0.158"/>
+    </TimeOfUse>
+  </RegulatedPriceplan>
+  <Distributor id="hydro-ottawa" name="Hydro Ottawa">
+    <FixedDeliveryChargeCadPerDay>0.4795</FixedDeliveryChargeCadPerDay>
+    <VariableDeliveryChargeCadPerKwh>0.0223</VariableDeliveryChargeCadPerKwh>
+    <RegulatoryChargeCadPerKwh>0.0059</RegulatoryChargeCadPerKwh>
+    <OntarioElectricityRebateCadPerKwh>-0.0227</OntarioElectricityRebateCadPerKwh>
+  </Distributor>
+  <Taxes>
+    <HST rate="0.13"/>
+  </Taxes>
+</OEBBillData>

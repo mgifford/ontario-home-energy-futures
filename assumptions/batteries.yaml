@@ -1,0 +1,33 @@
+# Battery ownership model — Phase 3 scope.
+#
+# This file documents the intended data structure and illustrative defaults
+# for battery cost and resilience modelling. Validated hourly battery-dispatch
+# optimization is deferred to Phase 3 (see METHODOLOGY.md section 13); Phase 1
+# does not compute battery-inclusive financial results from these values.
+
+status: estimate
+implementation_status: phase_3_deferred
+
+illustrative_reference_battery:
+  usable_capacity_kwh: 13.5
+  max_continuous_output_kw: 5.0
+  round_trip_efficiency: 0.90
+  purchase_and_installation_cad: 12000
+  warranty_years: 10
+  expected_replacement_year: 12
+  annual_maintenance_cad: 50
+  degradation_annual: 0.02
+
+resilience_reporting_fields:
+  - critical_load_watts
+  - estimated_backup_duration_hours
+  - maximum_supported_load_watts
+  - solar_can_recharge_during_outage
+  - requires_grid_forming_inverter
+  - automatic_or_manual_transfer
+
+notes: >
+  Battery and generator comparisons must separate ordinary energy economics
+  (increased solar self-consumption, time-of-use rate shifting) from backup
+  and resilience value. This project does not assign an invented dollar value
+  to outage resilience by default.

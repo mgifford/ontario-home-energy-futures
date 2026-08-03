@@ -1,0 +1,81 @@
+# Household consumption model defaults.
+#
+# All values are documented, editable modelling assumptions (status: estimate)
+# unless marked otherwise. See METHODOLOGY.md section 2-3.
+
+standard_monthly_profiles_kwh: [500, 700, 1000, 1500]
+
+# Simple monthly seasonal shape used to spread an annual kWh total across 12
+# months when only an annual figure is provided. Sums to 1.0. Reflects a
+# typical Ontario heating-dominated household (higher winter, moderate summer
+# cooling bump). This is a documented approximation, not a measured profile.
+seasonal_shape_annual_to_monthly:
+  status: estimate
+  1: 0.1105
+  2: 0.1000
+  3: 0.0895
+  4: 0.0737
+  5: 0.0632
+  6: 0.0684
+  7: 0.0789
+  8: 0.0789
+  9: 0.0684
+  10: 0.0737
+  11: 0.0895
+  12: 0.1053
+
+# Representative hourly household load shape, expressed as fraction of daily
+# kWh by hour (0-23), used for Phase 1 direct-self-consumption estimates.
+# Sums to 1.0. This is a single documented representative shape, not
+# individualized, and is used identically across all months (scaled by the
+# monthly total) until a validated seasonal-hourly dataset is integrated.
+hourly_load_shape_status: estimate
+hourly_load_shape_fraction_of_day:
+  [0.020, 0.018, 0.017, 0.017, 0.018, 0.022, 0.032, 0.045,
+   0.042, 0.038, 0.036, 0.036, 0.038, 0.038, 0.038, 0.040,
+   0.048, 0.060, 0.068, 0.065, 0.055, 0.045, 0.032, 0.024]
+
+electric_vehicle:
+  status: estimate
+  default_efficiency_kwh_per_100km: 18.0
+  default_annual_km: 15000
+  default_home_charging_share: 0.8
+  default_charging_period: off_peak
+  notes: >
+    Annual EV kWh = annual_km / 100 * efficiency_kwh_per_100km *
+    home_charging_share. Spread across months using the seasonal shape unless
+    the user overrides with monthly detail.
+
+heat_pump:
+  status: estimate
+  default_seasonal_cop: 2.8
+  climate_regions:
+    - id: ottawa
+      label: Ottawa / Eastern Ontario
+      default_annual_heating_kwh_equivalent: 18000
+  backup_heating_default: electric_resistance
+  notes: >
+    Annual heat-pump electricity kWh = annual_heating_kwh_equivalent /
+    seasonal_cop. This is not derived from floor area alone; the user must
+    supply an approximate current annual heating consumption. See
+    METHODOLOGY.md section 2.
+
+water_heater:
+  status: estimate
+  heat_pump_water_heater_default_annual_kwh: 1500
+  electric_resistance_water_heater_default_annual_kwh: 4500
+
+cooling:
+  status: estimate
+  central_ac_default_annual_kwh: 1200
+  window_unit_default_annual_kwh: 400
+
+other_additions:
+  status: estimate
+  induction_cooking_default_annual_kwh: 300
+  home_office_default_annual_kwh: 600
+
+efficiency_upgrades:
+  status: estimate
+  led_lighting_default_annual_savings_kwh: 200
+  envelope_upgrade_default_annual_savings_kwh: 500

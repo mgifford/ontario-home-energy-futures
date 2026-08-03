@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+{% block title %}Accessibility — Ontario Home Energy Futures{% endblock %}
+{% block content %}
+<h1>Accessibility</h1>
+<p class="page-intro">
+  Ontario Home Energy Futures targets WCAG 2.2 Level AA. Full detail,
+  including the manual test checklist and accessibility decision record, is
+  in
+  <a href="https://github.com/mgifford/ontario-home-energy-futures/blob/main/ACCESSIBILITY.md">ACCESSIBILITY.md</a>
+  in the source repository.
+</p>
+
+<h2>Supported input methods</h2>
+<ul>
+  <li>Full keyboard operation</li>
+  <li>Screen readers</li>
+  <li>Browser zoom to 200% and reflow at 320 CSS pixels</li>
+  <li>Touch, with minimum target sizes</li>
+  <li>Reduced-motion and high-contrast operating-system settings</li>
+  <li>No JavaScript — methodology, data-source, and standard scenario pages remain fully usable</li>
+</ul>
+
+<h2>Known limitations</h2>
+<ul>
+  <li>The client-side calculator's live-region announcements have not yet been validated with a screen-reader user outside the project maintainers.</li>
+  <li>Playwright/axe-core automated specs are included but require a local Playwright browser install to execute.</li>
+  <li>A full manual screen-reader pass against a live deployment has not yet been logged for this Phase 1 prototype.</li>
+</ul>
+
+<h2 id="how-to-report-a-problem">How to report a problem</h2>
+<p>
+  Open a GitHub issue with the "Accessibility" label, including the page
+  URL, the assistive technology and browser/OS combination if applicable,
+  and the expected versus actual behaviour.
+</p>
+{% endblock %}

@@ -1,0 +1,13 @@
+{
+  "name": "ontario-home-energy-futures-accessibility-tests",
+  "private": true,
+  "version": "0.1.0",
+  "description": "Playwright + axe-core accessibility and browser specs for Ontario Home Energy Futures. See ACCESSIBILITY.md.",
+  "scripts": {
+    "test": "playwright test"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.47.0",
+    "@axe-core/playwright": "^4.10.0"
+  }
+}

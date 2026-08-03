@@ -1,0 +1,61 @@
+{% extends "base.html" %}
+{% block title %}Battery vs. generator — Ontario Home Energy Futures{% endblock %}
+{% block content %}
+<h1>Battery versus generator</h1>
+
+<div class="callout callout--warning">
+  <p>
+    Full battery and generator financial modelling is deferred to Phase 3 of
+    this project, so that Phase 1's data provenance and net-metering
+    accuracy are not weakened by rushing dispatch modelling ahead of
+    validated hourly load and generation data. This page documents the
+    intended comparison structure and its illustrative reference figures.
+  </p>
+</div>
+
+<h2>What will be compared</h2>
+<ul>
+  <li>Solar alone</li>
+  <li>Solar plus battery</li>
+  <li>Battery backup versus a gasoline or natural-gas generator</li>
+  <li>Energy savings versus resilience benefits — kept separate, never combined</li>
+</ul>
+
+<h2>Battery — illustrative reference figures</h2>
+<div class="table-scroll" tabindex="0">
+<table>
+  <caption>Illustrative reference battery cost and specifications (not a purchase recommendation)</caption>
+  <tbody>
+    <tr><th scope="row">Usable capacity</th><td>{{ battery.usable_capacity_kwh }} kWh</td></tr>
+    <tr><th scope="row">Maximum continuous output</th><td>{{ battery.max_continuous_output_kw }} kW</td></tr>
+    <tr><th scope="row">Round-trip efficiency</th><td>{{ battery.round_trip_efficiency_pct }}</td></tr>
+    <tr><th scope="row">Purchase and installation</th><td>{{ battery.purchase_and_installation_formatted }}</td></tr>
+    <tr><th scope="row">Warranty</th><td>{{ battery.warranty_years }} years</td></tr>
+  </tbody>
+</table>
+</div>
+
+<h2>Generator — illustrative reference figures</h2>
+<div class="table-scroll" tabindex="0">
+<table>
+  <caption>Illustrative reference generator cost and specifications (not a purchase recommendation)</caption>
+  <tbody>
+    <tr><th scope="row">Fuel type</th><td>{{ generator.fuel_type }}</td></tr>
+    <tr><th scope="row">Purchase</th><td>{{ generator.purchase_formatted }}</td></tr>
+    <tr><th scope="row">Installation and transfer switch</th><td>{{ generator.installation_formatted }}</td></tr>
+    <tr><th scope="row">Annual exercise and maintenance</th><td>{{ generator.maintenance_formatted }}</td></tr>
+    <tr><th scope="row">Operation</th><td>{{ generator.automatic_or_manual }}</td></tr>
+  </tbody>
+</table>
+</div>
+
+<h2>Resilience is reported separately from savings</h2>
+<p class="page-intro">
+  This project does not assign an invented dollar value to outage
+  resilience by default. When battery/generator modelling is implemented,
+  results will separately report: critical load in watts, estimated backup
+  duration, maximum supported load, fuel dependence, automatic vs. manual
+  operation, whether solar can recharge a battery during an outage, and any
+  assumptions about grid-forming or islanding equipment.
+</p>
+{% endblock %}

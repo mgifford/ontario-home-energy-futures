@@ -1,0 +1,22 @@
+# Provenance manifest for every raw source file committed under data/raw/.
+#
+# Each entry must include a SHA-256 hash of the exact file committed, so that
+# any future silent modification is detectable. Never edit an entry's hash to
+# match a modified file — add a new entry for the new file instead, and keep
+# the old one.
+
+sources:
+  - source_id: oeb-billdata-fixture-2026-08
+    file_path: data/raw/oeb/billdata-fixture.xml
+    sha256: 809b9bcd29b0472ce5ff9ce1f62e332eaad70aba67484d9391192ca834a41750
+    publisher: Ontario Energy Board
+    source_title: BillData.xml (illustrative fixture)
+    source_url: https://www.oeb.ca/_html/calculator/data/BillData.xml
+    licence: Open Government Licence - Ontario
+    status: estimate
+    published_at: 2026-08-01
+    retrieved_at: 2026-08-02
+    revises: null
+    notes: >
+      Manually constructed illustrative fixture, not a live retrieval. See
+      data/raw/oeb/README.md and DATA_SOURCES.md.

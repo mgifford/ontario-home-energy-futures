@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+{% block title %}About and limitations — Ontario Home Energy Futures{% endblock %}
+{% block content %}
+<h1>About and limitations</h1>
+
+<h2>What this application does</h2>
+<p class="page-intro">
+  Ontario Home Energy Futures helps Ontario households explore a range of
+  possible electricity costs over the next 10 to 30 years, with or without
+  solar, using documented, editable assumptions.
+</p>
+
+<h2>What this application does not do</h2>
+<ul>
+  <li>It does not predict future electricity prices or solar costs.</li>
+  <li>It does not guarantee savings, payback periods, or investment returns.</li>
+  <li>It does not treat provincial demand-growth forecasts as retail-price forecasts.</li>
+  <li>It does not treat every generated solar kWh as having the same financial value.</li>
+  <li>It does not assume solar eliminates fixed delivery charges.</li>
+  <li>It does not treat exported energy as a cash payment.</li>
+  <li>It does not require an account or store your household bill data on a server.</li>
+  <li>It does not require an exact street address.</li>
+  <li>It does not use analytics, advertising, tracking pixels, or behavioural profiling.</li>
+  <li>It is not financial advice.</li>
+</ul>
+
+<h2>Relationship to neighbourhood-solar</h2>
+<p>
+  This project grew out of discussion in
+  <a href="https://github.com/mgifford/neighbourhood-solar/issues/4">mgifford/neighbourhood-solar#4</a>.
+  <code>neighbourhood-solar</code> remains a separate, deliberately simple,
+  static, JavaScript-free organizing site for neighbourhood group-purchase
+  initiatives; this project does not change its architecture or scope.
+</p>
+
+<h2>Known limitations</h2>
+<p>See <a href="methodology.html#14-known-limitations">Methodology, section 14</a> for the full list.</p>
+
+<h2>License</h2>
+<p>
+  Source code and content are licensed AGPL-3.0-or-later. See the
+  <a href="https://github.com/mgifford/ontario-home-energy-futures/blob/main/LICENSE">LICENSE</a>
+  file.
+</p>
+{% endblock %}

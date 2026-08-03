@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+{% block title %}Download data — Ontario Home Energy Futures{% endblock %}
+{% block content %}
+<h1>Download data</h1>
+<p class="page-intro">
+  Every normalized observation and every standard scenario result is
+  downloadable. Nothing described here requires an account.
+</p>
+
+<h2>Normalized observations</h2>
+<p>
+  <a href="{{ asset_prefix }}data/observations.csv">Download observations.csv</a>
+  — every imported rate observation with full source provenance.
+</p>
+
+<h2>Standard scenario results</h2>
+<div class="table-scroll" tabindex="0">
+<table>
+  <caption>Downloadable standard scenario results</caption>
+  <thead><tr><th scope="col">Scenario</th><th scope="col">JSON</th><th scope="col">CSV</th></tr></thead>
+  <tbody>
+    {% for scenario in downloadable_scenarios %}
+    <tr>
+      <th scope="row">{{ scenario.label }}</th>
+      <td><a href="{{ asset_prefix }}data/scenarios/{{ scenario.slug }}.json">Download JSON</a></td>
+      <td><a href="{{ asset_prefix }}data/scenarios/{{ scenario.slug }}.csv">Download CSV</a></td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+</div>
+
+<h2>Saved scenario format</h2>
+<p>A downloaded scenario file can be reloaded later. It has this shape:</p>
+<pre><code>{
+  "schema_version": "1.0",
+  "model_version": "{{ model_version }}",
+  "data_cutoff": "{{ data_cutoff }}",
+  "region": "Ottawa",
+  "utility": "Hydro Ottawa",
+  "inputs": {},
+  "scenario_ids": [],
+  "result_checksum": ""
+}</code></pre>
+<p>
+  Saved scenario files never include an exact address, an account number, or
+  any other private information in the file or in a shareable URL's query
+  string.
+</p>
+{% endblock %}

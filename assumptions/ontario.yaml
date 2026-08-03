@@ -1,0 +1,81 @@
+# Ontario-wide modelling assumptions and regulatory parameters.
+#
+# Every value here is either:
+#   - a fact drawn from a cited official source (status: observed), or
+#   - a labelled modelling assumption (status: scenario / estimate) that is
+#     NOT an official forecast.
+#
+# Do not edit a previously published block's values in place if this file has
+# been referenced by a published scenario result; add a new versioned entry
+# instead and set `supersedes`.
+
+net_metering:
+  id: ontario-net-metering-rules-2026
+  status: observed
+  credit_expiry_months: 12
+  credit_carryforward: true
+  eligible_charge_categories:
+    - electricity_energy_charge
+  ineligible_charge_categories:
+    - fixed_delivery_charge
+    - variable_delivery_charge_non_eligible
+    - regulatory_charge
+    - tax
+  export_is_cash_payment: false
+  source_urls:
+    - https://www.oeb.ca/consumer-information-and-protection/net-metering
+    - https://www.ontario.ca/laws/regulation/050541
+  notes: >
+    Eligible/ineligible charge categorization is derived from documentary
+    review of OEB net-metering guidance and Ontario Regulation 541/05. It must
+    be re-verified against current OEB guidance and the selected distributor's
+    billing practice before being relied upon for a real purchase decision.
+    See DATA_SOURCES.md.
+  retrieved_at: 2026-08-02
+
+provincial_demand_scenarios:
+  id: ieso-apo-2026
+  status: observed
+  publication_year: 2026
+  source_title: 2026 Annual Planning Outlook
+  source_url: https://www.ieso.ca/-/media/Files/IESO/Document-Library/planning-forecasts/apo/2026/2026-Annual-Planning-Outlook.pdf
+  growth_to_2050:
+    low: 0.38
+    reference: 0.65
+    high: 0.92
+  drivers:
+    - data centres
+    - artificial-intelligence computing
+    - electric vehicles
+    - building electrification
+    - industrial development
+    - population
+    - economic activity
+    - energy efficiency
+    - extreme heat
+    - electrified winter heating
+    - government policy
+  notes: >
+    These figures describe PROVINCIAL SYSTEM DEMAND growth, not household
+    consumption growth and not retail electricity-price growth. This project
+    never converts this percentage into either. It is recorded here as
+    documented context for why future electricity prices are uncertain, and
+    is shown alongside (never blended into) electricity-price scenarios.
+    Values as specified in the project brief; recommended for verification
+    against the published PDF before being treated as final.
+  retrieved_at: 2026-08-02
+  supersedes: null
+
+general_inflation_default: 0.02
+discount_rate_default: 0.04
+
+planning_horizons_years: [10, 20, 25, 30]
+default_planning_horizon_years: 20
+
+hst_rate: 0.13
+
+regions:
+  - id: ottawa
+    label: Ottawa
+    forward_sortation_areas_example: [K1A, K1G, K2A, K2P]
+    default_utility: hydro-ottawa

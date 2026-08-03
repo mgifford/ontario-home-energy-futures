@@ -1,0 +1,103 @@
+{% extends "base.html" %}
+{% block title %}Compare solar purchase timing — Ontario Home Energy Futures{% endblock %}
+{% block content %}
+<h1>Compare solar purchase timing</h1>
+<p class="page-intro">
+  This is the primary result: a comparison across purchase-timing, discount,
+  and financing options, for a {{ household_profile_kwh }} kWh/month
+  household under the {{ price_scenario_label }} electricity-price scenario
+  and {{ decline_scenario_label }} solar-cost-decline scenario.
+</p>
+
+<div class="callout callout--warning">
+  <p>
+    Across the selected scenarios, estimated {{ horizon_years }}-year totals
+    range from {{ range_low_formatted }} to {{ range_high_formatted }}.
+    Electricity-price growth, installation cost, and financing explain most
+    of the difference. This is a modelled range under stated assumptions,
+    not a prediction and not a guarantee.
+  </p>
+</div>
+
+{% include "partials/comparison_table.html" with context %}
+
+<h2>Cost of waiting</h2>
+<p>{{ waiting_statement }}</p>
+
+<h2>What drives this result</h2>
+<p>The five assumptions with the largest effect on this result, for the current inputs:</p>
+<div class="table-scroll" tabindex="0">
+<table>
+  <caption>Ranked sensitivity: assumptions with the largest effect on the 20-year total</caption>
+  <thead><tr><th scope="col">Assumption</th><th scope="col">Low case</th><th scope="col">High case</th><th scope="col">Effect on 20-year total</th></tr></thead>
+  <tbody>
+    {% for row in sensitivity_rows %}
+    <tr>
+      <th scope="row">{{ row.assumption }}</th>
+      <td>{{ row.low }}</td>
+      <td>{{ row.high }}</td>
+      <td>{{ row.effect }}</td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+</div>
+
+<h2>Adjust assumptions</h2>
+<form class="js-only">
+  <fieldset>
+    <legend>Electricity-price scenario</legend>
+    {% for scenario in price_scenarios %}
+    <div class="field">
+      <input type="radio" id="price-{{ scenario.id }}" name="price-scenario" value="{{ scenario.id }}" {% if scenario.id == 'reference' %}checked{% endif %}>
+      <label for="price-{{ scenario.id }}" style="display:inline;font-weight:normal;">{{ scenario.label }}</label>
+    </div>
+    {% endfor %}
+  </fieldset>
+  <fieldset>
+    <legend>Solar-cost-decline scenario</legend>
+    {% for scenario in decline_scenarios %}
+    <div class="field">
+      <input type="radio" id="decline-{{ scenario.id }}" name="decline-scenario" value="{{ scenario.id }}" {% if scenario.id == 'flat' %}checked{% endif %}>
+      <label for="decline-{{ scenario.id }}" style="display:inline;font-weight:normal;">{{ scenario.label }}</label>
+    </div>
+    {% endfor %}
+  </fieldset>
+  <fieldset>
+    <legend>Neighbourhood group-purchase discount</legend>
+    <div class="range-with-number">
+      <input type="range" id="discount-range" name="discount-range" min="0" max="20" step="1" value="0" aria-describedby="discount-help">
+      <label for="discount-number" class="visually-hidden">Discount percentage</label>
+      <input type="number" id="discount-number" name="discount-number" min="0" max="20" step="1" value="0">
+      <span id="discount-help">%</span>
+    </div>
+  </fieldset>
+  <fieldset>
+    <legend>Financing</legend>
+    <div class="field">
+      <input type="radio" id="finance-cash" name="finance-type" value="cash" checked>
+      <label for="finance-cash" style="display:inline;font-weight:normal;">Cash</label>
+    </div>
+    <div class="field">
+      <input type="radio" id="finance-loan" name="finance-type" value="loan">
+      <label for="finance-loan" style="display:inline;font-weight:normal;">Loan</label>
+    </div>
+  </fieldset>
+  <fieldset>
+    <legend>Planning horizon</legend>
+    <label for="horizon-select">Years</label>
+    <select id="horizon-select" name="horizon-years">
+      {% for h in planning_horizons %}
+      <option value="{{ h }}" {% if h == 20 %}selected{% endif %}>{{ h }} years</option>
+      {% endfor %}
+    </select>
+  </fieldset>
+  <button type="submit">Recalculate</button>
+</form>
+<div class="results-live-region" role="status" aria-live="polite" id="results-status"></div>
+
+<p>
+  <a href="download.html">Download this scenario as JSON or CSV</a> ·
+  <a href="{{ print_url }}">Print-friendly view</a>
+</p>
+{% endblock %}

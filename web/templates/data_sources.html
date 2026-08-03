@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+{% block title %}Data sources — Ontario Home Energy Futures{% endblock %}
+{% block content %}
+<h1>Data sources</h1>
+<p class="page-intro">
+  Every dataset used by this tool, its publisher, licence, retrieval
+  mechanism, and known limitations. Full detail lives in
+  <a href="https://github.com/mgifford/ontario-home-energy-futures/blob/main/DATA_SOURCES.md">DATA_SOURCES.md</a>
+  in the source repository.
+</p>
+
+<div class="table-scroll" tabindex="0">
+<table>
+  <caption>Data sources summary</caption>
+  <thead>
+    <tr><th scope="col">Source</th><th scope="col">Publisher</th><th scope="col">Status</th><th scope="col">Last retrieval</th></tr>
+  </thead>
+  <tbody>
+    {% for source in sources %}
+    <tr>
+      <th scope="row"><a href="{{ source.url }}">{{ source.title }}</a></th>
+      <td>{{ source.publisher }}</td>
+      <td>{{ source.status }}</td>
+      <td>{{ source.retrieved_at }}</td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+</div>
+
+<div class="callout callout--warning">
+  <h2>Illustrative fixtures pending live verification</h2>
+  <p>
+    This build was produced without scheduled network access to Ontario
+    Energy Board, IESO, or Statistics Canada live endpoints. Rate and
+    scenario figures are documented, clearly labelled illustrative fixtures
+    or modelling assumptions. See each source's entry above and in
+    DATA_SOURCES.md for exactly what needs live verification before this
+    tool's figures are treated as current.
+  </p>
+</div>
+{% endblock %}

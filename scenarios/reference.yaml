@@ -1,0 +1,28 @@
+id: ontario-electricity-reference-2026-08
+label: Reference
+base_year: 2026
+annual_changes:
+  electricity_energy_real: 0.015
+  fixed_delivery_real: 0.020
+  variable_delivery_real: 0.010
+  general_inflation: 0.020
+system_demand:
+  growth_to_2050: 0.65
+  source_id: ieso-apo-2026
+status: scenario
+created_at: 2026-08-01
+supersedes: null
+uncertainties:
+  - generation procurement
+  - nuclear refurbishment
+  - transmission expansion
+  - distribution investment
+  - data-centre connections
+  - interest rates
+  - extreme weather
+  - government rebates
+notes: >
+  This is a modelling assumption set by project maintainers, not an official
+  forecast from the OEB, IESO, or any government body. It represents a
+  central illustrative path for real bill-component growth, used as the
+  default scenario shown to first-time users. See METHODOLOGY.md section 7.

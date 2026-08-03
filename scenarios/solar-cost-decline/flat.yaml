@@ -1,0 +1,10 @@
+id: solar-cost-decline-flat-2026-08
+label: Flat
+real_annual_installed_cost_change: 0.000
+status: scenario
+created_at: 2026-08-01
+supersedes: null
+notes: >
+  Illustrative scenario assuming no real change in complete Ontario
+  residential installed solar cost over time. Not a forecast. See
+  METHODOLOGY.md section 8.

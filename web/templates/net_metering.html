@@ -1,0 +1,121 @@
+{% extends "base.html" %}
+{% block title %}Solar and net metering — Ontario Home Energy Futures{% endblock %}
+{% block content %}
+<h1>Solar and net metering</h1>
+<p class="page-intro">
+  Ontario net metering does not pay you cash for exported solar electricity.
+  It creates a non-cash generation credit that can only offset the eligible
+  electricity-energy charge on future imported electricity, and that credit
+  expires 12 months after it is created if unused.
+</p>
+
+<h2>Enter a solar quote</h2>
+<form class="js-only">
+  <div class="field">
+    <label for="system-kw">System size (kW DC)</label>
+    <input type="number" id="system-kw" name="system-kw" min="0" step="0.1" value="{{ illustrative_quote.system_kw_dc }}">
+  </div>
+  <div class="field">
+    <label for="quote-total">Complete contractor quote before tax (CAD)</label>
+    <input type="number" id="quote-total" name="quote-total" min="0" step="100" value="{{ illustrative_quote.installed_price_before_tax }}">
+    <p class="field__help">
+      Or use the labelled regional estimate below if you don't have a quote
+      yet. {% include "partials/assumption_tag.html" with context %}
+    </p>
+  </div>
+  <fieldset>
+    <legend>Roof orientation</legend>
+    <label for="orientation">Orientation</label>
+    <select id="orientation" name="orientation">
+      <option value="south">South</option>
+      <option value="southeast">Southeast</option>
+      <option value="southwest">Southwest</option>
+      <option value="east">East</option>
+      <option value="west">West</option>
+      <option value="north">North</option>
+    </select>
+  </fieldset>
+  <div class="field">
+    <label for="shading">Shading estimate</label>
+    <select id="shading" name="shading">
+      <option value="none">None</option>
+      <option value="light">Light</option>
+      <option value="moderate">Moderate</option>
+      <option value="heavy">Heavy</option>
+    </select>
+  </div>
+  <div class="field">
+    <label for="region">Ontario region</label>
+    <select id="region" name="region">
+      <option value="ottawa">Ottawa</option>
+    </select>
+    <p class="field__help">No exact street address is requested or required.</p>
+  </div>
+  <button type="submit">Estimate production</button>
+</form>
+
+<h2>Net-metering credit ledger, example household</h2>
+<p>
+  {{ ledger_example_intro }}
+</p>
+<div class="table-scroll" tabindex="0">
+<table>
+  <caption>Monthly net-metering credit ledger, example {{ example_system_kw }} kW system</caption>
+  <thead>
+    <tr>
+      <th scope="col">Month</th>
+      <th scope="col">Generation (kWh)</th>
+      <th scope="col">Self-consumed (kWh)</th>
+      <th scope="col">Exported (kWh)</th>
+      <th scope="col">Grid import (kWh)</th>
+      <th scope="col">Credit created</th>
+      <th scope="col">Credit used</th>
+      <th scope="col">Credit expired</th>
+      <th scope="col">Closing balance</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for row in ledger_rows %}
+    <tr>
+      <th scope="row">{{ row.period }}</th>
+      <td>{{ row.generation_kwh }}</td>
+      <td>{{ row.self_consumption_kwh }}</td>
+      <td>{{ row.exported_kwh }}</td>
+      <td>{{ row.grid_import_kwh }}</td>
+      <td>{{ row.credit_created }}</td>
+      <td>{{ row.credit_used }}</td>
+      <td>{{ row.credit_expired }}</td>
+      <td>{{ row.closing_balance }}</td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+</div>
+
+<p>
+  Effective realized value per generated kWh for this example:
+  <strong>{{ effective_value_per_kwh_formatted }}</strong>, compared with a
+  full retail energy rate of {{ retail_rate_formatted }}. This gap is
+  expected — not every generated kWh has the same financial value once
+  exports, credit expiry, and ineligible-charge exclusions are accounted
+  for. See <a href="methodology.html#5-ontario-net-metering-credit-ledger">Methodology</a>.
+</p>
+
+<div class="callout callout--warning">
+  <h2>Oversized systems can waste credits</h2>
+  <p>
+    A system sized well above household consumption will export more than it
+    can ever use as credit within the 12-month window, producing expired,
+    wasted credit. This tool does not hide that outcome.
+  </p>
+</div>
+
+<h2>Group purchase discount</h2>
+<p>
+  A 5% or 10% neighbourhood group-purchase discount (or a custom value)
+  applies only to eligible quote components — panels, inverter, racking,
+  electrical equipment, labour, and installer overhead. It never
+  automatically discounts government fees, taxes, permitting, utility
+  connection charges, or financing.
+</p>
+{% endblock %}

@@ -1,0 +1,106 @@
+{% extends "base.html" %}
+{% block title %}Assumptions — Ontario Home Energy Futures{% endblock %}
+{% block content %}
+<h1>Assumptions</h1>
+<p class="page-intro">
+  Every default value used in this tool's calculations is listed here, with
+  its source (or its status as a labelled modelling estimate/scenario) and
+  the file it lives in. Nothing is hidden in source code.
+</p>
+
+<h2>Electricity-price scenarios</h2>
+<div class="table-scroll" tabindex="0">
+<table>
+  <caption>Electricity-price scenarios: real annual change by bill component</caption>
+  <thead>
+    <tr><th scope="col">Scenario</th><th scope="col">Energy (real)</th><th scope="col">Fixed delivery (real)</th><th scope="col">Variable delivery (real)</th><th scope="col">General inflation</th></tr>
+  </thead>
+  <tbody>
+    {% for s in price_scenarios %}
+    <tr>
+      <th scope="row">{{ s.label }}</th>
+      <td>{{ s.electricity_energy_real_pct }}</td>
+      <td>{{ s.fixed_delivery_real_pct }}</td>
+      <td>{{ s.variable_delivery_real_pct }}</td>
+      <td>{{ s.general_inflation_pct }}</td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+</div>
+<p>
+  {% include "partials/assumption_tag.html" with context %}
+  These are modelling assumptions set by project maintainers, not official
+  forecasts. Source file: <code>scenarios/*.yaml</code>.
+</p>
+
+<h2>Solar-cost-decline scenarios</h2>
+<div class="table-scroll" tabindex="0">
+<table>
+  <caption>Solar-cost-decline scenarios: real annual installed-cost change</caption>
+  <thead><tr><th scope="col">Scenario</th><th scope="col">Real annual change</th></tr></thead>
+  <tbody>
+    {% for s in decline_scenarios %}
+    <tr><th scope="row">{{ s.label }}</th><td>{{ s.real_annual_change_pct }}</td></tr>
+    {% endfor %}
+  </tbody>
+</table>
+</div>
+<p>Source file: <code>scenarios/solar-cost-decline/*.yaml</code>.</p>
+
+<h2>Provincial demand context (not a price forecast)</h2>
+<div class="table-scroll" tabindex="0">
+<table>
+  <caption>IESO 2026 Annual Planning Outlook: provincial system demand growth to 2050</caption>
+  <thead><tr><th scope="col">Scenario</th><th scope="col">Growth to 2050</th></tr></thead>
+  <tbody>
+    <tr><th scope="row">Low</th><td>{{ demand_low_pct }}</td></tr>
+    <tr><th scope="row">Reference</th><td>{{ demand_reference_pct }}</td></tr>
+    <tr><th scope="row">High</th><td>{{ demand_high_pct }}</td></tr>
+  </tbody>
+</table>
+</div>
+<p>
+  These figures describe provincial system demand, not household
+  consumption or retail price growth, and are never converted into either.
+  Source file: <code>assumptions/ontario.yaml</code>.
+</p>
+
+<h2>Net metering</h2>
+<ul>
+  <li>Credit expiry: {{ net_metering_expiry_months }} months from creation</li>
+  <li>Eligible charge categories: {{ net_metering_eligible_categories }}</li>
+  <li>Ineligible charge categories: {{ net_metering_ineligible_categories }}</li>
+</ul>
+<p>Source file: <code>assumptions/ontario.yaml</code>.</p>
+
+<h2>Household loads</h2>
+<div class="table-scroll" tabindex="0">
+<table>
+  <caption>Default household load assumptions</caption>
+  <tbody>
+    <tr><th scope="row">EV efficiency default</th><td>{{ ev_default_efficiency }} kWh/100km</td></tr>
+    <tr><th scope="row">EV annual km default</th><td>{{ ev_default_annual_km }} km</td></tr>
+    <tr><th scope="row">Heat pump seasonal COP default</th><td>{{ hp_default_cop }}</td></tr>
+    <tr><th scope="row">Heat pump heating consumption default</th><td>{{ hp_default_heating_kwh }} kWh-equivalent</td></tr>
+  </tbody>
+</table>
+</div>
+<p>Source file: <code>assumptions/household-loads.yaml</code>.</p>
+
+<h2>Solar and financing</h2>
+<div class="table-scroll" tabindex="0">
+<table>
+  <caption>Default solar and financing assumptions</caption>
+  <tbody>
+    <tr><th scope="row">Panel degradation (annual)</th><td>{{ solar_degradation_pct }}</td></tr>
+    <tr><th scope="row">Default loan interest rate</th><td>{{ loan_rate_pct }}</td></tr>
+    <tr><th scope="row">Default loan term</th><td>{{ loan_term_years }} years</td></tr>
+    <tr><th scope="row">Default discount rate</th><td>{{ discount_rate_pct }}</td></tr>
+  </tbody>
+</table>
+</div>
+<p>Source files: <code>assumptions/solar.yaml</code>, <code>assumptions/financing.yaml</code>.</p>
+
+<p>All of these values are editable in the interactive calculator's advanced options.</p>
+{% endblock %}

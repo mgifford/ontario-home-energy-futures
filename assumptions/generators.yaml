@@ -1,0 +1,43 @@
+# Generator ownership model — Phase 3 scope.
+#
+# See assumptions/batteries.yaml for the same phasing note. This file
+# documents intended structure and illustrative defaults only; Phase 1 does
+# not compute generator-inclusive financial results from these values.
+
+status: estimate
+implementation_status: phase_3_deferred
+
+illustrative_reference_generator:
+  fuel_type: natural_gas
+  purchase_cad: 6000
+  installation_cad: 3000
+  transfer_switch_cad: 1500
+  fuel_consumption_l_per_kwh: 0.4
+  exercise_and_maintenance_annual_cad: 200
+  expected_replacement_year: 15
+  automatic_or_manual: automatic
+  noise_db_at_7m: 65
+
+fuel_price_scenarios:
+  status: scenario
+  natural_gas_cad_per_m3:
+    low: 0.35
+    reference: 0.45
+    high: 0.60
+  gasoline_cad_per_l:
+    low: 1.30
+    reference: 1.55
+    high: 1.90
+
+resilience_reporting_fields:
+  - critical_load_watts
+  - estimated_backup_duration_hours
+  - maximum_supported_load_watts
+  - fuel_dependence
+  - automatic_or_manual_operation
+  - local_emissions_notes
+
+notes: >
+  Generator cost is modelled as purchase + installation + maintenance + fuel +
+  replacement. Resilience value is reported separately from ordinary energy
+  economics and is never presented as equivalent to financial savings.

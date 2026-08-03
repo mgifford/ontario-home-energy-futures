@@ -1,0 +1,19 @@
+# Financing model defaults. See METHODOLOGY.md section 6.
+
+status: estimate
+
+cash:
+  opportunity_cost_rate_default: 0.03
+  notes: >
+    Opportunity-cost rate for cash purchases is an advanced, editable
+    assumption shown separately from the core comparison — not treated as an
+    objective fact by default.
+
+loan:
+  default_down_payment_fraction: 0.10
+  default_annual_interest_rate: 0.079
+  default_term_years: 10
+  available_term_years: [5, 7, 10, 15, 20]
+  default_financing_fee_cad: 0
+
+discount_rate_default: 0.04

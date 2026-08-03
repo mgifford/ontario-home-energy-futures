@@ -1,0 +1,8 @@
+{# status: "observed" | "estimate" | "scenario" #}
+<span class="assumption-tag assumption-tag--{{ status }}">
+  {%- if status == "observed" -%}Observed source
+  {%- elif status == "estimate" -%}Modelling estimate
+  {%- elif status == "scenario" -%}Modelling scenario, not a forecast
+  {%- else -%}{{ status }}
+  {%- endif -%}
+</span>

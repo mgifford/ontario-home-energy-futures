@@ -1,0 +1,113 @@
+# Solar production and purchase-cost model defaults.
+# See METHODOLOGY.md sections 4 and 6.
+
+production:
+  status: estimate
+  degradation_annual_default: 0.005
+  inverter_efficiency_default: 0.97
+  other_system_losses_default: 0.14
+  orientation_factors:
+    # Multiplier applied to south-facing baseline yield.
+    south: 1.00
+    southeast: 0.96
+    southwest: 0.96
+    east: 0.85
+    west: 0.85
+    north: 0.65
+  pitch_factor_default: 1.00
+  shading_estimate_factors:
+    none: 1.00
+    light: 0.95
+    moderate: 0.85
+    heavy: 0.65
+
+  # Illustrative Ottawa-region monthly yield, kWh per installed kW DC,
+  # south-facing, optimal pitch, no shading. Single regional profile pending
+  # integration of a proper Canadian solar-resource dataset (see
+  # DATA_SOURCES.md). status: estimate.
+  regional_monthly_yield_kwh_per_kw:
+    ottawa:
+      1: 62
+      2: 82
+      3: 118
+      4: 132
+      5: 148
+      6: 150
+      7: 152
+      8: 138
+      9: 112
+      10: 82
+      11: 52
+      12: 48
+      # annual total ~= 1276 kWh/kW, consistent with published Ottawa-area
+      # PV potential estimates in general magnitude; verify against NRCan
+      # data before treating as authoritative.
+
+  representative_hourly_solar_shape_status: estimate
+  representative_hourly_solar_shape_fraction_of_daylight_hour:
+    # Simple bell-shaped daylight production curve, hours 6-19, fraction of
+    # daily total. Used for Phase 1 direct-self-consumption estimates only.
+    6: 0.01
+    7: 0.03
+    8: 0.06
+    9: 0.09
+    10: 0.11
+    11: 0.12
+    12: 0.13
+    13: 0.12
+    14: 0.11
+    15: 0.09
+    16: 0.06
+    17: 0.04
+    18: 0.02
+    19: 0.01
+
+cost_components:
+  status: estimate
+  # Default cost split (fraction of total installed price before tax) used
+  # only when the user provides a total quote without a component breakdown.
+  # A user-entered full breakdown always overrides these defaults.
+  panels: 0.32
+  inverter: 0.10
+  racking: 0.08
+  electrical_equipment: 0.06
+  labour: 0.20
+  design_and_engineering: 0.03
+  permitting: 0.02
+  utility_connection: 0.04
+  installer_overhead: 0.15
+  # taxes, financing, optional battery, and other user-defined costs are
+  # entered separately and are not part of this proportional split.
+
+group_purchase_discount:
+  default_options: [0.0, 0.05, 0.10]
+  eligible_components:
+    - panels
+    - inverter
+    - racking
+    - electrical_equipment
+    - labour
+    - installer_overhead
+  ineligible_components:
+    - design_and_engineering
+    - permitting
+    - utility_connection
+    - taxes
+    - financing
+
+illustrative_reference_quote:
+  status: estimate
+  system_kw_dc: 7.2
+  installed_price_before_tax_cad: 21000
+  notes: >
+    A single illustrative reference quote used only to populate the
+    "quick estimate" solar path when no user quote or contributed quote data
+    is available. Not a market price estimate; see the quote-tracker schema
+    for community-contributed pricing (Phase 2).
+
+maintenance:
+  status: estimate
+  annual_maintenance_cad_default: 150
+  inverter_replacement_year_default: 12
+  inverter_replacement_cost_cad_default: 1800
+  residual_value_fraction_at_horizon_end_default: 0.20

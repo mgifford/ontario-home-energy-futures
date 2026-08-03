@@ -1,0 +1,11 @@
+id: solar-cost-decline-moderate-2026-08
+label: Moderate decline
+real_annual_installed_cost_change: -0.020
+status: scenario
+created_at: 2026-08-01
+supersedes: null
+notes: >
+  Illustrative scenario assuming a 2% real annual decline in complete Ontario
+  residential installed solar cost, reflecting continued but moderating
+  component and labour-market cost improvements. Not a forecast. See
+  METHODOLOGY.md section 8.

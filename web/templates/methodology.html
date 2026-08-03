@@ -1,0 +1,99 @@
+{% extends "base.html" %}
+{% block title %}Methodology — Ontario Home Energy Futures{% endblock %}
+{% block content %}
+<h1>Methodology</h1>
+<p class="page-intro">
+  This page summarizes how every calculation works. The complete version,
+  including all formulas and known limitations, is
+  <a href="https://github.com/mgifford/ontario-home-energy-futures/blob/main/METHODOLOGY.md">METHODOLOGY.md</a>
+  in the source repository.
+</p>
+
+<h2 id="1-bill-reconstruction">1. Bill reconstruction</h2>
+<p>
+  A standardized monthly bill is built from separate energy, generation,
+  transmission, distribution, regulatory, tax, and subsidy components —
+  never one blended "electricity rate."
+</p>
+
+<h2>2-3. Household consumption and hourly readiness</h2>
+<p>
+  Household demand is baseline consumption plus optional EV, heat pump,
+  water heater, cooling, and other additions, minus efficiency savings. The
+  public interface shows monthly results; the underlying data model is
+  hourly-ready for future phases, but Phase 1's monthly aggregation is a
+  labelled approximation, not a validated hourly simulation.
+</p>
+
+<h2>4. Solar production</h2>
+<p>Monthly production scales with system size, a location-specific monthly yield, and (1 − degradation)^age.</p>
+
+<h2 id="5-ontario-net-metering-credit-ledger">5. Net-metering credit ledger</h2>
+<p>
+  Exported solar becomes a non-cash credit tracked in dated tranches that
+  expire 12 months after creation, applied only to the eligible electricity
+  energy charge — never to fixed delivery, ineligible variable delivery,
+  regulatory charges, or tax.
+</p>
+
+<h2>6. Purchase cost and financing</h2>
+<p>
+  Group-purchase discounts apply only to eligible quote components. Standard
+  loan amortization computes payments and interest; interest avoided by a
+  discount is reported separately from the discount's direct price
+  reduction.
+</p>
+
+<h2>7-8. Price and cost-decline scenarios</h2>
+<p>
+  Each bill component and the installed solar cost have their own separate
+  real annual growth/decline assumption, distinct from general inflation and
+  from each other, recorded in versioned scenario files that are never
+  edited in place once published.
+</p>
+
+<h2>9. Provincial demand (context only)</h2>
+<p>
+  IESO provincial system demand-growth scenarios are shown as context for
+  why prices are uncertain — never converted into a household kWh addition
+  or a retail-price growth number.
+</p>
+
+<h2>10. Twenty-year comparison</h2>
+<p>
+  For each purchase-timing option, nominal and discounted (NPV) totals are
+  computed across grid bills, solar cost, financing, maintenance,
+  replacement, incentives, and eligible unexpired credits.
+</p>
+
+<h2>11. Cost of waiting</h2>
+<p>
+  Solves for the minimum annual real solar-cost decline required for waiting
+  to beat buying now, under the selected assumptions, and states the result
+  alongside those assumptions.
+</p>
+
+<h2>12. Sensitivity analysis</h2>
+<p>
+  Recomputes total cost while independently varying each major assumption,
+  ranked by effect size.
+</p>
+
+<h2>13. Battery and generator boundaries</h2>
+<p>
+  Validated hourly battery-dispatch and generator fuel-cost modelling is
+  deferred to Phase 3. Resilience value is reported separately from ordinary
+  energy economics and never assigned an invented dollar value by default.
+</p>
+
+<h2>14. Known limitations</h2>
+<ul>
+  <li>Household and solar hourly shapes are documented representative estimates, not measured for any individual home.</li>
+  <li>Only Hydro Ottawa is currently modelled.</li>
+  <li>Ultra-low overnight pricing is defined but not yet exposed.</li>
+  <li>Solar-resource data uses a single Ottawa-region profile.</li>
+  <li>Illustrative scenarios are modelling assumptions, not official forecasts.</li>
+  <li>Battery and generator dispatch modelling is deferred to Phase 3.</li>
+  <li>Net-metering eligible-charge rules should be re-verified against current OEB and distributor billing practice before relying on them for a real decision.</li>
+</ul>
+{% endblock %}

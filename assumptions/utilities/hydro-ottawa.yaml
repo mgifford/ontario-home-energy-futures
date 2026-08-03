@@ -1,0 +1,72 @@
+# Hydro Ottawa residential rate structure.
+#
+# STATUS: illustrative fixture approximating 2026 OEB-regulated rate levels.
+# This has NOT been verified against a live fetch of the OEB BillData.xml in
+# this build environment (no scheduled network access was available). Verify
+# against https://www.oeb.ca/_html/calculator/data/BillData.xml before
+# treating these figures as current. See DATA_SOURCES.md.
+
+id: hydro-ottawa
+label: Hydro Ottawa
+status: estimate
+source_url: https://www.oeb.ca/_html/calculator/data/BillData.xml
+retrieved_at: 2026-08-02
+effective_period: 2026-08
+
+fixed_delivery_charge_cad_per_day: 0.4795
+
+variable_delivery_charge_cad_per_kwh: 0.0223
+
+regulatory_charge_cad_per_kwh: 0.0059
+
+rebate_cad_per_kwh: -0.0227  # Ontario Electricity Rebate, applied pre-tax
+
+rate_plans:
+  time_of_use:
+    label: Time-of-use (TOU)
+    periods:
+      - name: off_peak
+        rate_cad_per_kwh: 0.076
+        hours: "19:00-07:00 weekdays; all day weekends and holidays"
+      - name: mid_peak
+        rate_cad_per_kwh: 0.122
+        hours: "07:00-11:00 and 17:00-19:00 weekdays"
+      - name: on_peak
+        rate_cad_per_kwh: 0.158
+        hours: "11:00-17:00 weekdays"
+
+  tiered:
+    label: Tiered
+    threshold_kwh_per_month: 600
+    threshold_kwh_per_month_winter: 1000
+    winter_months: [11, 12, 1, 2, 3, 4]
+    rate_below_threshold_cad_per_kwh: 0.087
+    rate_above_threshold_cad_per_kwh: 0.104
+
+  ultra_low_overnight:
+    label: Ultra-low overnight (ULO)
+    status: not_yet_supported
+    notes: >
+      Defined in schema for forward compatibility. Not exposed in Phase 1
+      because a verified representative overnight household load-share
+      assumption for the Ottawa region has not been documented yet. See
+      METHODOLOGY.md section 1.
+    periods:
+      - name: ultra_low_overnight
+        rate_cad_per_kwh: 0.024
+        hours: "23:00-07:00 every day"
+      - name: weekend_off_peak
+        rate_cad_per_kwh: 0.076
+        hours: "07:00-23:00 weekends and holidays"
+      - name: mid_peak
+        rate_cad_per_kwh: 0.122
+        hours: "07:00-16:00 and 21:00-23:00 weekdays"
+      - name: on_peak
+        rate_cad_per_kwh: 0.158
+        hours: "16:00-21:00 weekdays"
+
+net_metering_billing_notes: >
+  Generation credits apply against the electricity energy/commodity charge
+  only. Fixed delivery, regulatory charges, rebate, and HST are calculated on
+  net metered consumption per Hydro Ottawa's published net-metering bill
+  sample. See DATA_SOURCES.md for the source page and its known limitations.
