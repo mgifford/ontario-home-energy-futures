@@ -1,0 +1,74 @@
+# Collective-purchasing cost-reduction model, independent of technology
+# learning (see model/collective_purchasing.py and technology_decline.py -
+# these are two separate effects, never conflated).
+#
+# See the project brief's "Collective-purchasing model" section and
+# METHODOLOGY.md section 18.
+
+status: scenario
+created_at: 2026-08-02
+
+tiers:
+  - id: individual
+    label: Individual purchase
+    households: 1
+    reductions:
+      hardware_percent: 0
+      labour_percent: 0
+      customer_acquisition_percent: 0
+      design_percent: 0
+      permitting_percent: 0
+      financing_fees_percent: 0
+    overall_discount_cap_percent: 0
+
+  - id: group_5
+    label: Five-household group
+    households: 5
+    reductions:
+      hardware_percent: 2
+      labour_percent: 3
+      customer_acquisition_percent: 25
+      design_percent: 10
+      permitting_percent: 5
+      financing_fees_percent: 0
+    overall_discount_cap_percent: 7
+
+  - id: group_10
+    label: Ten-household group
+    households: 10
+    reductions:
+      hardware_percent: 3
+      labour_percent: 5
+      customer_acquisition_percent: 40
+      design_percent: 20
+      permitting_percent: 10
+      financing_fees_percent: 0
+    overall_discount_cap_percent: 10
+
+  - id: group_20
+    label: Twenty-household group
+    households: 20
+    reductions:
+      hardware_percent: 4
+      labour_percent: 7
+      customer_acquisition_percent: 55
+      design_percent: 30
+      permitting_percent: 15
+      financing_fees_percent: 0
+    overall_discount_cap_percent: 13
+
+# Cost components a collective-purchasing discount may NEVER apply to, per
+# the project brief's explicit list.
+never_discountable_components:
+  - taxes
+  - government_fees
+  - utility_charges
+  - interest_rate
+
+notes: >
+  These reduction percentages are illustrative scenario values, generalized
+  from the categories of savings a group purchase can plausibly unlock
+  (shared customer acquisition, standard designs, bulk hardware, shared
+  permitting assistance) — not measured Ontario outcomes. Editable per
+  tier. A user-defined group size or user-entered contractor discount
+  overrides these defaults; see model/collective_purchasing.py.

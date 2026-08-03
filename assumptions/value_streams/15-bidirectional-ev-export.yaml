@@ -1,0 +1,52 @@
+id: bidirectional-ev-export-revenue
+name: Bidirectional EV export revenue
+category: grid_service
+status:
+  type: illustrative_scenario
+  verified_at: 2026-08-01
+  accepting_new_participants: false
+eligibility:
+  jurisdiction: Ontario
+  residential: true
+  aggregator_required: true
+  solar_required: false
+  battery_required: false
+  bidirectional_ev_allowed: true
+  minimum_export_kw: 3
+  minimum_usable_kwh: 5
+compensation:
+  enrollment_cad: 0
+  availability_cad_per_kw_month: 0
+  dispatch_cad_per_kwh: 0.30
+  annual_bonus_cad: 0
+costs:
+  aggregator_share_percent: 20
+  annual_fee_cad: 0
+  estimated_degradation_cad_per_kwh: 0.05
+events:
+  expected_events_per_year: 15
+  maximum_events_per_year: 25
+  event_duration_hours: 2
+  minimum_notice_minutes: 30
+customer_constraints:
+  minimum_backup_reserve_percent: 0
+  maximum_cycles_per_day: 1
+  opt_out_events_per_year: 5
+stacking:
+  net_metering: unknown
+  dynamic_export: prohibited
+  capacity_payment: unknown
+  local_flexibility: unknown
+source:
+  type: illustrative
+  url: null
+  title: null
+  notes: >
+    No Ontario residential vehicle-to-grid export payment programme is
+    currently available; bidirectional charging equipment is also not
+    broadly commercially available for most vehicle models. Illustrative
+    figure only, used in the "Bidirectional EV future" bundle. See
+    model/ev_dispatch.py for the availability-window constraint that
+    governs when this revenue can actually be earned.
+tax_treatment: unknown
+combinable_with_other_streams: true

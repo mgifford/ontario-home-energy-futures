@@ -1,12 +1,16 @@
-# Battery ownership model — Phase 3 scope.
+# Battery ownership model.
 #
-# This file documents the intended data structure and illustrative defaults
-# for battery cost and resilience modelling. Validated hourly battery-dispatch
-# optimization is deferred to Phase 3 (see METHODOLOGY.md section 13); Phase 1
-# does not compute battery-inclusive financial results from these values.
+# Phase 1 documented the intended data structure and illustrative defaults
+# for battery cost and resilience modelling without computing
+# battery-inclusive financial results (see METHODOLOGY.md section 13,
+# historical note below). Phase 2 adds a MONTHLY-AGGREGATE dispatch model
+# (model/battery_dispatch.py) - not full 8,760-hour dispatch optimization,
+# which remains explicitly deferred pending validated hourly load/generation
+# data. Monthly dispatch figures are labelled status: estimate throughout.
 
 status: estimate
-implementation_status: phase_3_deferred
+implementation_status: phase_2_monthly_dispatch_model
+hourly_dispatch_optimization_status: deferred_pending_validated_hourly_data
 
 illustrative_reference_battery:
   usable_capacity_kwh: 13.5
@@ -15,6 +19,7 @@ illustrative_reference_battery:
   purchase_and_installation_cad: 12000
   warranty_years: 10
   expected_replacement_year: 12
+  expected_lifetime_throughput_kwh: 40000
   annual_maintenance_cad: 50
   degradation_annual: 0.02
 
@@ -26,8 +31,29 @@ resilience_reporting_fields:
   - requires_grid_forming_inverter
   - automatic_or_manual_transfer
 
+# Household operating-policy presets. Each sets a minimum state-of-charge
+# (as a fraction of usable capacity) that grid-service dispatch may never
+# draw below. See model/battery_dispatch.py.
+reserve_policies:
+  - id: backup_only
+    label: Backup only
+    minimum_reserve_fraction: 1.00
+  - id: conservative
+    label: Conservative grid participation
+    minimum_reserve_fraction: 0.70
+  - id: balanced
+    label: Balanced
+    minimum_reserve_fraction: 0.40
+  - id: maximum_participation
+    label: Maximum grid participation
+    minimum_reserve_fraction: 0.20
+  - id: custom
+    label: Custom
+    minimum_reserve_fraction: null  # user-supplied
+
 notes: >
   Battery and generator comparisons must separate ordinary energy economics
   (increased solar self-consumption, time-of-use rate shifting) from backup
   and resilience value. This project does not assign an invented dollar value
-  to outage resilience by default.
+  to outage resilience by default. Grid-service dispatch is never permitted
+  to draw state-of-charge below the household's selected reserve policy.

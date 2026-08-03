@@ -1,0 +1,45 @@
+id: avoided-generator-cost
+name: Avoided generator purchase, fuel and maintenance where battery resilience replaces a generator
+category: energy_savings
+status:
+  type: current
+  verified_at: 2026-08-01
+  accepting_new_participants: true
+eligibility:
+  jurisdiction: Ontario
+  residential: true
+  aggregator_required: false
+  solar_required: false
+  battery_required: true
+  bidirectional_ev_allowed: false
+  minimum_export_kw: null
+  minimum_usable_kwh: null
+compensation:
+  enrollment_cad: 0
+  availability_cad_per_kw_month: 0
+  dispatch_cad_per_kwh: 0
+  annual_bonus_cad: 0
+costs:
+  aggregator_share_percent: 0
+  annual_fee_cad: 0
+  estimated_degradation_cad_per_kwh: 0
+events: null
+customer_constraints: null
+stacking:
+  net_metering: allowed
+  dynamic_export: allowed
+  capacity_payment: allowed
+  local_flexibility: allowed
+  notes: >
+    This is a conditional, user-selected comparison (battery instead of a
+    generator), not automatic revenue - it only applies if the household
+    would otherwise have purchased a generator. This value stream requires
+    an explicit user opt-in and is never included in the default bundle.
+    See assumptions/generators.yaml for baseline generator costs.
+source:
+  type: model
+  url: null
+  title: null
+  notes: Comparison logic in model/battery_dispatch.py; costs from assumptions/generators.yaml and assumptions/batteries.yaml.
+tax_treatment: not_applicable_not_income
+combinable_with_other_streams: true

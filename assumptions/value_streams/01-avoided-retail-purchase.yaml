@@ -1,0 +1,50 @@
+id: avoided-retail-purchase
+name: Avoided retail electricity purchases through direct solar self-consumption
+category: energy_savings
+status:
+  type: current
+  verified_at: 2026-08-01
+  accepting_new_participants: true
+eligibility:
+  jurisdiction: Ontario
+  residential: true
+  aggregator_required: false
+  solar_required: true
+  battery_required: false
+  bidirectional_ev_allowed: false
+  minimum_export_kw: null
+  minimum_usable_kwh: null
+compensation:
+  # Not a fixed rate: value is the avoided energy charge on directly
+  # self-consumed solar kWh, computed by model/bill.py + model/net_metering.py.
+  # Recorded here as null to avoid inventing a flat per-kWh figure that would
+  # duplicate the bill model's own rate lookup.
+  enrollment_cad: 0
+  availability_cad_per_kw_month: 0
+  dispatch_cad_per_kwh: null
+  annual_bonus_cad: 0
+costs:
+  aggregator_share_percent: 0
+  annual_fee_cad: 0
+  estimated_degradation_cad_per_kwh: 0
+events: null
+customer_constraints: null
+stacking:
+  net_metering: exclusive
+  dynamic_export: exclusive
+  capacity_payment: unknown
+  local_flexibility: unknown
+  notes: >
+    A solar kWh consumed directly in the home cannot simultaneously be
+    exported or receive a net-metering credit - it is either self-consumed
+    (this value stream) or exported (see ontario-net-metering-credit). The
+    compatibility matrix enforces this exclusivity.
+source:
+  type: model
+  url: null
+  title: null
+  notes: >
+    Calculated directly from model/bill.py and model/net_metering.py, not a
+    flat published rate. See METHODOLOGY.md section 5.
+tax_treatment: not_taxable_income
+combinable_with_other_streams: false

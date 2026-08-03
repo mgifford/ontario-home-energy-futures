@@ -24,11 +24,23 @@
 <h2>Cost of waiting</h2>
 <p>{{ waiting_statement }}</p>
 
-<h2>What drives this result</h2>
-<p>The five assumptions with the largest effect on this result, for the current inputs:</p>
+<h2>What typically drives this kind of result</h2>
+{% if sensitivity_rows_are_illustrative %}
+<div class="callout callout--warning">
+  <p>
+    <strong>Illustrative example, not computed from your inputs.</strong>
+    The table below is a static example of the kind of assumption that
+    typically has the largest effect on a 20-year total. It does not
+    change based on the scenario or inputs shown above. A version of this
+    table computed from your actual current inputs is planned but not yet
+    built — see
+    <a href="https://github.com/mgifford/ontario-home-energy-futures/blob/main/docs/RED-TEAM-REVIEW.md">the project's red-team review</a>.
+  </p>
+</div>
+{% endif %}
 <div class="table-scroll" tabindex="0">
 <table>
-  <caption>Ranked sensitivity: assumptions with the largest effect on the 20-year total</caption>
+  <caption>Illustrative example: assumption categories that typically have the largest effect on a 20-year total (not computed from your current inputs)</caption>
   <thead><tr><th scope="col">Assumption</th><th scope="col">Low case</th><th scope="col">High case</th><th scope="col">Effect on 20-year total</th></tr></thead>
   <tbody>
     {% for row in sensitivity_rows %}

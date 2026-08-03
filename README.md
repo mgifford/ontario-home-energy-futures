@@ -68,8 +68,10 @@ may later publish shareable summary links that `neighbourhood-solar` can point t
 - **Plain CSS**, no third-party fonts, no CDNs (`web/static/styles.css`).
 - **A small vanilla JavaScript module** (`web/static/calculator.js`) progressively
   enhances the static pages with instant recalculation. No framework, no build
-  step, no client-side charting library — charts are accessible inline SVG, always
-  paired with an HTML data table.
+  step, and no client-side charting library planned — charts are intended to be
+  accessible inline SVG, always paired with an HTML data table, but this is not
+  yet implemented (`src/ontario_home_energy_futures/charts/` is currently
+  empty; see [docs/RED-TEAM-REVIEW.md](docs/RED-TEAM-REVIEW.md) section 8.3).
 - **pytest** for model and data-pipeline tests. Playwright and axe-core specs are
   included for browser and accessibility testing.
 

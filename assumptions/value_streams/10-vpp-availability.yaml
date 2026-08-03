@@ -1,0 +1,48 @@
+id: vpp-availability-payment
+name: Virtual power plant availability payment
+category: grid_service
+status:
+  type: illustrative_scenario
+  verified_at: 2026-08-01
+  accepting_new_participants: false
+eligibility:
+  jurisdiction: Ontario
+  residential: true
+  aggregator_required: true
+  solar_required: false
+  battery_required: true
+  bidirectional_ev_allowed: true
+  minimum_export_kw: 5
+  minimum_usable_kwh: 10
+compensation:
+  enrollment_cad: 0
+  availability_cad_per_kw_month: 3.50
+  dispatch_cad_per_kwh: 0
+  annual_bonus_cad: 0
+costs:
+  aggregator_share_percent: 20
+  annual_fee_cad: 60
+  estimated_degradation_cad_per_kwh: 0
+events: null
+customer_constraints:
+  minimum_backup_reserve_percent: 30
+  maximum_cycles_per_day: 1
+  opt_out_events_per_year: 3
+stacking:
+  net_metering: unknown
+  dynamic_export: prohibited
+  capacity_payment: allowed
+  local_flexibility: unknown
+source:
+  type: illustrative
+  url: https://www.oeb.ca/sites/default/files/2025-AUG__Assessment-of-Ontario-DER.pdf
+  title: OEB/IESO Assessment of Ontario DER compensation (background context)
+  notes: >
+    No general residential VPP availability-payment programme is currently
+    operating in Ontario. The $3.50/kW-month figure is a clearly labelled
+    illustrative scenario value for exploring what a future Ontario VPP
+    might look like, not a published or contracted rate. Excluded from the
+    default "Current Ontario" bundle; only appears in the "Ontario VPP
+    future" bundle, which is explicitly labelled as speculative.
+tax_treatment: unknown
+combinable_with_other_streams: true

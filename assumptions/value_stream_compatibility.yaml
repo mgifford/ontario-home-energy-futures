@@ -1,0 +1,123 @@
+# Machine-readable pairwise compatibility matrix for value streams.
+#
+# Each entry declares whether two value streams may both apply to the SAME
+# unit of electricity or the SAME committed capacity in the SAME period.
+# This is the single place double-counting rules are enforced - see
+# model/compatibility.py and METHODOLOGY.md section 16.
+#
+# Relationship values:
+#   allowed     - both streams may apply to the same kWh/kW/period
+#   prohibited  - explicitly may NOT both apply (double counting)
+#   unknown     - compatibility not yet verified; EXCLUDED from default
+#                 results per the project brief ("where programme
+#                 compatibility is unknown, exclude the combination from
+#                 default results and explain why")
+#
+# Also encodes non-stream structural rules the spec calls out explicitly,
+# under `structural_rules`, enforced directly in model code (not just data).
+
+status: observed
+verified_at: 2026-08-01
+
+pairs:
+  - stream_a: avoided-retail-purchase
+    stream_b: ontario-net-metering-credit
+    relationship: prohibited
+    reason: >
+      A solar kWh consumed directly in the home cannot also be exported and
+      receive a net-metering credit - self-consumption and export are
+      mutually exclusive fates for the same kWh.
+
+  - stream_a: ontario-net-metering-credit
+    stream_b: dynamic-export-compensation
+    relationship: prohibited
+    reason: >
+      Under current and proposed Ontario rules reviewed for this project,
+      exported solar receives either the net-metering credit or a dynamic
+      export payment, never both for the same exported kWh.
+
+  - stream_a: vpp-availability-payment
+    stream_b: vpp-event-payment
+    relationship: allowed
+    reason: >
+      A capacity/availability payment (for being on standby) and a
+      per-event dispatch payment (for actually discharging) compensate two
+      different things and may coexist, matching the project brief's
+      example that "a capacity payment may coexist with an event payment
+      if the programme defines them separately."
+
+  - stream_a: capacity-market-revenue
+    stream_b: vpp-event-payment
+    relationship: unknown
+    reason: >
+      Whether a single battery could simultaneously be enrolled in a
+      capacity-market aggregation and a separate VPP event-payment
+      programme has not been verified against real Ontario or aggregator
+      contract terms; excluded from default results until confirmed.
+
+  - stream_a: capacity-market-revenue
+    stream_b: local-flexibility-payment
+    relationship: allowed
+    reason: >
+      A capacity payment and a local distribution flexibility payment
+      compensate distinct grid needs (system-wide capacity vs. local
+      distribution constraint relief) and are modelled as stackable, per
+      the project brief's example.
+
+  - stream_a: demand-response-payment
+    stream_b: bidirectional-ev-export-revenue
+    relationship: unknown
+    reason: >
+      Compatibility between a household demand-response commitment and a
+      separate EV export-revenue programme has not been verified; a
+      demand reduction and a battery/EV export during the same event must
+      be measured separately per the project brief, and until the
+      measurement and stacking rules are confirmed this pair is excluded.
+
+  - stream_a: dynamic-export-compensation
+    stream_b: vpp-event-payment
+    relationship: prohibited
+    reason: >
+      Exported electricity during a VPP event is compensated by the event
+      payment; it cannot simultaneously earn the separate dynamic export
+      price for the same kWh.
+
+structural_rules:
+  - id: reserve-not-dispatchable
+    description: >
+      Battery capacity committed to the household's selected backup
+      reserve is never available for VPP/demand-response/capacity-market
+      dispatch, regardless of value-stream compatibility. Enforced in
+      model/battery_dispatch.py by construction (dispatch functions accept
+      a reserve floor and cannot draw state-of-charge below it).
+
+  - id: ev-away-not-dispatchable
+    description: >
+      A bidirectional EV cannot dispatch (V2H or V2G) during hours it is
+      marked away from home. Enforced in model/ev_dispatch.py via the
+      presence-window constraint.
+
+  - id: driving-energy-priority
+    description: >
+      An EV's minimum required departure charge is reserved before any
+      remaining capacity is considered available for grid export. Enforced
+      in model/ev_dispatch.py.
+
+  - id: group-purchase-discount-is-one-time
+    description: >
+      The group-purchase discount (value stream group-purchase-discount)
+      reduces eligible one-time installation cost components; it is never
+      added to any year's annual revenue total. Enforced in
+      model/collective_purchasing.py and model/scenario_v2.py by keeping
+      the discount amount in the initial-cost calculation only.
+
+  - id: demand-reduction-and-export-measured-separately
+    description: >
+      During a single event, a household's demand reduction (avoided
+      import) and a battery's export (injected to grid) are two distinct
+      physical quantities and must be reported as separate line items,
+      never summed into one "event value" figure that could double count
+      the same underlying kWh if a program's measurement methodology
+      overlaps them. Enforced in model/battery_dispatch.py's result
+      dataclass, which keeps avoided-import and exported-kwh as separate
+      fields.
