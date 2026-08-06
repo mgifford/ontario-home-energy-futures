@@ -1,0 +1,47 @@
+id: current-incentives-rebates
+name: Current incentives or rebates
+category: incentive
+status:
+  type: current
+  verified_at: 2026-08-01
+  accepting_new_participants: true
+eligibility:
+  jurisdiction: Ontario
+  residential: true
+  aggregator_required: false
+  solar_required: false
+  battery_required: false
+  bidirectional_ev_allowed: false
+  minimum_export_kw: null
+  minimum_usable_kwh: null
+compensation:
+  enrollment_cad: 0
+  availability_cad_per_kw_month: 0
+  dispatch_cad_per_kwh: 0
+  annual_bonus_cad: 0
+costs:
+  aggregator_share_percent: 0
+  annual_fee_cad: 0
+  estimated_degradation_cad_per_kwh: 0
+events: null
+customer_constraints: null
+stacking:
+  net_metering: allowed
+  dynamic_export: allowed
+  capacity_payment: allowed
+  local_flexibility: allowed
+  notes: >
+    No federal or Ontario-specific residential solar rebate is currently
+    verified as active for this project's Phase 2 fixture (the federal
+    Greener Homes grant programme intake closed; the historic microFIT
+    programme is closed to new participants - see IESO microFIT page). This
+    value stream defaults to $0 in the current-Ontario bundle until a
+    verified active programme is documented; editable if one becomes
+    available.
+source:
+  type: official
+  url: https://www.ieso.ca/en/Get-Involved/microfit/Overview
+  title: IESO microFIT programme overview
+  notes: microFIT is closed to new applicants; existing contracts continue under their own terms.
+tax_treatment: unknown
+combinable_with_other_streams: true

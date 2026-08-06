@@ -1,0 +1,44 @@
+id: dynamic-export-compensation
+name: Dynamic export compensation
+category: grid_service
+status:
+  type: proposed
+  verified_at: 2026-08-01
+  accepting_new_participants: false
+eligibility:
+  jurisdiction: Ontario
+  residential: true
+  aggregator_required: false
+  solar_required: true
+  battery_required: false
+  bidirectional_ev_allowed: true
+  minimum_export_kw: null
+  minimum_usable_kwh: null
+compensation:
+  enrollment_cad: 0
+  availability_cad_per_kw_month: 0
+  dispatch_cad_per_kwh: 0.06
+  annual_bonus_cad: 0
+costs:
+  aggregator_share_percent: 0
+  annual_fee_cad: 0
+  estimated_degradation_cad_per_kwh: 0
+events: null
+customer_constraints: null
+stacking:
+  net_metering: prohibited
+  dynamic_export: self
+  capacity_payment: unknown
+  local_flexibility: unknown
+  notes: >
+    Time-varying export pricing is under formal Ontario consideration (see
+    OEB/IESO DER assessment) but not generally available. If adopted, it
+    would replace - not add to - the flat net-metering credit for the same
+    exported kWh; the two are mutually exclusive per this stacking rule.
+source:
+  type: illustrative
+  url: https://www.oeb.ca/sites/default/files/2025-AUG__Assessment-of-Ontario-DER.pdf
+  title: OEB/IESO Assessment of Ontario DER compensation
+  notes: Illustrative $0.06/kWh export price for the "Dynamic-price future" bundle only.
+tax_treatment: unknown
+combinable_with_other_streams: false

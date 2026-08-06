@@ -1,0 +1,51 @@
+id: local-flexibility-payment
+name: Local distribution flexibility or non-wires payment
+category: grid_service
+status:
+  type: pilot
+  verified_at: 2026-08-01
+  accepting_new_participants: false
+eligibility:
+  jurisdiction: Ontario
+  residential: true
+  aggregator_required: true
+  solar_required: false
+  battery_required: true
+  bidirectional_ev_allowed: true
+  minimum_export_kw: null
+  minimum_usable_kwh: null
+compensation:
+  enrollment_cad: 0
+  availability_cad_per_kw_month: 0
+  dispatch_cad_per_kwh: 0.20
+  annual_bonus_cad: 0
+costs:
+  aggregator_share_percent: 15
+  annual_fee_cad: 0
+  estimated_degradation_cad_per_kwh: 0.04
+events:
+  expected_events_per_year: 8
+  maximum_events_per_year: 20
+  event_duration_hours: 3
+  minimum_notice_minutes: 120
+customer_constraints:
+  minimum_backup_reserve_percent: 40
+  maximum_cycles_per_day: 1
+  opt_out_events_per_year: 2
+stacking:
+  net_metering: unknown
+  dynamic_export: unknown
+  capacity_payment: allowed
+  local_flexibility: self
+source:
+  type: illustrative
+  url: https://www.ieso.ca/-/media/Files/IESO/Document-Library/funding/Grid-Innovation-Fund/HONI-RRIP-GIF-Final-Report.pdf
+  title: Hydro One Residential Reliability Improvement Project (Grid Innovation Fund final report)
+  notes: >
+    The Hydro One RRIP pilot explored residential battery participation for
+    local reliability in a specific pilot area; it is not a generally
+    available Ontario-wide programme. Compensation figures here are
+    illustrative, generalized from the pilot's approximate scale, not
+    published contract rates. Geographic scope: pilot area only.
+tax_treatment: unknown
+combinable_with_other_streams: true

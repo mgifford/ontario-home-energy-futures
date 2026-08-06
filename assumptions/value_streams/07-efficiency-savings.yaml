@@ -1,0 +1,43 @@
+id: household-efficiency-savings
+name: Household efficiency savings
+category: energy_savings
+status:
+  type: current
+  verified_at: 2026-08-01
+  accepting_new_participants: true
+eligibility:
+  jurisdiction: Ontario
+  residential: true
+  aggregator_required: false
+  solar_required: false
+  battery_required: false
+  bidirectional_ev_allowed: false
+  minimum_export_kw: null
+  minimum_usable_kwh: null
+compensation:
+  enrollment_cad: 0
+  availability_cad_per_kw_month: 0
+  dispatch_cad_per_kwh: null
+  annual_bonus_cad: 0
+costs:
+  aggregator_share_percent: 0
+  annual_fee_cad: 0
+  estimated_degradation_cad_per_kwh: 0
+events: null
+customer_constraints: null
+stacking:
+  net_metering: allowed
+  dynamic_export: allowed
+  capacity_payment: allowed
+  local_flexibility: allowed
+  notes: >
+    Efficiency savings reduce household demand (model/household.py's
+    EE_m term) and therefore reduce the bill directly - not a separate
+    payment, so no double-counting risk.
+source:
+  type: model
+  url: null
+  title: null
+  notes: See assumptions/household-loads.yaml efficiency_upgrades block and METHODOLOGY.md section 2.
+tax_treatment: not_applicable_not_income
+combinable_with_other_streams: true

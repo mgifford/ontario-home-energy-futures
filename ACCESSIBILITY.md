@@ -37,9 +37,11 @@ pages, including the interactive calculator.
 - Visible focus indicators on every interactive element; no keyboard traps.
 - Colour is never the only way information is conveyed (e.g., scenario ranges
   use pattern/label in addition to colour in any chart).
-- Charts are inline, accessibly named SVG, and every chart has an equivalent
-  HTML data table adjacent to it — the table is the source of truth, the chart
-  is a supplement.
+- **Planned, not yet implemented:** charts are intended to be inline, accessibly
+  named SVG, each with an equivalent HTML data table adjacent to it — the table
+  as the source of truth, the chart as a supplement. No chart currently exists
+  in the application (see "Known limitations" below and
+  [docs/RED-TEAM-REVIEW.md](docs/RED-TEAM-REVIEW.md) section 8.3).
 - Dynamic result updates (client-side recalculation) are announced via an
   appropriately scoped live region, and focus is not moved unexpectedly after
   recalculation.
@@ -83,8 +85,9 @@ Before each release, complete this checklist against the built site:
 - [ ] Enable "reduce motion" and confirm no non-essential animation plays.
 - [ ] Run at least one full manual pass with a screen reader (e.g. VoiceOver,
       NVDA, or JAWS) through the home page, the household input flow, and the
-      results comparison table, confirming table headers, chart accessible
-      names, and dynamic-update announcements all make sense read aloud.
+      results comparison table, confirming table headers and dynamic-update
+      announcements all make sense read aloud. (No chart currently exists to
+      verify chart accessible names against — see "Known limitations.")
 - [ ] Disable JavaScript and confirm the methodology, data-source, and standard
       precomputed scenario pages remain fully readable and usable.
 - [ ] Run `axe-core` against the built `dist/` output and confirm zero
@@ -102,10 +105,20 @@ Before each release, complete this checklist against the built site:
 - A full manual screen-reader pass against a live deployment has not yet been
   logged for this Phase 1 prototype; it is listed above as a required
   pre-release step.
+- **No chart exists in the application yet.** `src/ontario_home_energy_futures/charts/`
+  is currently empty. The "Accessibility decision record" below describes the
+  intended design for when charts are built, not delivered functionality — see
+  [docs/RED-TEAM-REVIEW.md](docs/RED-TEAM-REVIEW.md) section 8.3 and
+  [docs/CORRECTIONS.md](docs/CORRECTIONS.md) for how this documentation
+  overstatement was found and corrected.
 
 ## Accessibility decision record: charts and dynamic results
 
-- **Decision:** Every chart is inline SVG (not a client-side charting library),
+**Status: planned design, not yet implemented.** The decisions below describe
+how charts must be built when that work happens, so the design is settled in
+advance and reviewable now — not a description of current behaviour.
+
+- **Decision:** Every chart will be inline SVG (not a client-side charting library),
   paired with a visible or accessibly-linked HTML `<table>` containing the same
   data. Rationale: this avoids a third-party charting dependency, keeps the data
   available to assistive technology without relying on ARIA graphics roles

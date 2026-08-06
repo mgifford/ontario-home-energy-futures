@@ -206,6 +206,15 @@ def build_site(repo_root: Path, output_dir: Path) -> Path:
             "price_scenarios": price_scenarios,
             "decline_scenarios": decline_scenarios,
             "planning_horizons": data.ontario["planning_horizons_years"],
+            # NOT computed from the user's current inputs - see
+            # docs/RED-TEAM-REVIEW.md section 8.4 and
+            # docs/CORRECTIONS.md. This is a static, illustrative example
+            # of the kind of assumption that typically has the largest
+            # effect on a 20-year total, pending the real computed
+            # sensitivity module (model/sensitivity.py, not yet built).
+            # The template must present this as illustrative, never as
+            # "for the current inputs" - see
+            # tests/unit/test_build_site_honesty.py.
             "sensitivity_rows": [
                 {"assumption": "Electricity-price scenario", "low": "Low", "high": "Stress", "effect": "Largest"},
                 {"assumption": "Solar installed cost", "low": "-10%", "high": "+10%", "effect": "Large"},
@@ -213,6 +222,7 @@ def build_site(repo_root: Path, output_dir: Path) -> Path:
                 {"assumption": "Financing rate", "low": "3%", "high": "10%", "effect": "Moderate"},
                 {"assumption": "Discount rate", "low": "2%", "high": "6%", "effect": "Small-moderate"},
             ],
+            "sensitivity_rows_are_illustrative": True,
             "print_url": "compare-timing.html",
         },
         "net-metering.html": {

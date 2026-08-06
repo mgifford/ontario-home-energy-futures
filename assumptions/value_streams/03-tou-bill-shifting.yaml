@@ -1,0 +1,45 @@
+id: tou-ulo-bill-shifting
+name: Time-of-use or ultra-low overnight bill shifting
+category: energy_savings
+status:
+  type: current
+  verified_at: 2026-08-01
+  accepting_new_participants: true
+eligibility:
+  jurisdiction: Ontario
+  residential: true
+  aggregator_required: false
+  solar_required: false
+  battery_required: false
+  bidirectional_ev_allowed: false
+  minimum_export_kw: null
+  minimum_usable_kwh: null
+compensation:
+  enrollment_cad: 0
+  availability_cad_per_kw_month: 0
+  dispatch_cad_per_kwh: null
+  annual_bonus_cad: 0
+costs:
+  aggregator_share_percent: 0
+  annual_fee_cad: 0
+  estimated_degradation_cad_per_kwh: 0
+events: null
+customer_constraints: null
+stacking:
+  net_metering: allowed
+  dynamic_export: unknown
+  capacity_payment: unknown
+  local_flexibility: unknown
+  notes: >
+    Shifting household or battery load to off-peak/ultra-low-overnight
+    periods reduces the effective energy rate paid; it is a rate-plan
+    choice, not a separate payment, so it stacks with solar/net-metering
+    without double counting (the bill model already reflects the selected
+    rate plan's periods).
+source:
+  type: official
+  url: https://www.oeb.ca/open-data/current-electricity-rates-residential-rate-class
+  title: OEB current electricity rates, residential rate class
+  notes: Ultra-low overnight not yet exposed in this model; see METHODOLOGY.md section 1.
+tax_treatment: not_taxable_income
+combinable_with_other_streams: true

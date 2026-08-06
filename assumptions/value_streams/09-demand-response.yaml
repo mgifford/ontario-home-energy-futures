@@ -1,0 +1,50 @@
+id: demand-response-payment
+name: Demand-response participation payment
+category: grid_service
+status:
+  type: pilot
+  verified_at: 2026-08-01
+  accepting_new_participants: false
+eligibility:
+  jurisdiction: Ontario
+  residential: true
+  aggregator_required: true
+  solar_required: false
+  battery_required: false
+  bidirectional_ev_allowed: true
+  minimum_export_kw: null
+  minimum_usable_kwh: null
+compensation:
+  enrollment_cad: 0
+  availability_cad_per_kw_month: 0
+  dispatch_cad_per_kwh: 0
+  annual_bonus_cad: 0
+costs:
+  aggregator_share_percent: 20
+  annual_fee_cad: 0
+  estimated_degradation_cad_per_kwh: 0
+events:
+  expected_events_per_year: 10
+  maximum_events_per_year: 15
+  event_duration_hours: 2
+  minimum_notice_minutes: 60
+customer_constraints:
+  minimum_backup_reserve_percent: 50
+  maximum_cycles_per_day: 1
+  opt_out_events_per_year: 3
+stacking:
+  net_metering: unknown
+  dynamic_export: prohibited
+  capacity_payment: allowed
+  local_flexibility: unknown
+source:
+  type: illustrative
+  url: https://www.ieso.ca/en/Sector-Participants/Engagement-Initiatives/Engagements/ERP-Distributed-Energy-Resources-Integration-Project
+  title: IESO DER Integration Project (background context; not a rate source)
+  notes: >
+    Residential demand-response participation via an aggregator is limited
+    to selected pilot programmes in Ontario as of this project's fixture
+    date; compensation amounts are illustrative placeholders (all $0),
+    not published rates. Do not treat as available in the default bundle.
+tax_treatment: unknown
+combinable_with_other_streams: true

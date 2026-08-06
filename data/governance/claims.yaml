@@ -1,0 +1,354 @@
+# Claims register.
+#
+# Every significant public claim this application makes (in a template, a
+# doc, or model-generated text) should have an entry here. See
+# GOVERNANCE.md and docs/ASSUMPTION-REVIEW.md for the review process.
+#
+# type must be one of:
+#   observed_fact | current_rule | historical_fact | modelled_estimate |
+#   projection | illustrative_scenario | normative_judgement | unsupported
+#
+# Claims with type "unsupported" must never be published (status must not
+# be "approved" for such a claim). A claim whose evidence has not yet been
+# independently verified against its cited source gets status
+# "needs_review", not "approved" - approval requires actual verification,
+# not just having a source_url on file.
+
+schema_version: "1.0"
+
+claims:
+  - id: claim-net-metering-credit-expiry
+    claim: >
+      Ontario net-metering credits may be carried forward for no more
+      than 12 months.
+    type: current_rule
+    jurisdiction: Ontario
+    source_url: https://www.oeb.ca/consumer-information-and-protection/net-metering
+    source_publisher: Ontario Energy Board
+    verified_at: 2026-08-01
+    review_due: 2027-02-01
+    confidence:
+      source_quality: high
+      local_applicability: high
+      temporal_stability: medium
+    status: approved
+    display_locations:
+      - web/templates/net_metering.html
+      - METHODOLOGY.md#5-ontario-net-metering-credit-ledger
+
+  - id: claim-net-metering-not-cash-payment
+    claim: >
+      Ontario net metering does not pay a household cash for exported
+      solar electricity; it creates a non-cash generation credit.
+    type: current_rule
+    jurisdiction: Ontario
+    source_url: https://www.ontario.ca/laws/regulation/050541
+    source_publisher: Government of Ontario (O. Reg. 541/05)
+    verified_at: 2026-08-01
+    review_due: 2027-02-01
+    confidence:
+      source_quality: high
+      local_applicability: high
+      temporal_stability: high
+    status: approved
+    display_locations:
+      - web/templates/net_metering.html
+      - MODEL_CARD.md
+
+  - id: claim-net-metering-eligible-charges
+    claim: >
+      Net-metering credits apply only to the eligible electricity-energy
+      charge on imported electricity, never to fixed delivery,
+      ineligible variable delivery, regulatory charges, or tax.
+    type: current_rule
+    jurisdiction: Ontario
+    source_url: https://www.oeb.ca/consumer-information-and-protection/net-metering
+    source_publisher: Ontario Energy Board
+    verified_at: 2026-08-01
+    review_due: 2026-11-01
+    confidence:
+      source_quality: medium
+      local_applicability: medium
+      temporal_stability: medium
+    status: needs_review
+    display_locations:
+      - web/templates/net_metering.html
+      - METHODOLOGY.md#5-ontario-net-metering-credit-ledger
+    notes: >
+      Derived from documentary review of OEB guidance and Ontario
+      Regulation 541/05, not confirmed against Hydro Ottawa's actual
+      billing system behaviour. See docs/RED-TEAM-REVIEW.md section 2.2.
+      Status intentionally kept at needs_review, not approved, until that
+      confirmation happens.
+
+  - id: claim-fixed-delivery-charge-always-applies
+    claim: >
+      Fixed delivery charges apply regardless of consumption, including
+      at zero net consumption after solar; solar never zeroes out the
+      fixed delivery charge.
+    type: current_rule
+    jurisdiction: Ontario
+    source_url: https://www.oeb.ca/open-data/current-electricity-rates-residential-rate-class
+    source_publisher: Ontario Energy Board
+    verified_at: 2026-08-01
+    review_due: 2027-02-01
+    confidence:
+      source_quality: high
+      local_applicability: high
+      temporal_stability: high
+    status: approved
+    display_locations:
+      - web/templates/current_costs.html
+      - METHODOLOGY.md#1-bill-reconstruction
+    notes: >
+      Also enforced structurally in code
+      (model/bill.py::_finish_bill), and directly tested in
+      tests/integration/test_reference_scenario_a_standard_household.py::test_fixed_charges_remain_when_consumption_reduced.
+
+  - id: claim-group-discount-eligible-components-only
+    claim: >
+      A group-purchase discount applies only to eligible installation
+      cost components (panels, inverter, racking, electrical equipment,
+      labour, installer overhead); it never automatically discounts
+      government fees, taxes, permitting, utility connection charges, or
+      financing.
+    type: modelled_estimate
+    jurisdiction: Ontario
+    source_url: null
+    source_publisher: null
+    verified_at: 2026-08-01
+    review_due: 2027-08-01
+    confidence:
+      source_quality: medium
+      local_applicability: medium
+      temporal_stability: medium
+    status: approved
+    display_locations:
+      - web/templates/net_metering.html
+      - MODEL_CARD.md
+    notes: >
+      This is a project design rule, not a regulatory requirement -
+      classified modelled_estimate rather than current_rule because it
+      describes how this tool's model works, not an external Ontario
+      rule. Enforced in code (model/financing.py::apply_group_discount,
+      model/collective_purchasing.py NEVER_DISCOUNTABLE).
+
+  - id: claim-ieso-demand-growth-2050
+    claim: >
+      The IESO's 2026 Annual Planning Outlook projects provincial system
+      demand growth to 2050 of approximately 38% (low), 65% (reference),
+      and 92% (high) scenarios.
+    type: projection
+    jurisdiction: Ontario
+    source_url: https://www.ieso.ca/-/media/Files/IESO/Document-Library/planning-forecasts/apo/2026/2026-Annual-Planning-Outlook.pdf
+    source_publisher: Independent Electricity System Operator
+    verified_at: 2026-08-02
+    review_due: 2026-10-01
+    confidence:
+      source_quality: medium
+      local_applicability: high
+      temporal_stability: low
+    status: needs_review
+    display_locations:
+      - assumptions/ontario.yaml
+      - web/templates/assumptions.html
+    notes: >
+      IMPORTANT: assumptions/ontario.yaml currently labels this same data
+      status: observed, which this register intentionally does NOT
+      match - the underlying figures have not been independently
+      confirmed against the published PDF (assumptions/ontario.yaml's own
+      notes field admits this). See docs/RED-TEAM-REVIEW.md section 2.1.
+      This claims-register entry is the accurate status; the source YAML
+      file's status label is flagged for correction in a future phase.
+
+  - id: claim-demand-growth-not-price-growth
+    claim: >
+      Provincial system demand growth is not converted into household
+      kWh consumption growth or retail electricity-price growth anywhere
+      in this model.
+    type: normative_judgement
+    jurisdiction: Ontario
+    source_url: null
+    source_publisher: null
+    verified_at: 2026-08-01
+    review_due: 2027-08-01
+    confidence:
+      source_quality: high
+      local_applicability: high
+      temporal_stability: high
+    status: approved
+    display_locations:
+      - METHODOLOGY.md#9-provincial-demand-scenarios-context-only
+      - MODEL_CARD.md
+    notes: >
+      This is a design commitment of this project, verified by
+      tests/integration/test_reference_scenario_f_electrification.py::test_provincial_demand_not_added_directly_to_household_kwh.
+
+  - id: claim-electricity-price-scenarios-not-forecasts
+    claim: >
+      The low/reference/high/stress electricity-price scenarios are
+      modelling assumptions set by project maintainers, not official
+      forecasts from the OEB, IESO, or any government body.
+    type: illustrative_scenario
+    jurisdiction: Ontario
+    source_url: null
+    source_publisher: null
+    verified_at: 2026-08-01
+    review_due: 2027-02-01
+    confidence:
+      source_quality: low
+      local_applicability: medium
+      temporal_stability: low
+    status: approved
+    display_locations:
+      - scenarios/low.yaml
+      - scenarios/reference.yaml
+      - scenarios/high.yaml
+      - scenarios/stress.yaml
+      - web/templates/assumptions.html
+
+  - id: claim-solar-cost-decline-scenarios-not-forecasts
+    claim: >
+      The flat/moderate/faster solar-cost-decline scenarios are
+      illustrative modelling assumptions, not forecasts, and are
+      deliberately not derived by applying global module-price decline
+      rates directly to complete Ontario installed cost.
+    type: illustrative_scenario
+    jurisdiction: Ontario
+    source_url: null
+    source_publisher: null
+    verified_at: 2026-08-01
+    review_due: 2027-02-01
+    confidence:
+      source_quality: low
+      local_applicability: low
+      temporal_stability: low
+    status: approved
+    display_locations:
+      - scenarios/solar-cost-decline/flat.yaml
+      - scenarios/solar-cost-decline/moderate.yaml
+      - scenarios/solar-cost-decline/faster.yaml
+      - METHODOLOGY.md#8-solar-cost-decline-scenarios
+
+  - id: claim-illustrative-quote-not-market-price
+    claim: >
+      The pre-populated $21,000 / 7.2 kW reference solar quote is not a
+      market price estimate; it is a placeholder used only when no user
+      quote or contributed quote data is available.
+    type: illustrative_scenario
+    jurisdiction: Ontario
+    source_url: null
+    source_publisher: null
+    verified_at: 2026-08-01
+    review_due: 2026-11-01
+    confidence:
+      source_quality: low
+      local_applicability: low
+      temporal_stability: low
+    status: needs_review
+    display_locations:
+      - web/templates/net_metering.html
+      - assumptions/solar.yaml
+    notes: >
+      Status kept at needs_review rather than approved because, per
+      docs/RED-TEAM-REVIEW.md section 1.1, this claim currently exists
+      only in the YAML file's own notes field and does not yet reach the
+      rendered form, where the value is pre-filled into a live input
+      without the caveat attached. The claim is true of the intended
+      design; the current template does not yet fully honour it.
+
+  - id: claim-no-interconnection-limit-check
+    claim: >
+      This tool does not check a distributor's export-capacity or
+      interconnection-approval limits; connection eligibility must be
+      confirmed directly with the distributor before purchasing a
+      system.
+    type: normative_judgement
+    jurisdiction: Ontario
+    source_url: null
+    source_publisher: null
+    verified_at: 2026-08-03
+    review_due: 2027-08-01
+    confidence:
+      source_quality: high
+      local_applicability: high
+      temporal_stability: high
+    status: approved
+    display_locations:
+      - MODEL_CARD.md
+    notes: >
+      New this phase (docs/RED-TEAM-REVIEW.md section 4.2). This is an
+      accurate statement of a current limitation, not yet mirrored
+      on-page in net_metering.html - tracked as deferred UI work.
+
+  - id: claim-comparison-table-scope
+    claim: >
+      The current live build's 20-year comparison table evaluates six
+      specific decisions (grid-only, buy-now, buy-now with 5% discount,
+      buy-now with 10% discount, wait 3 years, buy-now financed) - it
+      does not yet sweep the full "wait one to five years" range that
+      README.md describes.
+    type: observed_fact
+    jurisdiction: Ontario
+    source_url: null
+    source_publisher: null
+    verified_at: 2026-08-03
+    review_due: 2026-11-01
+    confidence:
+      source_quality: high
+      local_applicability: high
+      temporal_stability: low
+    status: approved
+    display_locations:
+      - docs/RED-TEAM-REVIEW.md
+    notes: >
+      This entry exists to make the documented-vs-actual gap identified
+      in docs/RED-TEAM-REVIEW.md section 8.5 trackable; it describes
+      current code behaviour (an observed_fact about this project, not
+      an Ontario energy-market fact), and should be updated or retired
+      once the full wait-1-to-5-years sweep is implemented.
+
+  - id: claim-no-emissions-model-exists
+    claim: >
+      This application does not currently model or claim any
+      environmental or emissions benefit from solar, battery, or EV
+      adoption.
+    type: observed_fact
+    jurisdiction: Ontario
+    source_url: null
+    source_publisher: null
+    verified_at: 2026-08-03
+    review_due: 2027-08-01
+    confidence:
+      source_quality: high
+      local_applicability: high
+      temporal_stability: medium
+    status: approved
+    display_locations:
+      - MODEL_CARD.md
+      - docs/ENVIRONMENTAL-CLAIMS-POLICY.md
+    notes: >
+      This entry should be retired or rewritten the moment an emissions
+      module is added - it exists specifically to make the current
+      absence explicit and auditable rather than silently assumed.
+
+  - id: claim-application-not-financial-advice
+    claim: >
+      This application is not financial advice, not a contractor quote,
+      not legal advice, not an engineering assessment, and does not
+      guarantee programme eligibility or grid connection.
+    type: normative_judgement
+    jurisdiction: Ontario
+    source_url: null
+    source_publisher: null
+    verified_at: 2026-08-03
+    review_due: 2027-08-01
+    confidence:
+      source_quality: high
+      local_applicability: high
+      temporal_stability: high
+    status: approved
+    display_locations:
+      - web/templates/about.html
+      - MODEL_CARD.md
+      - README.md

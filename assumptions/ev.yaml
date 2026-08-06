@@ -1,0 +1,56 @@
+# Electric-vehicle battery scenario defaults: managed charging, vehicle-to-
+# home (V2H), and vehicle-to-grid (V2G). See METHODOLOGY.md section 20 and
+# model/ev_dispatch.py.
+#
+# Only incremental costs required for managed charging/V2H/V2G are modelled
+# - never the full vehicle purchase price, which is a transportation
+# decision, not an energy-system investment.
+
+status: estimate
+
+illustrative_reference_vehicle:
+  battery_capacity_kwh: 75.0
+  minimum_departure_charge_kwh: 30.0
+  driving_energy_kwh_per_day: 12.0
+  arrival_hour: 18
+  departure_hour: 7
+  days_present_per_week: 5
+  charger_power_kw: 7.2
+  manufacturer_warranty_cycles: 1500
+  export_capability: false  # true only for a bidirectional-capable vehicle
+
+modes:
+  - id: managed_charging
+    label: Managed charging
+    description: >
+      Vehicle charges during lower-cost or lower-demand periods; does not
+      export.
+    requires_bidirectional_charger: false
+  - id: vehicle_to_home
+    label: Vehicle-to-home
+    description: >
+      Vehicle can power household loads during an outage or expensive
+      period. Does not export to the grid.
+    requires_bidirectional_charger: true
+  - id: vehicle_to_grid
+    label: Vehicle-to-grid
+    description: >
+      Vehicle can export electricity or provide grid services, subject to
+      programme eligibility and manufacturer warranty terms.
+    requires_bidirectional_charger: true
+
+incremental_costs:
+  bidirectional_charger_hardware_cad: 4500
+  bidirectional_charger_installation_cad: 2000
+  # Explicitly excludes the vehicle purchase price itself.
+
+maximum_grid_service_cycles_per_year_default: 260
+
+notes: >
+  Vehicle availability (arrival/departure/days-present) determines which
+  hours are eligible for grid-service dispatch; driving energy requirement
+  and minimum departure charge are always reserved first. A vehicle away
+  from home cannot dispatch. These are illustrative household-level
+  defaults editable per user; actual manufacturer warranty terms for
+  vehicle-to-grid cycling vary widely and should be verified per vehicle
+  model before relying on this for a real decision.

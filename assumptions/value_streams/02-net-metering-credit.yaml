@@ -1,0 +1,45 @@
+id: ontario-net-metering-credit
+name: Ontario net-metering credit
+category: energy_savings
+status:
+  type: current
+  verified_at: 2026-08-01
+  accepting_new_participants: true
+eligibility:
+  jurisdiction: Ontario
+  residential: true
+  aggregator_required: false
+  solar_required: true
+  battery_required: false
+  bidirectional_ev_allowed: false
+  minimum_export_kw: null
+  minimum_usable_kwh: null
+compensation:
+  enrollment_cad: 0
+  availability_cad_per_kw_month: 0
+  dispatch_cad_per_kwh: null
+  annual_bonus_cad: 0
+costs:
+  aggregator_share_percent: 0
+  annual_fee_cad: 0
+  estimated_degradation_cad_per_kwh: 0
+events: null
+customer_constraints: null
+stacking:
+  net_metering: self
+  dynamic_export: prohibited
+  capacity_payment: unknown
+  local_flexibility: unknown
+  notes: >
+    Exported solar receives a non-cash generation credit (see
+    model/net_metering.py) - it cannot also receive a separate dynamic
+    export payment under current Ontario rules. Credit is applied only to
+    eligible electricity-energy charges and expires 12 months after
+    creation if unused.
+source:
+  type: official
+  url: https://www.oeb.ca/consumer-information-and-protection/net-metering
+  title: Ontario Energy Board - Net metering
+  notes: See also https://www.ontario.ca/laws/regulation/050541
+tax_treatment: not_taxable_income
+combinable_with_other_streams: false

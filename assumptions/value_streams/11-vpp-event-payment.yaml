@@ -1,0 +1,49 @@
+id: vpp-event-payment
+name: Illustrative VPP event payment
+category: grid_service
+status:
+  type: illustrative_scenario
+  verified_at: 2026-08-01
+  accepting_new_participants: false
+eligibility:
+  jurisdiction: Ontario
+  residential: true
+  aggregator_required: true
+  solar_required: false
+  battery_required: true
+  bidirectional_ev_allowed: true
+  minimum_export_kw: 5
+  minimum_usable_kwh: 10
+compensation:
+  enrollment_cad: 0
+  availability_cad_per_kw_month: 0
+  dispatch_cad_per_kwh: 0.35
+  annual_bonus_cad: 0
+costs:
+  aggregator_share_percent: 20
+  annual_fee_cad: 0
+  estimated_degradation_cad_per_kwh: 0.04
+events:
+  expected_events_per_year: 20
+  maximum_events_per_year: 30
+  event_duration_hours: 3
+  minimum_notice_minutes: 15
+customer_constraints:
+  minimum_backup_reserve_percent: 30
+  maximum_cycles_per_day: 1
+  opt_out_events_per_year: 3
+stacking:
+  net_metering: unknown
+  dynamic_export: prohibited
+  capacity_payment: allowed
+  local_flexibility: unknown
+source:
+  type: illustrative
+  url: null
+  title: null
+  notes: >
+    Matches the illustrative schema example in this project's brief. Not a
+    real programme - a labelled hypothetical for the "Ontario VPP future"
+    scenario bundle only. Must never be included in a default result.
+tax_treatment: unknown
+combinable_with_other_streams: true

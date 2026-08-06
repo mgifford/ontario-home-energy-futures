@@ -1,0 +1,92 @@
+# Per-component technology-cost-decline scenarios.
+#
+# Modelled separately from model/decline.py's single blended-quote decline
+# (used by Phase 1 pages) because global module-price declines do not apply
+# uniformly to labour, permitting, or connection costs. See METHODOLOGY.md
+# section 17 and the project brief's "Technology-cost decline" section.
+#
+# These are illustrative scenario values, not forecasts. Editable per
+# component and per scenario tier.
+
+status: scenario
+created_at: 2026-08-02
+
+components:
+  - id: complete_installed_solar
+    label: Complete installed solar
+    low_decline_real: 0.00
+    reference_decline_real: 0.02
+    faster_decline_real: 0.04
+
+  - id: home_battery_hardware
+    label: Home battery hardware
+    low_decline_real: 0.02
+    reference_decline_real: 0.05
+    faster_decline_real: 0.08
+
+  - id: ontario_installation_labour
+    label: Ontario installation labour
+    low_decline_real: 0.00
+    reference_decline_real: 0.00
+    faster_decline_real: 0.01
+
+  - id: permitting_and_connection
+    label: Permitting and connection
+    low_decline_real: 0.00
+    reference_decline_real: 0.00
+    faster_decline_real: 0.02
+
+  - id: bidirectional_charger
+    label: Bidirectional charger
+    low_decline_real: 0.00
+    reference_decline_real: 0.04
+    faster_decline_real: 0.08
+
+  - id: solar_modules
+    label: Solar modules
+    low_decline_real: 0.01
+    reference_decline_real: 0.05
+    faster_decline_real: 0.09
+
+  - id: inverters
+    label: Inverters
+    low_decline_real: 0.00
+    reference_decline_real: 0.03
+    faster_decline_real: 0.06
+
+  - id: racking_and_balance_of_system
+    label: Racking and balance of system
+    low_decline_real: 0.00
+    reference_decline_real: 0.01
+    faster_decline_real: 0.03
+
+  - id: design
+    label: Design
+    low_decline_real: 0.00
+    reference_decline_real: 0.00
+    faster_decline_real: 0.01
+
+  - id: customer_acquisition
+    label: Customer acquisition
+    low_decline_real: 0.00
+    reference_decline_real: 0.02
+    faster_decline_real: 0.05
+
+  - id: installer_overhead
+    label: Installer overhead
+    low_decline_real: 0.00
+    reference_decline_real: 0.00
+    faster_decline_real: 0.01
+
+  - id: financing
+    label: Financing
+    low_decline_real: 0.00
+    reference_decline_real: 0.00
+    faster_decline_real: 0.00
+
+notes: >
+  These illustrative scenario values are set by project maintainers, not
+  official forecasts. Do not apply the "complete_installed_solar" or
+  "solar_modules" decline rate to any other component - each component
+  declines independently per the project's technology-cost-decline
+  requirement.

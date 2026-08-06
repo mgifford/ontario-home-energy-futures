@@ -1,0 +1,48 @@
+id: v2h-avoided-outage-cost
+name: Vehicle-to-home avoided outage or generator cost
+category: energy_savings
+status:
+  type: illustrative_scenario
+  verified_at: 2026-08-01
+  accepting_new_participants: false
+eligibility:
+  jurisdiction: Ontario
+  residential: true
+  aggregator_required: false
+  solar_required: false
+  battery_required: false
+  bidirectional_ev_allowed: true
+  minimum_export_kw: null
+  minimum_usable_kwh: null
+compensation:
+  enrollment_cad: 0
+  availability_cad_per_kw_month: 0
+  dispatch_cad_per_kwh: 0
+  annual_bonus_cad: 0
+costs:
+  aggregator_share_percent: 0
+  annual_fee_cad: 0
+  estimated_degradation_cad_per_kwh: 0
+events: null
+customer_constraints:
+  minimum_backup_reserve_percent: 0
+  maximum_cycles_per_day: 1
+  opt_out_events_per_year: null
+stacking:
+  net_metering: allowed
+  dynamic_export: allowed
+  capacity_payment: allowed
+  local_flexibility: allowed
+  notes: >
+    Like avoided-generator-cost, this is a conditional resilience
+    comparison, not automatic revenue - it requires explicit user opt-in
+    (comparing V2H against a generator purchase the household would
+    otherwise make) and is never included by default. Bidirectional
+    charger commercial availability is limited; this is illustrative.
+source:
+  type: illustrative
+  url: null
+  title: null
+  notes: Only available when the EV is present (see model/ev_dispatch.py availability constraint).
+tax_treatment: not_applicable_not_income
+combinable_with_other_streams: true
