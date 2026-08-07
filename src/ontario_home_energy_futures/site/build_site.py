@@ -14,8 +14,11 @@ from pathlib import Path
 
 from jinja2 import Environment, FileSystemLoader, select_autoescape
 
+from ..model.collective_purchasing import apply_collective_purchase
+from ..model.cost_of_inaction import DecisionCostInputs, calculate_cost_of_inaction
 from ..model.financing import QuoteComponents, amortize_loan
 from ..model.scenario import DeclineScenario, PriceScenario, evaluate_grid_only, evaluate_solar_purchase
+from ..model.value_streams import ValueStreamStatus, filter_by_status
 from ..model.waiting import find_breakeven_decline_rate, format_breakeven_statement
 from .context import SiteData, cad, pct
 
@@ -138,6 +141,9 @@ def _build_comparison_rows(data: SiteData, *, household_kwh: int = 700, horizon_
         breakeven_rate=breakeven, wait_years=3, wait_until_year=2029, buy_now_year=2026
     )
 
+    cost_of_inaction_rows = _build_cost_of_inaction_rows([grid_only, buy_now, wait_3yr])
+    collective_purchasing_rows = _build_collective_purchasing_rows(data, base_quote=base_quote, tax_rate=data.ontario["hst_rate"])
+
     return {
         "rows": rows,
         "caption": f"20-year comparison, {household_kwh} kWh/month household, reference price scenario, flat solar-cost-decline scenario",
@@ -148,6 +154,163 @@ def _build_comparison_rows(data: SiteData, *, household_kwh: int = 700, horizon_
         "household_profile_kwh": household_kwh,
         "price_scenario_label": "Reference",
         "decline_scenario_label": "Flat",
+        "cost_of_inaction_rows": cost_of_inaction_rows,
+        "collective_purchasing_rows": collective_purchasing_rows,
+    }
+
+
+def _build_cost_of_inaction_rows(decisions: list) -> list[dict]:
+    """Itemized cost-of-inaction breakdown for grid-only / buy-now / wait-N,
+    using model/cost_of_inaction.py against the SAME DecisionResult objects
+    already computed above - no new cash-flow math, and never assumes "buy
+    now" is the cheapest (the underlying calculate_cost_of_inaction finds
+    the minimum empirically; see that module's docstring and
+    tests/unit/test_cost_of_inaction.py).
+
+    Phase 1's DecisionResult does not track incentives, grid-service
+    revenue, or residual value (those are Phase 2 concepts - see
+    model/scenario_v2.py), so those inputs are 0.0 here, which accurately
+    reflects what Phase 1 computes rather than standing in as a
+    placeholder for a number that exists elsewhere.
+    """
+    inputs = [
+        DecisionCostInputs(
+            label=d.label,
+            total_nominal_cad=d.total_nominal_cad,
+            total_present_value_cad=d.total_present_value_cad,
+            grid_imports_kwh=d.total_grid_imports_kwh,
+            solar_generation_kwh=d.total_solar_generation_kwh,
+            incentives_received_cad=0.0,
+            grid_service_revenue_cad=0.0,
+            residual_value_cad=0.0,
+        )
+        for d in decisions
+    ]
+    breakdowns = calculate_cost_of_inaction(inputs)
+
+    rows = []
+    for d in decisions:
+        b = breakdowns[d.label]
+        rows.append(
+            {
+                "label": b.decision_label,
+                "additional_nominal_cost": cad(b.additional_nominal_cost_cad),
+                "additional_present_value": cad(b.additional_present_value_cad),
+                "grid_purchased_while_waiting_kwh": f"{b.grid_electricity_purchased_while_waiting_kwh:,.0f}",
+                "solar_forgone_kwh": f"{b.solar_generation_forgone_kwh:,.0f}",
+                "incentives_forgone": cad(b.current_incentives_forgone_cad),
+                "revenue_forgone": cad(b.currently_available_revenue_forgone_cad),
+                "residual_value_difference": cad(b.residual_value_difference_cad),
+                "emissions_note": b.emissions_consequence_note,
+            }
+        )
+    return rows
+
+
+def _build_collective_purchasing_rows(data: SiteData, *, base_quote: QuoteComponents, tax_rate: float) -> list[dict]:
+    """Real household-count-tier collective-purchasing comparison using
+    model/collective_purchasing.py, replacing the arbitrary 0-20%
+    discount slider with the actual tiered model
+    (assumptions/collective_purchasing.yaml): individual / 5 / 10 / 20
+    households, each with its own per-component reduction percentages and
+    an overall discount cap.
+    """
+    base_costs_by_component = {
+        "hardware": base_quote.panels + base_quote.inverter + base_quote.racking + base_quote.electrical_equipment,
+        "labour": base_quote.labour,
+        "design": base_quote.design_and_engineering,
+        "permitting": base_quote.permitting,
+        "customer_acquisition": base_quote.installer_overhead,
+        "financing_fees": 0.0,
+    }
+
+    rows = []
+    for tier_id in ("individual", "group_5", "group_10", "group_20"):
+        tier = data.collective_tiers[tier_id]
+        result = apply_collective_purchase(tier=tier, base_costs_by_component=base_costs_by_component)
+        total_with_tax = result.total_reduced_cost * (1 + tax_rate)
+        rows.append(
+            {
+                "label": tier.label,
+                "households": tier.households,
+                "initial_cost": cad(total_with_tax),
+                "one_time_savings": cad(result.total_reduction_cad),
+                "effective_discount_pct": f"{result.effective_discount_percent:.1f}%",
+                "capped": result.capped,
+            }
+        )
+    return rows
+
+
+_CURRENT_STATUSES = {ValueStreamStatus.CURRENT}
+_NOT_CURRENTLY_AVAILABLE_STATUSES = {
+    ValueStreamStatus.PILOT,
+    ValueStreamStatus.PROPOSED,
+    ValueStreamStatus.DEMONSTRATED_ELSEWHERE,
+    ValueStreamStatus.ILLUSTRATIVE_SCENARIO,
+    ValueStreamStatus.CLOSED,
+}
+
+_STATUS_LABELS = {
+    ValueStreamStatus.CURRENT: "Current",
+    ValueStreamStatus.CLOSED: "Closed to new participants",
+    ValueStreamStatus.PILOT: "Pilot",
+    ValueStreamStatus.PROPOSED: "Proposed",
+    ValueStreamStatus.DEMONSTRATED_ELSEWHERE: "Demonstrated elsewhere",
+    ValueStreamStatus.ILLUSTRATIVE_SCENARIO: "Illustrative scenario",
+}
+
+
+_SOURCE_TYPE_FALLBACK = {
+    "model": "Calculated by this tool's model, not an external published rate",
+    "illustrative": "Illustrative example value, not a published rate",
+}
+
+
+def _value_stream_row(stream) -> dict:
+    return {
+        "id": stream.id,
+        "name": stream.name,
+        "category": stream.category.replace("_", " "),
+        "status_label": _STATUS_LABELS.get(stream.status, stream.status.value),
+        "verified_at": stream.verified_at,
+        "eligibility_summary": (
+            ("aggregator required, " if stream.eligibility.aggregator_required else "")
+            + ("solar required, " if stream.eligibility.solar_required else "")
+            + ("battery required, " if stream.eligibility.battery_required else "")
+            + ("bidirectional EV allowed" if stream.eligibility.bidirectional_ev_allowed else "")
+        ).strip(", ") or "no special equipment required",
+        "combinable": "Yes" if stream.combinable_with_other_streams else "No",
+        "source_type": stream.source.type,
+        "source_url": stream.source.url,
+        "source_title": stream.source.title or stream.source.url or _SOURCE_TYPE_FALLBACK.get(
+            stream.source.type, "See methodology"
+        ),
+    }
+
+
+def _build_value_streams_context(data: SiteData) -> dict:
+    """Context for value-streams.html: every value stream from
+    assumptions/value_streams/*.yaml, grouped by availability status so
+    the project's own governance commitment (only `current`-status
+    streams appear in a default result - see MODEL_CARD.md) is visible
+    and checkable on the site itself, not just true in code. Streams with
+    status `unsupported` are excluded entirely, per
+    model/value_streams.py::ValueStreamStatus semantics - none currently
+    exist in the fixture set (see tests/unit/test_value_streams.py), but
+    this filter is applied explicitly rather than relied upon by omission.
+    """
+    all_streams = list(data.value_streams.values())
+    current_streams = [s for s in all_streams if s.status in _CURRENT_STATUSES]
+    not_available_streams = [s for s in all_streams if s.status in _NOT_CURRENTLY_AVAILABLE_STATUSES]
+
+    return {
+        "current_value_stream_rows": [_value_stream_row(s) for s in sorted(current_streams, key=lambda s: s.name)],
+        "not_available_value_stream_rows": [
+            _value_stream_row(s) for s in sorted(not_available_streams, key=lambda s: s.name)
+        ],
+        "total_stream_count": len(all_streams),
+        "current_stream_count": len(current_streams),
     }
 
 
@@ -303,6 +466,10 @@ def build_site(repo_root: Path, output_dir: Path) -> Path:
         },
         "accessibility.html": {**base_ctx},
         "about.html": {**base_ctx},
+        "value-streams.html": {
+            **base_ctx,
+            **_build_value_streams_context(data),
+        },
     }
 
     template_name_map = {
@@ -318,6 +485,7 @@ def build_site(repo_root: Path, output_dir: Path) -> Path:
         "download.html": "download.html",
         "accessibility.html": "accessibility.html",
         "about.html": "about.html",
+        "value-streams.html": "value_streams.html",
     }
 
     for output_name, ctx in pages.items():
@@ -326,8 +494,103 @@ def build_site(repo_root: Path, output_dir: Path) -> Path:
         (output_dir / output_name).write_text(rendered, encoding="utf-8")
 
     _write_scenario_downloads(data, data_out)
+    _write_calculator_data(data, data_out)
 
     return output_dir
+
+
+def _write_calculator_data(data: SiteData, data_out: Path) -> None:
+    """Emit the assumption values the client-side calculator
+    (web/static/calculator.js) needs, generated from the SAME YAML-loading
+    code (SiteData) the server-rendered pages use - one place these
+    numbers are read from disk, avoiding a second hardcoded copy drifting
+    from assumptions/*.yaml. See docs/RED-TEAM-REVIEW.md and the
+    interactive-dashboard plan for why this exists.
+    """
+    rates = {
+        "fixedDeliveryPerDay": data.rate_structure.fixed_delivery_charge_cad_per_day,
+        "variableDeliveryPerKwh": data.rate_structure.variable_delivery_charge_cad_per_kwh,
+        "regulatoryPerKwh": data.rate_structure.regulatory_charge_cad_per_kwh,
+        "rebatePerKwh": data.rate_structure.rebate_cad_per_kwh,
+        "hstRate": data.rate_structure.hst_rate,
+        "tou": dict(data.rate_structure.tou_rates_cad_per_kwh),
+    }
+    (data_out / "rates.json").write_text(json.dumps(rates, indent=2), encoding="utf-8")
+
+    scenarios_full = {
+        "price": {
+            s["label"].lower(): {
+                "id": s["id"],
+                "label": s["label"],
+                "electricityEnergyReal": s["annual_changes"]["electricity_energy_real"],
+                "fixedDeliveryReal": s["annual_changes"]["fixed_delivery_real"],
+                "variableDeliveryReal": s["annual_changes"]["variable_delivery_real"],
+                "generalInflation": s["annual_changes"]["general_inflation"],
+            }
+            for s in data.price_scenarios
+        },
+        "decline": {
+            s["label"].lower().replace(" ", "-"): {
+                "id": s["label"].lower().replace(" ", "-"),
+                "label": s["label"],
+                "realAnnualInstalledCostChange": s["real_annual_installed_cost_change"],
+            }
+            for s in data.decline_scenarios
+        },
+    }
+    (data_out / "scenarios-full.json").write_text(json.dumps(scenarios_full, indent=2), encoding="utf-8")
+
+    quote_shares = {
+        k: v for k, v in data.solar["cost_components"].items()
+        if k not in ("status",)
+    }
+    defaults = {
+        "solar": {
+            "referenceQuoteCad": data.solar["illustrative_reference_quote"]["installed_price_before_tax_cad"],
+            "referenceSystemKwDc": data.solar["illustrative_reference_quote"]["system_kw_dc"],
+            "costComponentShares": quote_shares,
+            "degradationAnnual": data.solar["production"]["degradation_annual_default"],
+            "annualMaintenanceCad": data.solar["maintenance"]["annual_maintenance_cad_default"],
+            "inverterReplacementYear": data.solar["maintenance"]["inverter_replacement_year_default"],
+            "inverterReplacementCostCad": data.solar["maintenance"]["inverter_replacement_cost_cad_default"],
+        },
+        "financing": {
+            "defaultDownPaymentFraction": data.financing["loan"]["default_down_payment_fraction"],
+            "defaultAnnualInterestRate": data.financing["loan"]["default_annual_interest_rate"],
+            "defaultTermYears": data.financing["loan"]["default_term_years"],
+        },
+        "ontario": {
+            "hstRate": data.ontario["hst_rate"],
+            "discountRateDefault": data.ontario["discount_rate_default"],
+            "planningHorizonsYears": data.ontario["planning_horizons_years"],
+            "defaultPlanningHorizonYears": data.ontario["default_planning_horizon_years"],
+        },
+        "billShares": {
+            # Matches the fixed/variable/energy split used in
+            # build_site.py's _build_comparison_rows server-side, kept
+            # here so the JS port uses the same split rather than a
+            # second guessed value.
+            "fixedShare": 0.30,
+            "variableShare": 0.15,
+            "energyShare": 0.55,
+        },
+        "collectiveTiers": [
+            {
+                "id": tier.id,
+                "label": tier.label,
+                "households": tier.households,
+                "reductions": dict(tier.reductions),
+                "overallDiscountCapPercent": tier.overall_discount_cap_percent,
+            }
+            for tier in (
+                data.collective_tiers["individual"],
+                data.collective_tiers["group_5"],
+                data.collective_tiers["group_10"],
+                data.collective_tiers["group_20"],
+            )
+        ],
+    }
+    (data_out / "assumption-defaults.json").write_text(json.dumps(defaults, indent=2), encoding="utf-8")
 
 
 def _write_scenario_downloads(data: SiteData, data_out: Path) -> None:

@@ -1,0 +1,118 @@
+{% extends "base.html" %}
+{% block title %}Value streams — Ontario Home Energy Futures{% endblock %}
+{% block content %}
+<h1>Value streams</h1>
+<p class="page-intro">
+  Every financial benefit a household could receive from solar, a battery,
+  or an EV is listed here, with its current availability status. Only
+  {{ current_stream_count }} of {{ total_stream_count }} value streams are
+  currently available to Ontario households — the rest are pilots,
+  proposals, or illustrative future scenarios, and none of them appear in
+  this tool's default results.
+</p>
+
+<div class="callout callout--warning">
+  <p>
+    <strong>Only "Current" streams are used by default.</strong>
+    Every result shown by default on this site uses only the value streams
+    listed under "Currently available in Ontario" below. Anything listed
+    under "Not currently available" would need a programme that does not
+    yet exist for an Ontario household, and any result that depends on one
+    says so explicitly. See <a href="{{ asset_prefix }}about.html">About and limitations</a>.
+  </p>
+</div>
+
+<h2>Currently available in Ontario</h2>
+<div class="table-scroll" tabindex="0">
+<table>
+  <caption>Value streams available to Ontario households today</caption>
+  <thead>
+    <tr>
+      <th scope="col">Name</th>
+      <th scope="col">Category</th>
+      <th scope="col">Requires</th>
+      <th scope="col">Can combine with others</th>
+      <th scope="col">Source</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for row in current_value_stream_rows %}
+    <tr>
+      <th scope="row">{{ row.name }}</th>
+      <td>{{ row.category }}</td>
+      <td>{{ row.eligibility_summary }}</td>
+      <td>{{ row.combinable }}</td>
+      <td>
+        {% if row.source_url %}<a href="{{ row.source_url }}">{{ row.source_title }}</a>{% else %}{{ row.source_title }}{% endif %}
+      </td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+</div>
+
+<h2>Not currently available</h2>
+<p class="page-intro">
+  These are pilots, proposals, programmes operating outside Ontario, or
+  illustrative future scenarios — not available to Ontario households
+  today. They are shown here for transparency about what this tool
+  <em>could</em> model in a future scenario, never as part of a default
+  result. See <a href="{{ asset_prefix }}methodology.html">Methodology</a>
+  for how status labels are used.
+</p>
+<div class="table-scroll" tabindex="0">
+<table>
+  <caption>Value streams not currently available in Ontario, by status</caption>
+  <thead>
+    <tr>
+      <th scope="col">Name</th>
+      <th scope="col">Status</th>
+      <th scope="col">Category</th>
+      <th scope="col">Requires</th>
+      <th scope="col">Source</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for row in not_available_value_stream_rows %}
+    <tr>
+      <th scope="row">{{ row.name }}</th>
+      <td>{{ row.status_label }}</td>
+      <td>{{ row.category }}</td>
+      <td>{{ row.eligibility_summary }}</td>
+      <td>
+        {% if row.source_url %}<a href="{{ row.source_url }}">{{ row.source_title }}</a>{% else %}{{ row.source_title }}{% endif %}
+      </td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+</div>
+
+<h2>Status definitions</h2>
+<dl>
+  <dt>Current</dt>
+  <dd>Available to eligible Ontario households today.</dd>
+  <dt>Closed to new participants</dt>
+  <dd>Existing contracts may continue, but new participants cannot join.</dd>
+  <dt>Pilot</dt>
+  <dd>Limited to selected participants, locations, or equipment.</dd>
+  <dt>Proposed</dt>
+  <dd>Under formal Ontario consideration but not generally available.</dd>
+  <dt>Demonstrated elsewhere</dt>
+  <dd>Operating outside Ontario, not (yet) available here.</dd>
+  <dt>Illustrative scenario</dt>
+  <dd>A user-defined hypothetical future, not a real programme.</dd>
+</dl>
+
+<h2>Preventing double counting</h2>
+<p class="page-intro">
+  The same electricity or grid service is never compensated twice unless a
+  programme's rules expressly permit it. For example, solar used directly
+  in the home cannot also be exported and receive a net-metering credit —
+  these are mutually exclusive fates for the same kWh. Every such rule is
+  recorded in a machine-readable compatibility matrix and enforced in code,
+  not left to chance. See
+  <code>assumptions/value_stream_compatibility.yaml</code> and
+  <a href="{{ asset_prefix }}methodology.html">Methodology</a>.
+</p>
+{% endblock %}

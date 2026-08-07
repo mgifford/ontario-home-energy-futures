@@ -1,0 +1,1592 @@
+{
+  "scenario_cases": [
+    {
+      "name": "grid_only_reference_20yr",
+      "function": "evaluate_grid_only",
+      "inputs": {
+        "base_annual_bill_cad": 8400.0,
+        "price_scenario": "reference",
+        "horizon_years": 20,
+        "discount_rate": 0.04,
+        "fixed_share": 0.3,
+        "variable_share": 0.15,
+        "energy_share": 0.55
+      },
+      "expected": {
+        "label": "Grid only",
+        "purchase_year_offset": -1,
+        "initial_cost_cad": 0.0,
+        "financing_interest_cad": 0.0,
+        "group_discount_cad": 0.0,
+        "total_nominal_cad": 240334.22,
+        "total_present_value_cad": 162189.8,
+        "simple_payback_years": null,
+        "annual_cash_flows": [
+          {
+            "year": 0,
+            "grid_bill_nominal_cad": 8400.0,
+            "solar_maintenance_nominal_cad": 0.0,
+            "financing_payment_nominal_cad": 0.0,
+            "credits_used_nominal_cad": 0.0,
+            "total_nominal_cad": 8400.0,
+            "total_present_value_cad": 8400.0
+          },
+          {
+            "year": 1,
+            "grid_bill_nominal_cad": 8702.95,
+            "solar_maintenance_nominal_cad": 0.0,
+            "financing_payment_nominal_cad": 0.0,
+            "credits_used_nominal_cad": 0.0,
+            "total_nominal_cad": 8702.95,
+            "total_present_value_cad": 8368.22
+          },
+          {
+            "year": 2,
+            "grid_bill_nominal_cad": 9016.91,
+            "solar_maintenance_nominal_cad": 0.0,
+            "financing_payment_nominal_cad": 0.0,
+            "credits_used_nominal_cad": 0.0,
+            "total_nominal_cad": 9016.91,
+            "total_present_value_cad": 8336.64
+          },
+          {
+            "year": 3,
+            "grid_bill_nominal_cad": 9342.3,
+            "solar_maintenance_nominal_cad": 0.0,
+            "financing_payment_nominal_cad": 0.0,
+            "credits_used_nominal_cad": 0.0,
+            "total_nominal_cad": 9342.3,
+            "total_present_value_cad": 8305.27
+          },
+          {
+            "year": 4,
+            "grid_bill_nominal_cad": 9679.53,
+            "solar_maintenance_nominal_cad": 0.0,
+            "financing_payment_nominal_cad": 0.0,
+            "credits_used_nominal_cad": 0.0,
+            "total_nominal_cad": 9679.53,
+            "total_present_value_cad": 8274.1
+          },
+          {
+            "year": 5,
+            "grid_bill_nominal_cad": 10029.04,
+            "solar_maintenance_nominal_cad": 0.0,
+            "financing_payment_nominal_cad": 0.0,
+            "credits_used_nominal_cad": 0.0,
+            "total_nominal_cad": 10029.04,
+            "total_present_value_cad": 8243.14
+          },
+          {
+            "year": 6,
+            "grid_bill_nominal_cad": 10391.27,
+            "solar_maintenance_nominal_cad": 0.0,
+            "financing_payment_nominal_cad": 0.0,
+            "credits_used_nominal_cad": 0.0,
+            "total_nominal_cad": 10391.27,
+            "total_present_value_cad": 8212.37
+          },
+          {
+            "year": 7,
+            "grid_bill_nominal_cad": 10766.7,
+            "solar_maintenance_nominal_cad": 0.0,
+            "financing_payment_nominal_cad": 0.0,
+            "credits_used_nominal_cad": 0.0,
+            "total_nominal_cad": 10766.7,
+            "total_present_value_cad": 8181.81
+          },
+          {
+            "year": 8,
+            "grid_bill_nominal_cad": 11155.81,
+            "solar_maintenance_nominal_cad": 0.0,
+            "financing_payment_nominal_cad": 0.0,
+            "credits_used_nominal_cad": 0.0,
+            "total_nominal_cad": 11155.81,
+            "total_present_value_cad": 8151.44
+          },
+          {
+            "year": 9,
+            "grid_bill_nominal_cad": 11559.1,
+            "solar_maintenance_nominal_cad": 0.0,
+            "financing_payment_nominal_cad": 0.0,
+            "credits_used_nominal_cad": 0.0,
+            "total_nominal_cad": 11559.1,
+            "total_present_value_cad": 8121.27
+          },
+          {
+            "year": 10,
+            "grid_bill_nominal_cad": 11977.09,
+            "solar_maintenance_nominal_cad": 0.0,
+            "financing_payment_nominal_cad": 0.0,
+            "credits_used_nominal_cad": 0.0,
+            "total_nominal_cad": 11977.09,
+            "total_present_value_cad": 8091.29
+          },
+          {
+            "year": 11,
+            "grid_bill_nominal_cad": 12410.33,
+            "solar_maintenance_nominal_cad": 0.0,
+            "financing_payment_nominal_cad": 0.0,
+            "credits_used_nominal_cad": 0.0,
+            "total_nominal_cad": 12410.33,
+            "total_present_value_cad": 8061.51
+          },
+          {
+            "year": 12,
+            "grid_bill_nominal_cad": 12859.37,
+            "solar_maintenance_nominal_cad": 0.0,
+            "financing_payment_nominal_cad": 0.0,
+            "credits_used_nominal_cad": 0.0,
+            "total_nominal_cad": 12859.37,
+            "total_present_value_cad": 8031.92
+          },
+          {
+            "year": 13,
+            "grid_bill_nominal_cad": 13324.79,
+            "solar_maintenance_nominal_cad": 0.0,
+            "financing_payment_nominal_cad": 0.0,
+            "credits_used_nominal_cad": 0.0,
+            "total_nominal_cad": 13324.79,
+            "total_present_value_cad": 8002.52
+          },
+          {
+            "year": 14,
+            "grid_bill_nominal_cad": 13807.2,
+            "solar_maintenance_nominal_cad": 0.0,
+            "financing_payment_nominal_cad": 0.0,
+            "credits_used_nominal_cad": 0.0,
+            "total_nominal_cad": 13807.2,
+            "total_present_value_cad": 7973.31
+          },
+          {
+            "year": 15,
+            "grid_bill_nominal_cad": 14307.23,
+            "solar_maintenance_nominal_cad": 0.0,
+            "financing_payment_nominal_cad": 0.0,
+            "credits_used_nominal_cad": 0.0,
+            "total_nominal_cad": 14307.23,
+            "total_present_value_cad": 7944.3
+          },
+          {
+            "year": 16,
+            "grid_bill_nominal_cad": 14825.51,
+            "solar_maintenance_nominal_cad": 0.0,
+            "financing_payment_nominal_cad": 0.0,
+            "credits_used_nominal_cad": 0.0,
+            "total_nominal_cad": 14825.51,
+            "total_present_value_cad": 7915.46
+          },
+          {
+            "year": 17,
+            "grid_bill_nominal_cad": 15362.73,
+            "solar_maintenance_nominal_cad": 0.0,
+            "financing_payment_nominal_cad": 0.0,
+            "credits_used_nominal_cad": 0.0,
+            "total_nominal_cad": 15362.73,
+            "total_present_value_cad": 7886.81
+          },
+          {
+            "year": 18,
+            "grid_bill_nominal_cad": 15919.58,
+            "solar_maintenance_nominal_cad": 0.0,
+            "financing_payment_nominal_cad": 0.0,
+            "credits_used_nominal_cad": 0.0,
+            "total_nominal_cad": 15919.58,
+            "total_present_value_cad": 7858.35
+          },
+          {
+            "year": 19,
+            "grid_bill_nominal_cad": 16496.78,
+            "solar_maintenance_nominal_cad": 0.0,
+            "financing_payment_nominal_cad": 0.0,
+            "credits_used_nominal_cad": 0.0,
+            "total_nominal_cad": 16496.78,
+            "total_present_value_cad": 7830.07
+          }
+        ]
+      }
+    },
+    {
+      "name": "buy_now_cash_no_discount",
+      "function": "evaluate_solar_purchase",
+      "inputs": {
+        "label": "Buy solar now",
+        "purchase_year_offset": 0,
+        "group_discount_fraction": 0.0,
+        "is_cash": true,
+        "price_scenario": "reference",
+        "decline_scenario": "flat",
+        "base_quote": {
+          "panels": 6720,
+          "inverter": 2100,
+          "racking": 1680,
+          "electrical_equipment": 1260,
+          "labour": 4200,
+          "design_and_engineering": 630,
+          "permitting": 420,
+          "utility_connection": 840,
+          "installer_overhead": 3150,
+          "battery": 0.0,
+          "other": 0.0
+        },
+        "base_annual_bill_cad": 8400.0,
+        "tax_rate": 0.13,
+        "down_payment_fraction": 1.0,
+        "annual_interest_rate": 0.079,
+        "loan_term_years": 10,
+        "horizon_years": 20,
+        "discount_rate": 0.04,
+        "fixed_share": 0.3,
+        "variable_share": 0.15,
+        "energy_share": 0.55,
+        "annual_grid_bill_after_solar_cad": 2940.0,
+        "annual_maintenance_cad": 150.0,
+        "inverter_replacement_year": 12,
+        "inverter_replacement_cost_cad": 1800.0,
+        "annual_credits_used_cad": 2520.0,
+        "total_credits_expired_cad": 0.0,
+        "total_solar_generation_kwh": 9000.0,
+        "total_grid_imports_kwh": 3360.0
+      },
+      "expected": {
+        "label": "Buy solar now",
+        "purchase_year_offset": 0,
+        "initial_cost_cad": 23730.0,
+        "financing_interest_cad": 0.0,
+        "group_discount_cad": 0.0,
+        "total_nominal_cad": 62246.99,
+        "total_present_value_cad": 48123.28,
+        "simple_payback_years": 3,
+        "annual_cash_flows": [
+          {
+            "year": 0,
+            "grid_bill_nominal_cad": 420.0,
+            "solar_maintenance_nominal_cad": 150.0,
+            "financing_payment_nominal_cad": 0.0,
+            "credits_used_nominal_cad": 2520.0,
+            "total_nominal_cad": 24300.0,
+            "total_present_value_cad": 24300.0
+          },
+          {
+            "year": 1,
+            "grid_bill_nominal_cad": 526.03,
+            "solar_maintenance_nominal_cad": 150.0,
+            "financing_payment_nominal_cad": 0.0,
+            "credits_used_nominal_cad": 2520.0,
+            "total_nominal_cad": 676.03,
+            "total_present_value_cad": 650.03
+          },
+          {
+            "year": 2,
+            "grid_bill_nominal_cad": 635.92,
+            "solar_maintenance_nominal_cad": 150.0,
+            "financing_payment_nominal_cad": 0.0,
+            "credits_used_nominal_cad": 2520.0,
+            "total_nominal_cad": 785.92,
+            "total_present_value_cad": 726.63
+          },
+          {
+            "year": 3,
+            "grid_bill_nominal_cad": 749.8,
+            "solar_maintenance_nominal_cad": 150.0,
+            "financing_payment_nominal_cad": 0.0,
+            "credits_used_nominal_cad": 2520.0,
+            "total_nominal_cad": 899.8,
+            "total_present_value_cad": 799.92
+          },
+          {
+            "year": 4,
+            "grid_bill_nominal_cad": 867.84,
+            "solar_maintenance_nominal_cad": 150.0,
+            "financing_payment_nominal_cad": 0.0,
+            "credits_used_nominal_cad": 2520.0,
+            "total_nominal_cad": 1017.84,
+            "total_present_value_cad": 870.05
+          },
+          {
+            "year": 5,
+            "grid_bill_nominal_cad": 990.16,
+            "solar_maintenance_nominal_cad": 150.0,
+            "financing_payment_nominal_cad": 0.0,
+            "credits_used_nominal_cad": 2520.0,
+            "total_nominal_cad": 1140.16,
+            "total_present_value_cad": 937.13
+          },
+          {
+            "year": 6,
+            "grid_bill_nominal_cad": 1116.95,
+            "solar_maintenance_nominal_cad": 150.0,
+            "financing_payment_nominal_cad": 0.0,
+            "credits_used_nominal_cad": 2520.0,
+            "total_nominal_cad": 1266.95,
+            "total_present_value_cad": 1001.29
+          },
+          {
+            "year": 7,
+            "grid_bill_nominal_cad": 1248.35,
+            "solar_maintenance_nominal_cad": 150.0,
+            "financing_payment_nominal_cad": 0.0,
+            "credits_used_nominal_cad": 2520.0,
+            "total_nominal_cad": 1398.35,
+            "total_present_value_cad": 1062.63
+          },
+          {
+            "year": 8,
+            "grid_bill_nominal_cad": 1384.53,
+            "solar_maintenance_nominal_cad": 150.0,
+            "financing_payment_nominal_cad": 0.0,
+            "credits_used_nominal_cad": 2520.0,
+            "total_nominal_cad": 1534.53,
+            "total_present_value_cad": 1121.27
+          },
+          {
+            "year": 9,
+            "grid_bill_nominal_cad": 1525.69,
+            "solar_maintenance_nominal_cad": 150.0,
+            "financing_payment_nominal_cad": 0.0,
+            "credits_used_nominal_cad": 2520.0,
+            "total_nominal_cad": 1675.69,
+            "total_present_value_cad": 1177.32
+          },
+          {
+            "year": 10,
+            "grid_bill_nominal_cad": 1671.98,
+            "solar_maintenance_nominal_cad": 150.0,
+            "financing_payment_nominal_cad": 0.0,
+            "credits_used_nominal_cad": 2520.0,
+            "total_nominal_cad": 1821.98,
+            "total_present_value_cad": 1230.86
+          },
+          {
+            "year": 11,
+            "grid_bill_nominal_cad": 1823.62,
+            "solar_maintenance_nominal_cad": 150.0,
+            "financing_payment_nominal_cad": 0.0,
+            "credits_used_nominal_cad": 2520.0,
+            "total_nominal_cad": 1973.62,
+            "total_present_value_cad": 1282.03
+          },
+          {
+            "year": 12,
+            "grid_bill_nominal_cad": 1980.78,
+            "solar_maintenance_nominal_cad": 1950.0,
+            "financing_payment_nominal_cad": 0.0,
+            "credits_used_nominal_cad": 2520.0,
+            "total_nominal_cad": 3930.78,
+            "total_present_value_cad": 2455.15
+          },
+          {
+            "year": 13,
+            "grid_bill_nominal_cad": 2143.68,
+            "solar_maintenance_nominal_cad": 150.0,
+            "financing_payment_nominal_cad": 0.0,
+            "credits_used_nominal_cad": 2520.0,
+            "total_nominal_cad": 2293.68,
+            "total_present_value_cad": 1377.52
+          },
+          {
+            "year": 14,
+            "grid_bill_nominal_cad": 2312.52,
+            "solar_maintenance_nominal_cad": 150.0,
+            "financing_payment_nominal_cad": 0.0,
+            "credits_used_nominal_cad": 2520.0,
+            "total_nominal_cad": 2462.52,
+            "total_present_value_cad": 1422.04
+          },
+          {
+            "year": 15,
+            "grid_bill_nominal_cad": 2487.53,
+            "solar_maintenance_nominal_cad": 150.0,
+            "financing_payment_nominal_cad": 0.0,
+            "credits_used_nominal_cad": 2520.0,
+            "total_nominal_cad": 2637.53,
+            "total_present_value_cad": 1464.53
+          },
+          {
+            "year": 16,
+            "grid_bill_nominal_cad": 2668.93,
+            "solar_maintenance_nominal_cad": 150.0,
+            "financing_payment_nominal_cad": 0.0,
+            "credits_used_nominal_cad": 2520.0,
+            "total_nominal_cad": 2818.93,
+            "total_present_value_cad": 1505.05
+          },
+          {
+            "year": 17,
+            "grid_bill_nominal_cad": 2856.96,
+            "solar_maintenance_nominal_cad": 150.0,
+            "financing_payment_nominal_cad": 0.0,
+            "credits_used_nominal_cad": 2520.0,
+            "total_nominal_cad": 3006.96,
+            "total_present_value_cad": 1543.69
+          },
+          {
+            "year": 18,
+            "grid_bill_nominal_cad": 3051.85,
+            "solar_maintenance_nominal_cad": 150.0,
+            "financing_payment_nominal_cad": 0.0,
+            "credits_used_nominal_cad": 2520.0,
+            "total_nominal_cad": 3201.85,
+            "total_present_value_cad": 1580.52
+          },
+          {
+            "year": 19,
+            "grid_bill_nominal_cad": 3253.87,
+            "solar_maintenance_nominal_cad": 150.0,
+            "financing_payment_nominal_cad": 0.0,
+            "credits_used_nominal_cad": 2520.0,
+            "total_nominal_cad": 3403.87,
+            "total_present_value_cad": 1615.62
+          }
+        ]
+      }
+    },
+    {
+      "name": "buy_now_cash_10pct_discount",
+      "function": "evaluate_solar_purchase",
+      "inputs": {
+        "label": "Buy now, 10% group discount",
+        "purchase_year_offset": 0,
+        "group_discount_fraction": 0.1,
+        "is_cash": true,
+        "price_scenario": "reference",
+        "decline_scenario": "flat",
+        "base_quote": {
+          "panels": 6720,
+          "inverter": 2100,
+          "racking": 1680,
+          "electrical_equipment": 1260,
+          "labour": 4200,
+          "design_and_engineering": 630,
+          "permitting": 420,
+          "utility_connection": 840,
+          "installer_overhead": 3150,
+          "battery": 0.0,
+          "other": 0.0
+        },
+        "base_annual_bill_cad": 8400.0,
+        "tax_rate": 0.13,
+        "down_payment_fraction": 1.0,
+        "annual_interest_rate": 0.079,
+        "loan_term_years": 10,
+        "horizon_years": 20,
+        "discount_rate": 0.04,
+        "fixed_share": 0.3,
+        "variable_share": 0.15,
+        "energy_share": 0.55,
+        "annual_grid_bill_after_solar_cad": 2940.0,
+        "annual_maintenance_cad": 150.0,
+        "inverter_replacement_year": 12,
+        "inverter_replacement_cost_cad": 1800.0,
+        "annual_credits_used_cad": 2520.0,
+        "total_credits_expired_cad": 0.0,
+        "total_solar_generation_kwh": 9000.0,
+        "total_grid_imports_kwh": 3360.0
+      },
+      "expected": {
+        "label": "Buy now, 10% group discount",
+        "purchase_year_offset": 0,
+        "initial_cost_cad": 21570.57,
+        "financing_interest_cad": 0.0,
+        "group_discount_cad": 1911.0,
+        "total_nominal_cad": 60087.56,
+        "total_present_value_cad": 45963.85,
+        "simple_payback_years": 3,
+        "annual_cash_flows": [
+          {
+            "year": 0,
+            "grid_bill_nominal_cad": 420.0,
+            "solar_maintenance_nominal_cad": 150.0,
+            "financing_payment_nominal_cad": 0.0,
+            "credits_used_nominal_cad": 2520.0,
+            "total_nominal_cad": 22140.57,
+            "total_present_value_cad": 22140.57
+          },
+          {
+            "year": 1,
+            "grid_bill_nominal_cad": 526.03,
+            "solar_maintenance_nominal_cad": 150.0,
+            "financing_payment_nominal_cad": 0.0,
+            "credits_used_nominal_cad": 2520.0,
+            "total_nominal_cad": 676.03,
+            "total_present_value_cad": 650.03
+          },
+          {
+            "year": 2,
+            "grid_bill_nominal_cad": 635.92,
+            "solar_maintenance_nominal_cad": 150.0,
+            "financing_payment_nominal_cad": 0.0,
+            "credits_used_nominal_cad": 2520.0,
+            "total_nominal_cad": 785.92,
+            "total_present_value_cad": 726.63
+          },
+          {
+            "year": 3,
+            "grid_bill_nominal_cad": 749.8,
+            "solar_maintenance_nominal_cad": 150.0,
+            "financing_payment_nominal_cad": 0.0,
+            "credits_used_nominal_cad": 2520.0,
+            "total_nominal_cad": 899.8,
+            "total_present_value_cad": 799.92
+          },
+          {
+            "year": 4,
+            "grid_bill_nominal_cad": 867.84,
+            "solar_maintenance_nominal_cad": 150.0,
+            "financing_payment_nominal_cad": 0.0,
+            "credits_used_nominal_cad": 2520.0,
+            "total_nominal_cad": 1017.84,
+            "total_present_value_cad": 870.05
+          },
+          {
+            "year": 5,
+            "grid_bill_nominal_cad": 990.16,
+            "solar_maintenance_nominal_cad": 150.0,
+            "financing_payment_nominal_cad": 0.0,
+            "credits_used_nominal_cad": 2520.0,
+            "total_nominal_cad": 1140.16,
+            "total_present_value_cad": 937.13
+          },
+          {
+            "year": 6,
+            "grid_bill_nominal_cad": 1116.95,
+            "solar_maintenance_nominal_cad": 150.0,
+            "financing_payment_nominal_cad": 0.0,
+            "credits_used_nominal_cad": 2520.0,
+            "total_nominal_cad": 1266.95,
+            "total_present_value_cad": 1001.29
+          },
+          {
+            "year": 7,
+            "grid_bill_nominal_cad": 1248.35,
+            "solar_maintenance_nominal_cad": 150.0,
+            "financing_payment_nominal_cad": 0.0,
+            "credits_used_nominal_cad": 2520.0,
+            "total_nominal_cad": 1398.35,
+            "total_present_value_cad": 1062.63
+          },
+          {
+            "year": 8,
+            "grid_bill_nominal_cad": 1384.53,
+            "solar_maintenance_nominal_cad": 150.0,
+            "financing_payment_nominal_cad": 0.0,
+            "credits_used_nominal_cad": 2520.0,
+            "total_nominal_cad": 1534.53,
+            "total_present_value_cad": 1121.27
+          },
+          {
+            "year": 9,
+            "grid_bill_nominal_cad": 1525.69,
+            "solar_maintenance_nominal_cad": 150.0,
+            "financing_payment_nominal_cad": 0.0,
+            "credits_used_nominal_cad": 2520.0,
+            "total_nominal_cad": 1675.69,
+            "total_present_value_cad": 1177.32
+          },
+          {
+            "year": 10,
+            "grid_bill_nominal_cad": 1671.98,
+            "solar_maintenance_nominal_cad": 150.0,
+            "financing_payment_nominal_cad": 0.0,
+            "credits_used_nominal_cad": 2520.0,
+            "total_nominal_cad": 1821.98,
+            "total_present_value_cad": 1230.86
+          },
+          {
+            "year": 11,
+            "grid_bill_nominal_cad": 1823.62,
+            "solar_maintenance_nominal_cad": 150.0,
+            "financing_payment_nominal_cad": 0.0,
+            "credits_used_nominal_cad": 2520.0,
+            "total_nominal_cad": 1973.62,
+            "total_present_value_cad": 1282.03
+          },
+          {
+            "year": 12,
+            "grid_bill_nominal_cad": 1980.78,
+            "solar_maintenance_nominal_cad": 1950.0,
+            "financing_payment_nominal_cad": 0.0,
+            "credits_used_nominal_cad": 2520.0,
+            "total_nominal_cad": 3930.78,
+            "total_present_value_cad": 2455.15
+          },
+          {
+            "year": 13,
+            "grid_bill_nominal_cad": 2143.68,
+            "solar_maintenance_nominal_cad": 150.0,
+            "financing_payment_nominal_cad": 0.0,
+            "credits_used_nominal_cad": 2520.0,
+            "total_nominal_cad": 2293.68,
+            "total_present_value_cad": 1377.52
+          },
+          {
+            "year": 14,
+            "grid_bill_nominal_cad": 2312.52,
+            "solar_maintenance_nominal_cad": 150.0,
+            "financing_payment_nominal_cad": 0.0,
+            "credits_used_nominal_cad": 2520.0,
+            "total_nominal_cad": 2462.52,
+            "total_present_value_cad": 1422.04
+          },
+          {
+            "year": 15,
+            "grid_bill_nominal_cad": 2487.53,
+            "solar_maintenance_nominal_cad": 150.0,
+            "financing_payment_nominal_cad": 0.0,
+            "credits_used_nominal_cad": 2520.0,
+            "total_nominal_cad": 2637.53,
+            "total_present_value_cad": 1464.53
+          },
+          {
+            "year": 16,
+            "grid_bill_nominal_cad": 2668.93,
+            "solar_maintenance_nominal_cad": 150.0,
+            "financing_payment_nominal_cad": 0.0,
+            "credits_used_nominal_cad": 2520.0,
+            "total_nominal_cad": 2818.93,
+            "total_present_value_cad": 1505.05
+          },
+          {
+            "year": 17,
+            "grid_bill_nominal_cad": 2856.96,
+            "solar_maintenance_nominal_cad": 150.0,
+            "financing_payment_nominal_cad": 0.0,
+            "credits_used_nominal_cad": 2520.0,
+            "total_nominal_cad": 3006.96,
+            "total_present_value_cad": 1543.69
+          },
+          {
+            "year": 18,
+            "grid_bill_nominal_cad": 3051.85,
+            "solar_maintenance_nominal_cad": 150.0,
+            "financing_payment_nominal_cad": 0.0,
+            "credits_used_nominal_cad": 2520.0,
+            "total_nominal_cad": 3201.85,
+            "total_present_value_cad": 1580.52
+          },
+          {
+            "year": 19,
+            "grid_bill_nominal_cad": 3253.87,
+            "solar_maintenance_nominal_cad": 150.0,
+            "financing_payment_nominal_cad": 0.0,
+            "credits_used_nominal_cad": 2520.0,
+            "total_nominal_cad": 3403.87,
+            "total_present_value_cad": 1615.62
+          }
+        ]
+      }
+    },
+    {
+      "name": "buy_now_financed",
+      "function": "evaluate_solar_purchase",
+      "inputs": {
+        "label": "Buy now, financed",
+        "purchase_year_offset": 0,
+        "group_discount_fraction": 0.0,
+        "is_cash": false,
+        "price_scenario": "reference",
+        "decline_scenario": "flat",
+        "base_quote": {
+          "panels": 6720,
+          "inverter": 2100,
+          "racking": 1680,
+          "electrical_equipment": 1260,
+          "labour": 4200,
+          "design_and_engineering": 630,
+          "permitting": 420,
+          "utility_connection": 840,
+          "installer_overhead": 3150,
+          "battery": 0.0,
+          "other": 0.0
+        },
+        "base_annual_bill_cad": 8400.0,
+        "tax_rate": 0.13,
+        "down_payment_fraction": 0.1,
+        "annual_interest_rate": 0.079,
+        "loan_term_years": 10,
+        "horizon_years": 20,
+        "discount_rate": 0.04,
+        "fixed_share": 0.3,
+        "variable_share": 0.15,
+        "energy_share": 0.55,
+        "annual_grid_bill_after_solar_cad": 2940.0,
+        "annual_maintenance_cad": 150.0,
+        "inverter_replacement_year": 12,
+        "inverter_replacement_cost_cad": 1800.0,
+        "annual_credits_used_cad": 2520.0,
+        "total_credits_expired_cad": 0.0,
+        "total_solar_generation_kwh": 9000.0,
+        "total_grid_imports_kwh": 3360.0
+      },
+      "expected": {
+        "label": "Buy now, financed",
+        "purchase_year_offset": 0,
+        "initial_cost_cad": 2373.0,
+        "financing_interest_cad": 9602.07,
+        "group_discount_cad": 0.0,
+        "total_nominal_cad": 102807.59,
+        "total_present_value_cad": 70523.29,
+        "simple_payback_years": 1,
+        "annual_cash_flows": [
+          {
+            "year": 0,
+            "grid_bill_nominal_cad": 420.0,
+            "solar_maintenance_nominal_cad": 150.0,
+            "financing_payment_nominal_cad": 3095.88,
+            "credits_used_nominal_cad": 2520.0,
+            "total_nominal_cad": 6038.88,
+            "total_present_value_cad": 6038.88
+          },
+          {
+            "year": 1,
+            "grid_bill_nominal_cad": 526.03,
+            "solar_maintenance_nominal_cad": 150.0,
+            "financing_payment_nominal_cad": 3095.88,
+            "credits_used_nominal_cad": 2520.0,
+            "total_nominal_cad": 3771.91,
+            "total_present_value_cad": 3626.84
+          },
+          {
+            "year": 2,
+            "grid_bill_nominal_cad": 635.92,
+            "solar_maintenance_nominal_cad": 150.0,
+            "financing_payment_nominal_cad": 3095.88,
+            "credits_used_nominal_cad": 2520.0,
+            "total_nominal_cad": 3881.8,
+            "total_present_value_cad": 3588.94
+          },
+          {
+            "year": 3,
+            "grid_bill_nominal_cad": 749.8,
+            "solar_maintenance_nominal_cad": 150.0,
+            "financing_payment_nominal_cad": 3095.88,
+            "credits_used_nominal_cad": 2520.0,
+            "total_nominal_cad": 3995.68,
+            "total_present_value_cad": 3552.14
+          },
+          {
+            "year": 4,
+            "grid_bill_nominal_cad": 867.84,
+            "solar_maintenance_nominal_cad": 150.0,
+            "financing_payment_nominal_cad": 3095.88,
+            "credits_used_nominal_cad": 2520.0,
+            "total_nominal_cad": 4113.72,
+            "total_present_value_cad": 3516.43
+          },
+          {
+            "year": 5,
+            "grid_bill_nominal_cad": 990.16,
+            "solar_maintenance_nominal_cad": 150.0,
+            "financing_payment_nominal_cad": 3095.88,
+            "credits_used_nominal_cad": 2520.0,
+            "total_nominal_cad": 4236.04,
+            "total_present_value_cad": 3481.72
+          },
+          {
+            "year": 6,
+            "grid_bill_nominal_cad": 1116.95,
+            "solar_maintenance_nominal_cad": 150.0,
+            "financing_payment_nominal_cad": 3095.88,
+            "credits_used_nominal_cad": 2520.0,
+            "total_nominal_cad": 4362.83,
+            "total_present_value_cad": 3448.01
+          },
+          {
+            "year": 7,
+            "grid_bill_nominal_cad": 1248.35,
+            "solar_maintenance_nominal_cad": 150.0,
+            "financing_payment_nominal_cad": 3095.88,
+            "credits_used_nominal_cad": 2520.0,
+            "total_nominal_cad": 4494.23,
+            "total_present_value_cad": 3415.25
+          },
+          {
+            "year": 8,
+            "grid_bill_nominal_cad": 1384.53,
+            "solar_maintenance_nominal_cad": 150.0,
+            "financing_payment_nominal_cad": 3095.88,
+            "credits_used_nominal_cad": 2520.0,
+            "total_nominal_cad": 4630.41,
+            "total_present_value_cad": 3383.4
+          },
+          {
+            "year": 9,
+            "grid_bill_nominal_cad": 1525.69,
+            "solar_maintenance_nominal_cad": 150.0,
+            "financing_payment_nominal_cad": 3095.88,
+            "credits_used_nominal_cad": 2520.0,
+            "total_nominal_cad": 4771.57,
+            "total_present_value_cad": 3352.44
+          },
+          {
+            "year": 10,
+            "grid_bill_nominal_cad": 1671.98,
+            "solar_maintenance_nominal_cad": 150.0,
+            "financing_payment_nominal_cad": 3095.88,
+            "credits_used_nominal_cad": 2520.0,
+            "total_nominal_cad": 4917.86,
+            "total_present_value_cad": 3322.33
+          },
+          {
+            "year": 11,
+            "grid_bill_nominal_cad": 1823.62,
+            "solar_maintenance_nominal_cad": 150.0,
+            "financing_payment_nominal_cad": 3095.88,
+            "credits_used_nominal_cad": 2520.0,
+            "total_nominal_cad": 5069.5,
+            "total_present_value_cad": 3293.05
+          },
+          {
+            "year": 12,
+            "grid_bill_nominal_cad": 1980.78,
+            "solar_maintenance_nominal_cad": 1950.0,
+            "financing_payment_nominal_cad": 3095.88,
+            "credits_used_nominal_cad": 2520.0,
+            "total_nominal_cad": 7026.66,
+            "total_present_value_cad": 4388.83
+          },
+          {
+            "year": 13,
+            "grid_bill_nominal_cad": 2143.68,
+            "solar_maintenance_nominal_cad": 150.0,
+            "financing_payment_nominal_cad": 3095.88,
+            "credits_used_nominal_cad": 2520.0,
+            "total_nominal_cad": 5389.56,
+            "total_present_value_cad": 3236.83
+          },
+          {
+            "year": 14,
+            "grid_bill_nominal_cad": 2312.52,
+            "solar_maintenance_nominal_cad": 150.0,
+            "financing_payment_nominal_cad": 3095.88,
+            "credits_used_nominal_cad": 2520.0,
+            "total_nominal_cad": 5558.4,
+            "total_present_value_cad": 3209.84
+          },
+          {
+            "year": 15,
+            "grid_bill_nominal_cad": 2487.53,
+            "solar_maintenance_nominal_cad": 150.0,
+            "financing_payment_nominal_cad": 3095.88,
+            "credits_used_nominal_cad": 2520.0,
+            "total_nominal_cad": 5733.41,
+            "total_present_value_cad": 3183.56
+          },
+          {
+            "year": 16,
+            "grid_bill_nominal_cad": 2668.93,
+            "solar_maintenance_nominal_cad": 150.0,
+            "financing_payment_nominal_cad": 3095.88,
+            "credits_used_nominal_cad": 2520.0,
+            "total_nominal_cad": 5914.81,
+            "total_present_value_cad": 3157.97
+          },
+          {
+            "year": 17,
+            "grid_bill_nominal_cad": 2856.96,
+            "solar_maintenance_nominal_cad": 150.0,
+            "financing_payment_nominal_cad": 3095.88,
+            "credits_used_nominal_cad": 2520.0,
+            "total_nominal_cad": 6102.84,
+            "total_present_value_cad": 3133.03
+          },
+          {
+            "year": 18,
+            "grid_bill_nominal_cad": 3051.85,
+            "solar_maintenance_nominal_cad": 150.0,
+            "financing_payment_nominal_cad": 3095.88,
+            "credits_used_nominal_cad": 2520.0,
+            "total_nominal_cad": 6297.73,
+            "total_present_value_cad": 3108.74
+          },
+          {
+            "year": 19,
+            "grid_bill_nominal_cad": 3253.87,
+            "solar_maintenance_nominal_cad": 150.0,
+            "financing_payment_nominal_cad": 3095.88,
+            "credits_used_nominal_cad": 2520.0,
+            "total_nominal_cad": 6499.75,
+            "total_present_value_cad": 3085.06
+          }
+        ]
+      }
+    },
+    {
+      "name": "wait_3yr_moderate_decline",
+      "function": "evaluate_solar_purchase",
+      "inputs": {
+        "label": "Wait 3 years",
+        "purchase_year_offset": 3,
+        "group_discount_fraction": 0.0,
+        "is_cash": true,
+        "price_scenario": "reference",
+        "decline_scenario": "moderate",
+        "base_quote": {
+          "panels": 6720,
+          "inverter": 2100,
+          "racking": 1680,
+          "electrical_equipment": 1260,
+          "labour": 4200,
+          "design_and_engineering": 630,
+          "permitting": 420,
+          "utility_connection": 840,
+          "installer_overhead": 3150,
+          "battery": 0.0,
+          "other": 0.0
+        },
+        "base_annual_bill_cad": 8400.0,
+        "tax_rate": 0.13,
+        "down_payment_fraction": 1.0,
+        "annual_interest_rate": 0.079,
+        "loan_term_years": 10,
+        "horizon_years": 20,
+        "discount_rate": 0.04,
+        "fixed_share": 0.3,
+        "variable_share": 0.15,
+        "energy_share": 0.55,
+        "annual_grid_bill_after_solar_cad": 2940.0,
+        "annual_maintenance_cad": 150.0,
+        "inverter_replacement_year": 12,
+        "inverter_replacement_cost_cad": 1800.0,
+        "annual_credits_used_cad": 2520.0,
+        "total_credits_expired_cad": 0.0,
+        "total_solar_generation_kwh": 9000.0,
+        "total_grid_imports_kwh": 3360.0
+      },
+      "expected": {
+        "label": "Wait 3 years",
+        "purchase_year_offset": 3,
+        "initial_cost_cad": 22334.48,
+        "financing_interest_cad": 0.0,
+        "group_discount_cad": 0.0,
+        "total_nominal_cad": 77358.65,
+        "total_present_value_cad": 62431.96,
+        "simple_payback_years": 3,
+        "annual_cash_flows": [
+          {
+            "year": 0,
+            "grid_bill_nominal_cad": 8400.0,
+            "solar_maintenance_nominal_cad": 0.0,
+            "financing_payment_nominal_cad": 0.0,
+            "credits_used_nominal_cad": 0.0,
+            "total_nominal_cad": 8400.0,
+            "total_present_value_cad": 8400.0
+          },
+          {
+            "year": 1,
+            "grid_bill_nominal_cad": 8702.95,
+            "solar_maintenance_nominal_cad": 0.0,
+            "financing_payment_nominal_cad": 0.0,
+            "credits_used_nominal_cad": 0.0,
+            "total_nominal_cad": 8702.95,
+            "total_present_value_cad": 8368.22
+          },
+          {
+            "year": 2,
+            "grid_bill_nominal_cad": 9016.91,
+            "solar_maintenance_nominal_cad": 0.0,
+            "financing_payment_nominal_cad": 0.0,
+            "credits_used_nominal_cad": 0.0,
+            "total_nominal_cad": 9016.91,
+            "total_present_value_cad": 8336.64
+          },
+          {
+            "year": 3,
+            "grid_bill_nominal_cad": 420.0,
+            "solar_maintenance_nominal_cad": 150.0,
+            "financing_payment_nominal_cad": 0.0,
+            "credits_used_nominal_cad": 2520.0,
+            "total_nominal_cad": 22904.48,
+            "total_present_value_cad": 20362.0
+          },
+          {
+            "year": 4,
+            "grid_bill_nominal_cad": 526.03,
+            "solar_maintenance_nominal_cad": 150.0,
+            "financing_payment_nominal_cad": 0.0,
+            "credits_used_nominal_cad": 2520.0,
+            "total_nominal_cad": 676.03,
+            "total_present_value_cad": 577.87
+          },
+          {
+            "year": 5,
+            "grid_bill_nominal_cad": 635.92,
+            "solar_maintenance_nominal_cad": 150.0,
+            "financing_payment_nominal_cad": 0.0,
+            "credits_used_nominal_cad": 2520.0,
+            "total_nominal_cad": 785.92,
+            "total_present_value_cad": 645.97
+          },
+          {
+            "year": 6,
+            "grid_bill_nominal_cad": 749.8,
+            "solar_maintenance_nominal_cad": 150.0,
+            "financing_payment_nominal_cad": 0.0,
+            "credits_used_nominal_cad": 2520.0,
+            "total_nominal_cad": 899.8,
+            "total_present_value_cad": 711.13
+          },
+          {
+            "year": 7,
+            "grid_bill_nominal_cad": 867.84,
+            "solar_maintenance_nominal_cad": 150.0,
+            "financing_payment_nominal_cad": 0.0,
+            "credits_used_nominal_cad": 2520.0,
+            "total_nominal_cad": 1017.84,
+            "total_present_value_cad": 773.47
+          },
+          {
+            "year": 8,
+            "grid_bill_nominal_cad": 990.16,
+            "solar_maintenance_nominal_cad": 150.0,
+            "financing_payment_nominal_cad": 0.0,
+            "credits_used_nominal_cad": 2520.0,
+            "total_nominal_cad": 1140.16,
+            "total_present_value_cad": 833.1
+          },
+          {
+            "year": 9,
+            "grid_bill_nominal_cad": 1116.95,
+            "solar_maintenance_nominal_cad": 150.0,
+            "financing_payment_nominal_cad": 0.0,
+            "credits_used_nominal_cad": 2520.0,
+            "total_nominal_cad": 1266.95,
+            "total_present_value_cad": 890.14
+          },
+          {
+            "year": 10,
+            "grid_bill_nominal_cad": 1248.35,
+            "solar_maintenance_nominal_cad": 150.0,
+            "financing_payment_nominal_cad": 0.0,
+            "credits_used_nominal_cad": 2520.0,
+            "total_nominal_cad": 1398.35,
+            "total_present_value_cad": 944.68
+          },
+          {
+            "year": 11,
+            "grid_bill_nominal_cad": 1384.53,
+            "solar_maintenance_nominal_cad": 150.0,
+            "financing_payment_nominal_cad": 0.0,
+            "credits_used_nominal_cad": 2520.0,
+            "total_nominal_cad": 1534.53,
+            "total_present_value_cad": 996.8
+          },
+          {
+            "year": 12,
+            "grid_bill_nominal_cad": 1525.69,
+            "solar_maintenance_nominal_cad": 150.0,
+            "financing_payment_nominal_cad": 0.0,
+            "credits_used_nominal_cad": 2520.0,
+            "total_nominal_cad": 1675.69,
+            "total_present_value_cad": 1046.63
+          },
+          {
+            "year": 13,
+            "grid_bill_nominal_cad": 1671.98,
+            "solar_maintenance_nominal_cad": 150.0,
+            "financing_payment_nominal_cad": 0.0,
+            "credits_used_nominal_cad": 2520.0,
+            "total_nominal_cad": 1821.98,
+            "total_present_value_cad": 1094.23
+          },
+          {
+            "year": 14,
+            "grid_bill_nominal_cad": 1823.62,
+            "solar_maintenance_nominal_cad": 150.0,
+            "financing_payment_nominal_cad": 0.0,
+            "credits_used_nominal_cad": 2520.0,
+            "total_nominal_cad": 1973.62,
+            "total_present_value_cad": 1139.72
+          },
+          {
+            "year": 15,
+            "grid_bill_nominal_cad": 1980.78,
+            "solar_maintenance_nominal_cad": 1950.0,
+            "financing_payment_nominal_cad": 0.0,
+            "credits_used_nominal_cad": 2520.0,
+            "total_nominal_cad": 3930.78,
+            "total_present_value_cad": 2182.62
+          },
+          {
+            "year": 16,
+            "grid_bill_nominal_cad": 2143.68,
+            "solar_maintenance_nominal_cad": 150.0,
+            "financing_payment_nominal_cad": 0.0,
+            "credits_used_nominal_cad": 2520.0,
+            "total_nominal_cad": 2293.68,
+            "total_present_value_cad": 1224.61
+          },
+          {
+            "year": 17,
+            "grid_bill_nominal_cad": 2312.52,
+            "solar_maintenance_nominal_cad": 150.0,
+            "financing_payment_nominal_cad": 0.0,
+            "credits_used_nominal_cad": 2520.0,
+            "total_nominal_cad": 2462.52,
+            "total_present_value_cad": 1264.19
+          },
+          {
+            "year": 18,
+            "grid_bill_nominal_cad": 2487.53,
+            "solar_maintenance_nominal_cad": 150.0,
+            "financing_payment_nominal_cad": 0.0,
+            "credits_used_nominal_cad": 2520.0,
+            "total_nominal_cad": 2637.53,
+            "total_present_value_cad": 1301.96
+          },
+          {
+            "year": 19,
+            "grid_bill_nominal_cad": 2668.93,
+            "solar_maintenance_nominal_cad": 150.0,
+            "financing_payment_nominal_cad": 0.0,
+            "credits_used_nominal_cad": 2520.0,
+            "total_nominal_cad": 2818.93,
+            "total_present_value_cad": 1337.98
+          }
+        ]
+      }
+    },
+    {
+      "name": "grid_only_stress_10yr",
+      "function": "evaluate_grid_only",
+      "inputs": {
+        "base_annual_bill_cad": 8400.0,
+        "price_scenario": "stress",
+        "horizon_years": 10,
+        "discount_rate": 0.06,
+        "fixed_share": 0.3,
+        "variable_share": 0.15,
+        "energy_share": 0.55
+      },
+      "expected": {
+        "label": "Grid only",
+        "purchase_year_offset": -1,
+        "initial_cost_cad": 0.0,
+        "financing_interest_cad": 0.0,
+        "group_discount_cad": 0.0,
+        "total_nominal_cad": 116191.83,
+        "total_present_value_cad": 87748.52,
+        "simple_payback_years": null,
+        "annual_cash_flows": [
+          {
+            "year": 0,
+            "grid_bill_nominal_cad": 8400.0,
+            "solar_maintenance_nominal_cad": 0.0,
+            "financing_payment_nominal_cad": 0.0,
+            "credits_used_nominal_cad": 0.0,
+            "total_nominal_cad": 8400.0,
+            "total_present_value_cad": 8400.0
+          },
+          {
+            "year": 1,
+            "grid_bill_nominal_cad": 8989.97,
+            "solar_maintenance_nominal_cad": 0.0,
+            "financing_payment_nominal_cad": 0.0,
+            "credits_used_nominal_cad": 0.0,
+            "total_nominal_cad": 8989.97,
+            "total_present_value_cad": 8481.1
+          },
+          {
+            "year": 2,
+            "grid_bill_nominal_cad": 9621.41,
+            "solar_maintenance_nominal_cad": 0.0,
+            "financing_payment_nominal_cad": 0.0,
+            "credits_used_nominal_cad": 0.0,
+            "total_nominal_cad": 9621.41,
+            "total_present_value_cad": 8563.02
+          },
+          {
+            "year": 3,
+            "grid_bill_nominal_cad": 10297.23,
+            "solar_maintenance_nominal_cad": 0.0,
+            "financing_payment_nominal_cad": 0.0,
+            "credits_used_nominal_cad": 0.0,
+            "total_nominal_cad": 10297.23,
+            "total_present_value_cad": 8645.75
+          },
+          {
+            "year": 4,
+            "grid_bill_nominal_cad": 11020.55,
+            "solar_maintenance_nominal_cad": 0.0,
+            "financing_payment_nominal_cad": 0.0,
+            "credits_used_nominal_cad": 0.0,
+            "total_nominal_cad": 11020.55,
+            "total_present_value_cad": 8729.31
+          },
+          {
+            "year": 5,
+            "grid_bill_nominal_cad": 11794.72,
+            "solar_maintenance_nominal_cad": 0.0,
+            "financing_payment_nominal_cad": 0.0,
+            "credits_used_nominal_cad": 0.0,
+            "total_nominal_cad": 11794.72,
+            "total_present_value_cad": 8813.7
+          },
+          {
+            "year": 6,
+            "grid_bill_nominal_cad": 12623.3,
+            "solar_maintenance_nominal_cad": 0.0,
+            "financing_payment_nominal_cad": 0.0,
+            "credits_used_nominal_cad": 0.0,
+            "total_nominal_cad": 12623.3,
+            "total_present_value_cad": 8898.93
+          },
+          {
+            "year": 7,
+            "grid_bill_nominal_cad": 13510.13,
+            "solar_maintenance_nominal_cad": 0.0,
+            "financing_payment_nominal_cad": 0.0,
+            "credits_used_nominal_cad": 0.0,
+            "total_nominal_cad": 13510.13,
+            "total_present_value_cad": 8985.01
+          },
+          {
+            "year": 8,
+            "grid_bill_nominal_cad": 14459.31,
+            "solar_maintenance_nominal_cad": 0.0,
+            "financing_payment_nominal_cad": 0.0,
+            "credits_used_nominal_cad": 0.0,
+            "total_nominal_cad": 14459.31,
+            "total_present_value_cad": 9071.95
+          },
+          {
+            "year": 9,
+            "grid_bill_nominal_cad": 15475.21,
+            "solar_maintenance_nominal_cad": 0.0,
+            "financing_payment_nominal_cad": 0.0,
+            "credits_used_nominal_cad": 0.0,
+            "total_nominal_cad": 15475.21,
+            "total_present_value_cad": 9159.75
+          }
+        ]
+      }
+    },
+    {
+      "name": "grid_only_zero_discount_rate",
+      "function": "evaluate_grid_only",
+      "inputs": {
+        "base_annual_bill_cad": 8400.0,
+        "price_scenario": "reference",
+        "horizon_years": 5,
+        "discount_rate": 0.0,
+        "fixed_share": 0.3,
+        "variable_share": 0.15,
+        "energy_share": 0.55
+      },
+      "expected": {
+        "label": "Grid only",
+        "purchase_year_offset": -1,
+        "initial_cost_cad": 0.0,
+        "financing_interest_cad": 0.0,
+        "group_discount_cad": 0.0,
+        "total_nominal_cad": 45141.69,
+        "total_present_value_cad": 45141.69,
+        "simple_payback_years": null,
+        "annual_cash_flows": [
+          {
+            "year": 0,
+            "grid_bill_nominal_cad": 8400.0,
+            "solar_maintenance_nominal_cad": 0.0,
+            "financing_payment_nominal_cad": 0.0,
+            "credits_used_nominal_cad": 0.0,
+            "total_nominal_cad": 8400.0,
+            "total_present_value_cad": 8400.0
+          },
+          {
+            "year": 1,
+            "grid_bill_nominal_cad": 8702.95,
+            "solar_maintenance_nominal_cad": 0.0,
+            "financing_payment_nominal_cad": 0.0,
+            "credits_used_nominal_cad": 0.0,
+            "total_nominal_cad": 8702.95,
+            "total_present_value_cad": 8702.95
+          },
+          {
+            "year": 2,
+            "grid_bill_nominal_cad": 9016.91,
+            "solar_maintenance_nominal_cad": 0.0,
+            "financing_payment_nominal_cad": 0.0,
+            "credits_used_nominal_cad": 0.0,
+            "total_nominal_cad": 9016.91,
+            "total_present_value_cad": 9016.91
+          },
+          {
+            "year": 3,
+            "grid_bill_nominal_cad": 9342.3,
+            "solar_maintenance_nominal_cad": 0.0,
+            "financing_payment_nominal_cad": 0.0,
+            "credits_used_nominal_cad": 0.0,
+            "total_nominal_cad": 9342.3,
+            "total_present_value_cad": 9342.3
+          },
+          {
+            "year": 4,
+            "grid_bill_nominal_cad": 9679.53,
+            "solar_maintenance_nominal_cad": 0.0,
+            "financing_payment_nominal_cad": 0.0,
+            "credits_used_nominal_cad": 0.0,
+            "total_nominal_cad": 9679.53,
+            "total_present_value_cad": 9679.53
+          }
+        ]
+      }
+    }
+  ],
+  "standalone_cases": {
+    "bill_component_after_years": {
+      "inputs": {
+        "base_value": 4620.0,
+        "annual_real_change": 0.015,
+        "years": 10,
+        "general_inflation": 0.02
+      },
+      "expected": [
+        5361.698612,
+        6535.880689
+      ]
+    },
+    "apply_group_discount": {
+      "inputs": {
+        "quote": {
+          "panels": 6720,
+          "inverter": 2100,
+          "racking": 1680,
+          "electrical_equipment": 1260,
+          "labour": 4200,
+          "design_and_engineering": 630,
+          "permitting": 420,
+          "utility_connection": 840,
+          "installer_overhead": 3150,
+          "battery": 0.0,
+          "other": 0.0
+        },
+        "discount_fraction": 0.1
+      },
+      "expected": {
+        "discount_fraction": 0.1,
+        "eligible_total_before_discount": 19110,
+        "eligible_total_after_discount": 17199.0,
+        "discount_amount": 1911.0,
+        "ineligible_total": 1890.0,
+        "total_after_discount": 19089.0
+      }
+    },
+    "amortize_loan": {
+      "inputs": {
+        "principal": 18000.0,
+        "annual_interest_rate": 0.079,
+        "term_years": 10
+      },
+      "expected": {
+        "principal": 18000.0,
+        "annual_interest_rate": 0.079,
+        "term_years": 10,
+        "monthly_payment": 217.44,
+        "total_interest": 8092.77,
+        "total_paid": 26092.77
+      }
+    },
+    "solar_production": {
+      "inputs": {
+        "capacity_kw_dc": 7.2,
+        "orientation": "south",
+        "shading": "none",
+        "degradation_annual": 0.005,
+        "inverter_efficiency": 0.97,
+        "other_system_losses": 0.14,
+        "system_age_years": 0
+      },
+      "expected": {
+        "1": 372.38688,
+        "2": 492.51167999999996,
+        "3": 708.73632,
+        "4": 792.82368,
+        "5": 888.92352,
+        "6": 900.9359999999999,
+        "7": 912.94848,
+        "8": 828.8611199999999,
+        "9": 672.6988799999999,
+        "10": 492.51167999999996,
+        "11": 312.32448,
+        "12": 288.29952
+      }
+    },
+    "net_metering_ledger_two_months": {
+      "inputs": {
+        "export_credit_rate_cad_per_kwh": 0.076,
+        "months": [
+          {
+            "period": "2026-06",
+            "solar_generation_kwh": 900,
+            "household_demand_kwh": 700,
+            "direct_self_consumption_kwh": 300,
+            "eligible_energy_rate_cad_per_kwh": 0.076,
+            "ineligible_charges_cad": 45
+          },
+          {
+            "period": "2026-07",
+            "solar_generation_kwh": 0,
+            "household_demand_kwh": 700,
+            "direct_self_consumption_kwh": 0,
+            "eligible_energy_rate_cad_per_kwh": 0.076,
+            "ineligible_charges_cad": 45
+          }
+        ]
+      },
+      "expected": {
+        "months": [
+          {
+            "period": "2026-06",
+            "exported_kwh": 600,
+            "grid_import_kwh": 400,
+            "credit_created_cad": 45.6,
+            "credit_used_cad": 30.4,
+            "credit_expired_cad": 0.0,
+            "credit_closing_balance_cad": 15.2
+          },
+          {
+            "period": "2026-07",
+            "exported_kwh": 0.0,
+            "grid_import_kwh": 700,
+            "credit_created_cad": 0.0,
+            "credit_used_cad": 15.2,
+            "credit_expired_cad": 0.0,
+            "credit_closing_balance_cad": 0
+          }
+        ],
+        "effective_value_per_generated_kwh": 0.050667
+      }
+    },
+    "apply_collective_purchase_group_10": {
+      "inputs": {
+        "tier": {
+          "id": "group_10",
+          "label": "Ten-household group",
+          "households": 10,
+          "reductions": {
+            "hardware": 3,
+            "labour": 5,
+            "customer_acquisition": 40,
+            "design": 20,
+            "permitting": 10,
+            "financing_fees": 0
+          },
+          "overall_discount_cap_percent": 10
+        },
+        "base_costs_by_component": {
+          "hardware": 10920.0,
+          "labour": 4200.0,
+          "design": 630.0,
+          "permitting": 420.0,
+          "customer_acquisition": 3150.0,
+          "financing_fees": 0.0
+        }
+      },
+      "expected": {
+        "total_base_cost": 19320.0,
+        "total_reduced_cost": 17388.0,
+        "total_reduction_cad": 1932.0,
+        "effective_discount_percent": 10.0,
+        "capped": true
+      }
+    },
+    "apply_collective_purchase_group_20_capped": {
+      "inputs": {
+        "tier": {
+          "id": "group_20",
+          "label": "Twenty-household group",
+          "households": 20,
+          "reductions": {
+            "hardware": 4,
+            "labour": 6,
+            "customer_acquisition": 50,
+            "design": 25,
+            "permitting": 12,
+            "financing_fees": 0
+          },
+          "overall_discount_cap_percent": 13
+        },
+        "base_costs_by_component": {
+          "hardware": 10920.0,
+          "labour": 4200.0,
+          "design": 630.0,
+          "permitting": 420.0,
+          "customer_acquisition": 3150.0,
+          "financing_fees": 0.0
+        }
+      },
+      "expected": {
+        "total_base_cost": 19320.0,
+        "total_reduced_cost": 16848.3,
+        "total_reduction_cad": 2471.7,
+        "effective_discount_percent": 12.7935,
+        "capped": false
+      }
+    },
+    "calculate_cost_of_inaction_three_decisions": {
+      "inputs": {
+        "decisions": [
+          {
+            "label": "Grid only",
+            "total_nominal_cad": 29038.16,
+            "total_present_value_cad": 22062.1,
+            "grid_imports_kwh": 0.0,
+            "solar_generation_kwh": 0.0,
+            "incentives_received_cad": 0.0,
+            "grid_service_revenue_cad": 0.0,
+            "residual_value_cad": 0.0
+          },
+          {
+            "label": "Buy solar now",
+            "total_nominal_cad": 32603.8,
+            "total_present_value_cad": 25164.14,
+            "grid_imports_kwh": 3360.0,
+            "solar_generation_kwh": 9000.0,
+            "incentives_received_cad": 0.0,
+            "grid_service_revenue_cad": 0.0,
+            "residual_value_cad": 0.0
+          },
+          {
+            "label": "Wait 3 years",
+            "total_nominal_cad": 34202.63,
+            "total_present_value_cad": 25891.02,
+            "grid_imports_kwh": 3360.0,
+            "solar_generation_kwh": 9000.0,
+            "incentives_received_cad": 0.0,
+            "grid_service_revenue_cad": 0.0,
+            "residual_value_cad": 0.0
+          }
+        ]
+      },
+      "expected": {
+        "Grid only": {
+          "additional_nominal_cost_cad": 0.0,
+          "additional_present_value_cad": 0.0,
+          "grid_electricity_purchased_while_waiting_kwh": 0.0,
+          "solar_generation_forgone_kwh": 0.0,
+          "current_incentives_forgone_cad": 0.0
+        },
+        "Buy solar now": {
+          "additional_nominal_cost_cad": 3565.64,
+          "additional_present_value_cad": 3102.04,
+          "grid_electricity_purchased_while_waiting_kwh": 3360.0,
+          "solar_generation_forgone_kwh": 0.0,
+          "current_incentives_forgone_cad": 0.0
+        },
+        "Wait 3 years": {
+          "additional_nominal_cost_cad": 5164.47,
+          "additional_present_value_cad": 3828.92,
+          "grid_electricity_purchased_while_waiting_kwh": 3360.0,
+          "solar_generation_forgone_kwh": 0.0,
+          "current_incentives_forgone_cad": 0.0
+        }
+      }
+    },
+    "find_breakeven_decline_rate": {
+      "inputs": {
+        "wait_years_offset": 3,
+        "npv_cost_buy_now": 48123.28
+      },
+      "expected": null
+    }
+  }
+}
