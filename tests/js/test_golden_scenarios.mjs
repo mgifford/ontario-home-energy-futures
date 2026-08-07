@@ -275,6 +275,47 @@ test("calculate_cost_of_inaction_three_decisions", function () {
   });
 });
 
+console.log("\nChart builder cases (structural, not part of the Python golden fixture):");
+
+test("buildCumulativeCostLineChart produces one polyline per series and matching table rows", function () {
+  const series = [
+    { label: "Grid only", points: [[0, 1000], [1, 2100], [2, 3300]] },
+    { label: "Buy solar now", points: [[0, 15000], [1, 15600], [2, 16100]] }
+  ];
+  const result = calculator.buildCumulativeCostLineChart({
+    series: series, xLabel: "Year", yLabel: "Cumulative cost (CAD)",
+    accessibleName: "Test chart", accessibleDescription: "Test description, not a guarantee."
+  });
+  assert.ok(result.svg.startsWith("<svg"), "svg starts with <svg");
+  assert.ok(result.svg.endsWith("</svg>"), "svg ends with </svg>");
+  assert.equal((result.svg.match(/<polyline/g) || []).length, 2, "two polylines");
+  assert.equal(result.tableRows.length, 3, "three table rows (years 0,1,2)");
+  assert.equal(result.tableRows[0]["Grid only"], 1000, "first row Grid only value");
+  assert.equal(result.tableRows[2]["Buy solar now"], 16100, "last row Buy solar now value");
+});
+
+test("buildCumulativeCostLineChart uses distinct dasharray patterns across series", function () {
+  const series = [
+    { label: "A", points: [[0, 1], [1, 2]] },
+    { label: "B", points: [[0, 1], [1, 2]] },
+    { label: "C", points: [[0, 1], [1, 2]] }
+  ];
+  const result = calculator.buildCumulativeCostLineChart({
+    series: series, xLabel: "Year", yLabel: "Cost",
+    accessibleName: "x", accessibleDescription: "y"
+  });
+  const dasharrays = [...result.svg.matchAll(/stroke-dasharray="([^"]+)"/g)].map((m) => m[1]);
+  assert.ok(new Set(dasharrays).size >= 1, "at least one distinct non-default dasharray pattern present");
+});
+
+test("buildCumulativeCostLineChart rejects empty series", function () {
+  assert.throws(function () {
+    calculator.buildCumulativeCostLineChart({
+      series: [], xLabel: "Year", yLabel: "Cost", accessibleName: "x", accessibleDescription: "y"
+    });
+  });
+});
+
 console.log("\n" + passed + " passed, " + failed + " failed");
 if (failed > 0) {
   process.exit(1);

@@ -113,6 +113,49 @@ test("changing an input recalculates the collective-purchasing and cost-of-inact
   expect(await page.locator("#cost-of-inaction-tbody tr").count()).toBe(3);
 });
 
+test("cumulative-cost chart and table are present on default load with no JS interaction", async ({ page }) => {
+  await page.goto("/compare-timing.html");
+  const svg = page.locator("#cumulative-cost-chart-container svg");
+  await expect(svg).toBeVisible();
+  await expect(page.locator("#cumulative-cost-chart-container polyline")).toHaveCount(4);
+
+  const table = page.locator("#cumulative-cost-table");
+  await expect(table).toBeVisible();
+  const rowCount = await page.locator("#cumulative-cost-tbody tr").count();
+  expect(rowCount).toBeGreaterThan(0);
+});
+
+test("cumulative-cost chart updates live when an input changes", async ({ page }) => {
+  await page.goto("/compare-timing.html");
+
+  const svgBefore = await page.locator("#cumulative-cost-chart-container").innerHTML();
+  const tableBefore = await page.locator("#cumulative-cost-tbody").innerHTML();
+
+  await page.locator("#calc-monthly-kwh").fill("1500");
+  await page.locator("#calc-monthly-kwh").dispatchEvent("input");
+  await page.waitForTimeout(400);
+
+  const svgAfter = await page.locator("#cumulative-cost-chart-container").innerHTML();
+  const tableAfter = await page.locator("#cumulative-cost-tbody").innerHTML();
+
+  expect(svgAfter).not.toBe(svgBefore);
+  expect(tableAfter).not.toBe(tableBefore);
+  await expect(page.locator("#cumulative-cost-chart-container polyline")).toHaveCount(4);
+});
+
+test("cumulative-cost chart's last row matches the main comparison table's 20-year totals", async ({ page }) => {
+  await page.goto("/compare-timing.html");
+
+  const lastChartRow = page.locator("#cumulative-cost-tbody tr").last();
+  const gridOnlyChartValue = await lastChartRow.locator("td").nth(0).textContent();
+
+  const gridOnlyTableRow = page.locator("#compare-timing-tbody tr").first(); // "Grid only" is first row
+  const gridOnlyTableValue = await gridOnlyTableRow.locator("td").nth(3).textContent(); // 20-year cost column
+
+  const parseCad = (s: string) => Number(s.replace(/[$,]/g, ""));
+  expect(parseCad(gridOnlyChartValue!)).toBeCloseTo(parseCad(gridOnlyTableValue!), 0);
+});
+
 test("collective-purchasing initial cost decreases monotonically by group size after recalculation", async ({ page }) => {
   await page.goto("/compare-timing.html");
   await page.locator("#calc-quote-total").fill("25000");

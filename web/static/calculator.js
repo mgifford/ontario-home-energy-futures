@@ -658,6 +658,205 @@
   }
 
   // ---------------------------------------------------------------------
+  // charts/svg_line_chart.py port - cumulative-cost line chart.
+  //
+  // Mirrors the Python builder's layout math (axis scaling, point
+  // positions, dash patterns) closely enough that the same input produces
+  // visually equivalent output; no colour-only series encoding, per
+  // ACCESSIBILITY.md's chart decision record.
+  // ---------------------------------------------------------------------
+
+  var CHART_SERIES_STYLES = [
+    { color: "#0b4f8a", dasharray: "none", marker: "circle" },
+    { color: "#b8860b", dasharray: "6,4", marker: "square" },
+    { color: "#146c2e", dasharray: "2,3", marker: "triangle" },
+    { color: "#8a3d8a", dasharray: "8,3,2,3", marker: "diamond" }
+  ];
+
+  function escapeXml(value) {
+    return String(value)
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;")
+      .replace(/"/g, "&quot;");
+  }
+
+  function markerPath(cx, cy, shape, size) {
+    size = size || 4.0;
+    if (shape === "square") {
+      return '<rect x="' + (cx - size).toFixed(1) + '" y="' + (cy - size).toFixed(1) + '" width="' + (size * 2).toFixed(1) + '" height="' + (size * 2).toFixed(1) + '" />';
+    }
+    if (shape === "triangle") {
+      return '<polygon points="' + cx.toFixed(1) + "," + (cy - size).toFixed(1) + " " +
+        (cx - size).toFixed(1) + "," + (cy + size).toFixed(1) + " " +
+        (cx + size).toFixed(1) + "," + (cy + size).toFixed(1) + '" />';
+    }
+    if (shape === "diamond") {
+      return '<polygon points="' + cx.toFixed(1) + "," + (cy - size).toFixed(1) + " " +
+        (cx + size).toFixed(1) + "," + cy.toFixed(1) + " " +
+        cx.toFixed(1) + "," + (cy + size).toFixed(1) + " " +
+        (cx - size).toFixed(1) + "," + cy.toFixed(1) + '" />';
+    }
+    return '<circle cx="' + cx.toFixed(1) + '" cy="' + cy.toFixed(1) + '" r="' + size.toFixed(1) + '" />';
+  }
+
+  // mirrors charts/svg_line_chart.py::build_cumulative_cost_line_chart
+  function buildCumulativeCostLineChart(params) {
+    var series = params.series; // [{label, points: [[x,y], ...]}, ...]
+    var width = params.width || 640;
+    var height = params.height || 360;
+    var xLabel = params.xLabel;
+    var yLabel = params.yLabel;
+    var accessibleName = params.accessibleName;
+    var accessibleDescription = params.accessibleDescription;
+
+    if (!series.length) {
+      throw new Error("series must not be empty");
+    }
+
+    var marginLeft = 70, marginRight = 20, marginTop = 30, marginBottom = 50;
+    var plotWidth = width - marginLeft - marginRight;
+    var plotHeight = height - marginTop - marginBottom;
+
+    var allX = [], allY = [];
+    series.forEach(function (s) {
+      s.points.forEach(function (p) { allX.push(p[0]); allY.push(p[1]); });
+    });
+    var xMin = Math.min.apply(null, allX);
+    var xMax = Math.max.apply(null, allX);
+    var yMin = Math.min(0, Math.min.apply(null, allY));
+    var yMax = Math.max.apply(null, allY);
+    if (xMax === xMin) xMax = xMin + 1;
+    if (yMax === yMin) yMax = yMin + 1;
+
+    function scaleX(x) { return marginLeft + (x - xMin) / (xMax - xMin) * plotWidth; }
+    function scaleY(y) { return marginTop + plotHeight - (y - yMin) / (yMax - yMin) * plotHeight; }
+
+    var parts = [];
+    parts.push('<svg viewBox="0 0 ' + width + " " + height + '" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="chart-title chart-desc" class="line-chart">');
+    parts.push('<title id="chart-title">' + escapeXml(accessibleName) + "</title>");
+    parts.push('<desc id="chart-desc">' + escapeXml(accessibleDescription) + "</desc>");
+
+    var axisColor = "#4a4a4a";
+    parts.push('<line x1="' + marginLeft + '" y1="' + marginTop + '" x2="' + marginLeft + '" y2="' + (marginTop + plotHeight) + '" stroke="' + axisColor + '" stroke-width="1" />');
+    parts.push('<line x1="' + marginLeft + '" y1="' + (marginTop + plotHeight) + '" x2="' + (marginLeft + plotWidth) + '" y2="' + (marginTop + plotHeight) + '" stroke="' + axisColor + '" stroke-width="1" />');
+
+    for (var i = 0; i < 4; i++) {
+      var yValue = yMin + (yMax - yMin) * i / 3;
+      var yPixel = scaleY(yValue);
+      parts.push('<line x1="' + (marginLeft - 4) + '" y1="' + yPixel.toFixed(1) + '" x2="' + marginLeft + '" y2="' + yPixel.toFixed(1) + '" stroke="' + axisColor + '" stroke-width="1" />');
+      parts.push('<text x="' + (marginLeft - 8) + '" y="' + (yPixel + 4).toFixed(1) + '" font-size="11" text-anchor="end" fill="' + axisColor + '">$' + Math.round(yValue).toLocaleString("en-CA") + "</text>");
+    }
+
+    var uniqueX = Array.from(new Set(allX)).sort(function (a, b) { return a - b; });
+    uniqueX.forEach(function (xValue) {
+      var xPixel = scaleX(xValue);
+      parts.push('<text x="' + xPixel.toFixed(1) + '" y="' + (marginTop + plotHeight + 18) + '" font-size="11" text-anchor="middle" fill="' + axisColor + '">' + xValue.toFixed(0) + "</text>");
+    });
+
+    parts.push('<text x="' + (marginLeft + plotWidth / 2).toFixed(1) + '" y="' + (height - 6) + '" font-size="12" text-anchor="middle" fill="' + axisColor + '">' + escapeXml(xLabel) + "</text>");
+    parts.push('<text x="14" y="' + (marginTop + plotHeight / 2).toFixed(1) + '" font-size="12" text-anchor="middle" fill="' + axisColor + '" transform="rotate(-90 14 ' + (marginTop + plotHeight / 2).toFixed(1) + ')">' + escapeXml(yLabel) + "</text>");
+
+    series.forEach(function (s, idx) {
+      var style = CHART_SERIES_STYLES[idx % CHART_SERIES_STYLES.length];
+      var pathPoints = s.points.map(function (p) { return scaleX(p[0]).toFixed(1) + "," + scaleY(p[1]).toFixed(1); }).join(" ");
+      var dashAttr = style.dasharray === "none" ? "" : ' stroke-dasharray="' + style.dasharray + '"';
+      parts.push('<polyline points="' + pathPoints + '" fill="none" stroke="' + style.color + '" stroke-width="2.5"' + dashAttr + " />");
+      parts.push('<g fill="' + style.color + '">');
+      s.points.forEach(function (p) {
+        parts.push(markerPath(scaleX(p[0]), scaleY(p[1]), style.marker));
+      });
+      parts.push("</g>");
+    });
+
+    var legendX, legendY;
+    if (width - (marginLeft + plotWidth + 8) < 100) {
+      legendX = marginLeft;
+      legendY = height - 40;
+      series.forEach(function (s, idx) {
+        var style = CHART_SERIES_STYLES[idx % CHART_SERIES_STYLES.length];
+        var entryX = legendX + idx * (plotWidth / Math.max(1, series.length));
+        var dashAttr = style.dasharray === "none" ? "" : 'stroke-dasharray="' + style.dasharray + '" ';
+        parts.push('<line x1="' + entryX + '" y1="' + legendY + '" x2="' + (entryX + 14) + '" y2="' + legendY + '" stroke="' + style.color + '" stroke-width="2.5" ' + dashAttr + "/>");
+        parts.push('<text x="' + (entryX + 18) + '" y="' + (legendY + 4) + '" font-size="10" fill="' + axisColor + '">' + escapeXml(s.label) + "</text>");
+      });
+    }
+
+    parts.push("</svg>");
+
+    var tableRows = uniqueX.map(function (xValue) {
+      var row = { x: xValue };
+      series.forEach(function (s) {
+        var match = s.points.find(function (p) { return p[0] === xValue; });
+        row[s.label] = match ? match[1] : null;
+      });
+      return row;
+    });
+
+    return { svg: parts.join(""), tableRows: tableRows };
+  }
+
+  function renderCumulativeCostChart(gridOnly, buyNow, buyNowDiscount, waitN, discountPct, waitYears) {
+    var container = document.getElementById("cumulative-cost-chart-container");
+    var tbody = document.getElementById("cumulative-cost-tbody");
+    if (!container && !tbody) return;
+
+    var decisions = [
+      { label: "Grid only", flows: gridOnly.annualCashFlows },
+      { label: "Buy solar now", flows: buyNow.annualCashFlows },
+      { label: "Buy now, " + discountPct + "% group discount", flows: buyNowDiscount.annualCashFlows },
+      { label: "Wait " + waitYears + " year" + (waitYears !== 1 ? "s" : ""), flows: waitN.annualCashFlows }
+    ];
+
+    var runningTotals = [];
+    var series = decisions.map(function (d) {
+      var runningTotal = 0;
+      var points = d.flows.map(function (flow) {
+        runningTotal += flow.totalNominalCad;
+        return [flow.year, round2(runningTotal)];
+      });
+      runningTotals.push([d.label, runningTotal]);
+      return { label: d.label, points: points };
+    });
+
+    var cheapest = runningTotals.reduce(function (a, b) { return b[1] < a[1] ? b : a; });
+    var mostExpensive = runningTotals.reduce(function (a, b) { return b[1] > a[1] ? b : a; });
+
+    var result = buildCumulativeCostLineChart({
+      series: series,
+      xLabel: "Year",
+      yLabel: "Cumulative nominal cost (CAD)",
+      accessibleName: "Cumulative household cost over the planning horizon, by decision",
+      accessibleDescription:
+        "Line chart showing cumulative nominal cost by year for " + decisions.length + " decisions. " +
+        "By the end of the horizon shown, " + cheapest[0] + " has the lowest cumulative cost at " +
+        formatCad(cheapest[1]) + ", and " + mostExpensive[0] + " has the highest at " +
+        formatCad(mostExpensive[1]) + ". This is a modelled range under stated assumptions, not a " +
+        "prediction or a guarantee."
+    });
+
+    if (container) {
+      container.innerHTML = result.svg;
+    }
+    if (tbody) {
+      tbody.innerHTML = "";
+      result.tableRows.forEach(function (row) {
+        var tr = document.createElement("tr");
+        var th = document.createElement("th");
+        th.setAttribute("scope", "row");
+        th.textContent = String(row.x);
+        tr.appendChild(th);
+        decisions.forEach(function (d) {
+          var td = document.createElement("td");
+          td.textContent = formatCad(row[d.label]);
+          tr.appendChild(td);
+        });
+        tbody.appendChild(tr);
+      });
+    }
+  }
+
+  // ---------------------------------------------------------------------
   // Rounding helpers (match Python's round() banker's-rounding-adjacent
   // behaviour closely enough for currency display; both sides are also
   // cross-checked against real Python output by the golden-file test, so
@@ -696,6 +895,7 @@
     calculateCostOfInaction: calculateCostOfInaction,
     findBreakevenDeclineRate: findBreakevenDeclineRate,
     formatBreakevenStatement: formatBreakevenStatement,
+    buildCumulativeCostLineChart: buildCumulativeCostLineChart,
     formatCad: formatCad
   };
 
@@ -987,6 +1187,9 @@
         var baseQuoteForTiers = quoteFromTotal(quoteTotalForTiers, assumptionData.defaults.solar.costComponentShares);
         renderCollectivePurchasingRows(baseQuoteForTiers, assumptionData.defaults.ontario.hstRate);
       }
+
+      var discountPctForChart = Number(form.querySelector("#discount-number").value) || 0;
+      renderCumulativeCostChart(result.gridOnly, result.buyNow, result.buyNowDiscount, result.waitN, discountPctForChart, result.waitYears);
 
       var totals = [result.buyNow.totalNominalCad, result.buyNowDiscount.totalNominalCad, result.waitN.totalNominalCad];
       var rangeLow = Math.min.apply(null, totals);
