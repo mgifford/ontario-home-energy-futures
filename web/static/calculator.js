@@ -1045,16 +1045,135 @@
       debounceTimer = win.setTimeout(function () { recalculate(form); }, 150);
     }
 
+    // ---------------------------------------------------------------------
+    // Local-storage persistence for compare-timing.html's form inputs.
+    //
+    // Nothing here is sent anywhere - localStorage is entirely on-device,
+    // consistent with this project's no-server-storage privacy commitment
+    // (see README.md, MODEL_CARD.md "Privacy"). Only the form field values
+    // themselves are stored (consumption, quote, scenario choices,
+    // discount, financing, wait years, horizon) - no address, no account
+    // number, no bill data. A visible "Reset to defaults" control (added
+    // to the form by build_site.py/compare_timing.html) clears it, and
+    // saved values are only ever restored into the SAME named fields they
+    // came from, never rendered as raw HTML.
+    // ---------------------------------------------------------------------
+
+    var STORAGE_KEY = "ontario-home-energy-futures:compare-timing-inputs:v1";
+
+    function getStoredFormValues() {
+      try {
+        var raw = win.localStorage.getItem(STORAGE_KEY);
+        return raw ? JSON.parse(raw) : null;
+      } catch (e) {
+        // Private browsing / storage disabled / quota exceeded / corrupt
+        // JSON - fail silently back to defaults rather than breaking the
+        // page.
+        return null;
+      }
+    }
+
+    function saveFormValues(form) {
+      try {
+        var values = {};
+        Array.prototype.forEach.call(form.elements, function (el) {
+          if (!el.name) return;
+          if (el.type === "radio" || el.type === "checkbox") {
+            if (el.checked) values[el.name] = el.value;
+          } else {
+            values[el.name] = el.value;
+          }
+        });
+        win.localStorage.setItem(STORAGE_KEY, JSON.stringify(values));
+      } catch (e) {
+        // Storage unavailable or full - the form still works for this
+        // session, it just won't persist. Not fatal.
+      }
+    }
+
+    function restoreFormValues(form, values) {
+      if (!values) return;
+      Object.keys(values).forEach(function (name) {
+        var stored = values[name];
+        var elements = form.querySelectorAll('[name="' + cssEscape(name) + '"]');
+        elements.forEach(function (el) {
+          if (el.type === "radio" || el.type === "checkbox") {
+            el.checked = el.value === stored;
+          } else {
+            el.value = stored;
+          }
+        });
+      });
+      // Keep the group-discount range/number pair in sync after a
+      // restored value, same as a live user edit would.
+      var discountRange = form.querySelector("#discount-range");
+      var discountNumber = form.querySelector("#discount-number");
+      if (discountRange && discountNumber) {
+        discountRange.value = discountNumber.value;
+      }
+    }
+
+    function cssEscape(value) {
+      if (win.CSS && win.CSS.escape) return win.CSS.escape(value);
+      return String(value).replace(/[^a-zA-Z0-9_-]/g, "\\$&");
+    }
+
+    function clearStoredFormValues() {
+      try {
+        win.localStorage.removeItem(STORAGE_KEY);
+      } catch (e) {
+        // ignore
+      }
+    }
+
     function setupCompareTimingForm() {
       var form = document.querySelector("#compare-timing-form");
       if (!form) return;
       loadAssumptionData().then(function () {
-        form.addEventListener("input", function () { debouncedRecalculate(form); });
-        form.addEventListener("change", function () { debouncedRecalculate(form); });
+        var stored = getStoredFormValues();
+        if (stored) {
+          restoreFormValues(form, stored);
+          announce("Your previously entered values were restored from this browser. Use “Reset to defaults” to clear them.");
+        }
+
+        form.addEventListener("input", function () {
+          saveFormValues(form);
+          debouncedRecalculate(form);
+        });
+        form.addEventListener("change", function () {
+          saveFormValues(form);
+          debouncedRecalculate(form);
+        });
         form.addEventListener("submit", function (event) {
           event.preventDefault();
+          saveFormValues(form);
           recalculate(form);
         });
+
+        var resetButton = document.getElementById("reset-to-defaults");
+        if (resetButton) {
+          resetButton.addEventListener("click", function () {
+            clearStoredFormValues();
+            form.reset();
+            // Native form.reset() does not fire "change" reliably across
+            // browsers for our purposes, and the group-discount pair needs
+            // an explicit resync.
+            var discountRange = form.querySelector("#discount-range");
+            var discountNumber = form.querySelector("#discount-number");
+            if (discountRange && discountNumber) {
+              discountNumber.value = discountRange.value;
+            }
+            recalculate(form);
+            announce("Reset to default values.");
+          });
+        }
+
+        // Recalculate immediately on load if any values were restored,
+        // so the tables reflect the restored inputs rather than the
+        // server-rendered defaults until the user next interacts.
+        if (stored) {
+          recalculate(form);
+        }
       });
     }
 

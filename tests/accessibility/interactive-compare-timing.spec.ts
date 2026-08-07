@@ -147,3 +147,47 @@ test("no household data appears in any request URL or query string", async ({ pa
     expect(url).not.toContain("27500");
   }
 });
+
+test("entered values persist to localStorage and are restored on reload", async ({ page }) => {
+  await page.goto("/compare-timing.html");
+
+  await page.locator("#calc-monthly-kwh").fill("1234");
+  await page.locator("#calc-monthly-kwh").dispatchEvent("input");
+  await page.waitForTimeout(400);
+
+  const stored = await page.evaluate(() =>
+    localStorage.getItem("ontario-home-energy-futures:compare-timing-inputs:v1")
+  );
+  expect(stored).toContain("1234");
+
+  await page.reload();
+  await page.waitForTimeout(400);
+
+  await expect(page.locator("#calc-monthly-kwh")).toHaveValue("1234");
+});
+
+test("reset to defaults clears localStorage and restores default values", async ({ page }) => {
+  await page.goto("/compare-timing.html");
+
+  await page.locator("#calc-monthly-kwh").fill("1234");
+  await page.locator("#calc-monthly-kwh").dispatchEvent("input");
+  await page.waitForTimeout(400);
+
+  await page.locator("#reset-to-defaults").click();
+  await page.waitForTimeout(300);
+
+  await expect(page.locator("#calc-monthly-kwh")).toHaveValue("700");
+  const stored = await page.evaluate(() =>
+    localStorage.getItem("ontario-home-energy-futures:compare-timing-inputs:v1")
+  );
+  expect(stored).toBeNull();
+});
+
+test("nothing is stored in localStorage before the user changes anything", async ({ page }) => {
+  await page.goto("/compare-timing.html");
+  await page.waitForTimeout(300);
+  const stored = await page.evaluate(() =>
+    localStorage.getItem("ontario-home-energy-futures:compare-timing-inputs:v1")
+  );
+  expect(stored).toBeNull();
+});

@@ -156,6 +156,9 @@
 <p class="js-only field__help">
   Changes below recalculate the table and statements above automatically —
   nothing is sent anywhere; the calculation runs entirely in your browser.
+  Your values are saved in this browser only (not on any server) so they're
+  still here next time you visit this page on this device. Use
+  <strong>Reset to defaults</strong> below to clear them.
 </p>
 <form class="js-only" id="compare-timing-form">
   <fieldset>
@@ -235,6 +238,7 @@
     </select>
   </fieldset>
   <button type="submit">Recalculate</button>
+  <button type="button" class="secondary" id="reset-to-defaults">Reset to defaults</button>
 </form>
 <div class="results-live-region" role="status" aria-live="polite" id="results-status"></div>
 
