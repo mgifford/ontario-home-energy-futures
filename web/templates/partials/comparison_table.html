@@ -15,7 +15,7 @@
       <th scope="col">Uncertainty range</th>
     </tr>
   </thead>
-  <tbody>
+  <tbody{% if tbody_id %} id="{{ tbody_id }}"{% endif %}>
     {% for row in rows %}
     <tr>
       <th scope="row">{{ row.label }}</th>

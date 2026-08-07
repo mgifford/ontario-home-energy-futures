@@ -6,6 +6,7 @@
   <title>{% block title %}Ontario Home Energy Futures{% endblock %}</title>
   <meta name="description" content="{% block description %}An open solar and electricity cost explorer for Ontario households.{% endblock %}">
   <link rel="stylesheet" href="{{ asset_prefix }}static/styles.css">
+  <link rel="calculator-data-base" href="{{ asset_prefix }}data/">
 </head>
 <body>
   <a class="skip-link" href="#main-content">Skip to main content</a>
@@ -23,6 +24,7 @@
         <li><a href="{{ asset_prefix }}current-costs.html">Current Ontario costs</a></li>
         <li><a href="{{ asset_prefix }}household.html">Explore your household</a></li>
         <li><a href="{{ asset_prefix }}compare-timing.html">Compare purchase timing</a></li>
+        <li><a href="{{ asset_prefix }}value-streams.html">Value streams</a></li>
         <li><a href="{{ asset_prefix }}net-metering.html">Solar and net metering</a></li>
         <li><a href="{{ asset_prefix }}battery-generator.html">Battery vs. generator</a></li>
         <li><a href="{{ asset_prefix }}assumptions.html">Assumptions</a></li>
@@ -55,5 +57,6 @@
       <a href="{{ asset_prefix }}accessibility.html#how-to-report-a-problem">Report an accessibility problem</a>
     </p>
   </footer>
+  <script src="{{ asset_prefix }}static/calculator.js"></script>
 </body>
 </html>

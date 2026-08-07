@@ -13,6 +13,9 @@ from ..model import bill as bill_mod
 from ..model import decline as decline_mod
 from ..model import net_metering as nm_mod
 from ..model import solar as solar_mod
+from ..model.collective_purchasing import load_collective_tiers
+from ..model.compatibility import CompatibilityMatrix
+from ..model.value_streams import ValueStreamStatus, load_value_streams
 from .. import __version__
 
 STANDARD_PROFILES_KWH = [500, 700, 1000, 1500]
@@ -57,6 +60,18 @@ class SiteData:
         ]
 
         self.rate_structure = bill_mod.rate_structure_from_dict(self.hydro_ottawa)
+
+        # Phase 2 engine data - see model/collective_purchasing.py,
+        # model/value_streams.py, model/compatibility.py. Loaded once here,
+        # same pattern as the Phase 1 assumptions above, so build_site.py
+        # never re-reads these files itself.
+        self.collective_tiers = load_collective_tiers(
+            repo_root / "assumptions" / "collective_purchasing.yaml"
+        )
+        self.value_streams = load_value_streams(repo_root / "assumptions" / "value_streams")
+        self.value_stream_compatibility = CompatibilityMatrix.from_yaml(
+            repo_root / "assumptions" / "value_stream_compatibility.yaml"
+        )
 
     def base_context(self, asset_prefix: str = "") -> dict:
         return {

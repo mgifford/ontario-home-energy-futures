@@ -9,6 +9,7 @@ const PAGES = [
   "current-costs.html",
   "household.html",
   "compare-timing.html",
+  "value-streams.html",
   "net-metering.html",
   "battery-generator.html",
   "assumptions.html",

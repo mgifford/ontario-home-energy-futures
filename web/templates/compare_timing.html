@@ -9,8 +9,19 @@
   and {{ decline_scenario_label }} solar-cost-decline scenario.
 </p>
 
+<noscript>
+  <div class="callout callout--warning">
+    <p>
+      JavaScript is off, so the table and statement below show the
+      standard {{ household_profile_kwh }} kWh/month scenario computed at
+      build time. Enable JavaScript to adjust the inputs below and see the
+      table recalculate for your own household.
+    </p>
+  </div>
+</noscript>
+
 <div class="callout callout--warning">
-  <p>
+  <p id="compare-timing-range">
     Across the selected scenarios, estimated {{ horizon_years }}-year totals
     range from {{ range_low_formatted }} to {{ range_high_formatted }}.
     Electricity-price growth, installation cost, and financing explain most
@@ -19,10 +30,96 @@
   </p>
 </div>
 
+{% with tbody_id = "compare-timing-tbody" %}
 {% include "partials/comparison_table.html" with context %}
+{% endwith %}
+<p class="field__help">
+  Every option in this table is compared over the same {{ horizon_years }}-year
+  calendar window — a household that waits does not get a fresh
+  {{ horizon_years }}-year window of its own starting later; it gets fewer
+  active solar years within the same shared window as buying now. See
+  <a href="methodology.html#10-twenty-year-and-other-horizon-planning-comparison">Methodology</a>.
+</p>
 
 <h2>Cost of waiting</h2>
-<p>{{ waiting_statement }}</p>
+<p id="compare-timing-waiting-statement">{{ waiting_statement }}</p>
+
+<h2>Cost of inaction, itemized</h2>
+<p class="page-intro">
+  For each option, the additional cost compared with whichever option is
+  actually cheapest under these assumptions — which is not assumed to be
+  "buy now." See <a href="methodology.html">Methodology</a> for how this is
+  calculated.
+</p>
+<div class="table-scroll" tabindex="0">
+<table>
+  <caption>Cost of inaction: additional cost versus the lowest-cost option, itemized</caption>
+  <thead>
+    <tr>
+      <th scope="col">Decision</th>
+      <th scope="col">Additional cost (nominal)</th>
+      <th scope="col">Additional cost (present value)</th>
+      <th scope="col">Grid electricity purchased while waiting</th>
+      <th scope="col">Solar generation forgone</th>
+      <th scope="col">Current incentives forgone</th>
+    </tr>
+  </thead>
+  <tbody id="cost-of-inaction-tbody">
+    {% for row in cost_of_inaction_rows %}
+    <tr>
+      <th scope="row">{{ row.label }}</th>
+      <td>{{ row.additional_nominal_cost }}</td>
+      <td>{{ row.additional_present_value }}</td>
+      <td>{{ row.grid_purchased_while_waiting_kwh }} kWh</td>
+      <td>{{ row.solar_forgone_kwh }} kWh</td>
+      <td>{{ row.incentives_forgone }}</td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+</div>
+<p class="field__help" id="cost-of-inaction-emissions-note">
+  {{ cost_of_inaction_rows[0].emissions_note if cost_of_inaction_rows else "" }}
+</p>
+
+<h2>Collective purchasing, by group size</h2>
+<p class="page-intro">
+  This uses the actual per-component collective-purchasing model — lower
+  customer-acquisition cost, shared design and permitting, bulk hardware —
+  applied only to eligible installation cost components, capped per tier.
+  It never discounts taxes, government fees, utility charges, or the
+  interest rate.
+</p>
+<div class="table-scroll" tabindex="0">
+<table>
+  <caption>Initial cost by collective-purchasing group size, same reference quote</caption>
+  <thead>
+    <tr>
+      <th scope="col">Group</th>
+      <th scope="col">Households</th>
+      <th scope="col">Initial cost</th>
+      <th scope="col">One-time savings</th>
+      <th scope="col">Effective discount</th>
+    </tr>
+  </thead>
+  <tbody id="collective-purchasing-tbody">
+    {% for row in collective_purchasing_rows %}
+    <tr>
+      <th scope="row">{{ row.label }}</th>
+      <td>{{ row.households }}</td>
+      <td>{{ row.initial_cost }}</td>
+      <td>{{ row.one_time_savings }}</td>
+      <td>{{ row.effective_discount_pct }}{% if row.capped %} (capped){% endif %}</td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+</div>
+<p class="field__help">
+  This is a one-time reduction in initial purchase cost, not annual
+  revenue. See <a href="value-streams.html">Value streams</a> for how this
+  differs from ongoing programme income.
+</p>
 
 <h2>What typically drives this kind of result</h2>
 {% if sensitivity_rows_are_illustrative %}
@@ -56,7 +153,32 @@
 </div>
 
 <h2>Adjust assumptions</h2>
-<form class="js-only">
+<p class="js-only field__help">
+  Changes below recalculate the table and statements above automatically —
+  nothing is sent anywhere; the calculation runs entirely in your browser.
+</p>
+<form class="js-only" id="compare-timing-form">
+  <fieldset>
+    <legend>Your household</legend>
+    <div class="field">
+      <label for="calc-monthly-kwh">Average monthly electricity consumption (kWh)</label>
+      <input type="number" id="calc-monthly-kwh" name="monthly-kwh" min="0" step="10" value="{{ household_profile_kwh }}" inputmode="numeric">
+    </div>
+  </fieldset>
+
+  <fieldset>
+    <legend>Solar quote</legend>
+    <div class="field">
+      <label for="calc-quote-total">Complete contractor quote before tax (CAD)</label>
+      <input type="number" id="calc-quote-total" name="quote-total" min="0" step="500" value="21000" inputmode="numeric">
+      <p class="field__help">
+        Defaults to a labelled illustrative regional estimate — replace it
+        with your own quote for a more accurate comparison. See
+        <a href="net-metering.html">Solar and net metering</a>.
+      </p>
+    </div>
+  </fieldset>
+
   <fieldset>
     <legend>Electricity-price scenario</legend>
     {% for scenario in price_scenarios %}
@@ -78,6 +200,7 @@
   <fieldset>
     <legend>Neighbourhood group-purchase discount</legend>
     <div class="range-with-number">
+      <label for="discount-range" class="visually-hidden">Discount percentage (slider)</label>
       <input type="range" id="discount-range" name="discount-range" min="0" max="20" step="1" value="0" aria-describedby="discount-help">
       <label for="discount-number" class="visually-hidden">Discount percentage</label>
       <input type="number" id="discount-number" name="discount-number" min="0" max="20" step="1" value="0">
@@ -93,6 +216,13 @@
     <div class="field">
       <input type="radio" id="finance-loan" name="finance-type" value="loan">
       <label for="finance-loan" style="display:inline;font-weight:normal;">Loan</label>
+    </div>
+  </fieldset>
+  <fieldset>
+    <legend>Waiting period to compare against buying now</legend>
+    <div class="field">
+      <label for="calc-wait-years">Years to wait</label>
+      <input type="number" id="calc-wait-years" name="wait-years" min="1" max="5" step="1" value="3" inputmode="numeric">
     </div>
   </fieldset>
   <fieldset>

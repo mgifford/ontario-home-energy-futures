@@ -32,10 +32,20 @@ jobs:
             echo "::error::Calculator CSS+JS exceeds the 200 KB budget documented in README.md"
             exit 1
           fi
-      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa9 # v4.6.2
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
         with:
           name: dist
           path: dist/
+
+  js-golden-tests:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
+        with:
+          node-version: "20"
+      - name: Run cross-language golden-file drift guard
+        run: node tests/js/test_golden_scenarios.mjs
 
   accessibility-tests:
     runs-on: ubuntu-24.04
