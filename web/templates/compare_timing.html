@@ -41,6 +41,41 @@
   <a href="methodology.html#10-twenty-year-and-other-horizon-planning-comparison">Methodology</a>.
 </p>
 
+<h2>Cumulative cost over time</h2>
+<p class="page-intro">
+  How much each option has cost in total, year by year. The initial
+  purchase shows up as a step at the year of purchase; the lines then
+  diverge (or cross) as grid bills, financing, and solar savings
+  accumulate differently for each option. This is a modelled range under
+  stated assumptions, not a prediction and not a guarantee.
+</p>
+<div class="chart-and-table" id="cumulative-cost-chart-container">
+  {{ cumulative_cost_chart_svg | safe }}
+</div>
+<div class="table-scroll" tabindex="0">
+<table id="cumulative-cost-table">
+  <caption>Cumulative nominal cost by year, same data as the chart above</caption>
+  <thead>
+    <tr>
+      <th scope="col">Year</th>
+      {% for label in cumulative_cost_chart_series_labels %}
+      <th scope="col">{{ label }}</th>
+      {% endfor %}
+    </tr>
+  </thead>
+  <tbody id="cumulative-cost-tbody">
+    {% for row in cumulative_cost_chart_rows %}
+    <tr>
+      <th scope="row">{{ row.x | int }}</th>
+      {% for label in cumulative_cost_chart_series_labels %}
+      <td>${{ "{:,.2f}".format(row[label]) }}</td>
+      {% endfor %}
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+</div>
+
 <h2>Cost of waiting</h2>
 <p id="compare-timing-waiting-statement">{{ waiting_statement }}</p>
 

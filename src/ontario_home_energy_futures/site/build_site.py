@@ -14,6 +14,7 @@ from pathlib import Path
 
 from jinja2 import Environment, FileSystemLoader, select_autoescape
 
+from ..charts.svg_line_chart import ChartSeries, build_cumulative_cost_line_chart
 from ..model.collective_purchasing import apply_collective_purchase
 from ..model.cost_of_inaction import DecisionCostInputs, calculate_cost_of_inaction
 from ..model.financing import QuoteComponents, amortize_loan
@@ -143,6 +144,7 @@ def _build_comparison_rows(data: SiteData, *, household_kwh: int = 700, horizon_
 
     cost_of_inaction_rows = _build_cost_of_inaction_rows([grid_only, buy_now, wait_3yr])
     collective_purchasing_rows = _build_collective_purchasing_rows(data, base_quote=base_quote, tax_rate=data.ontario["hst_rate"])
+    cumulative_cost_chart = _build_cumulative_cost_chart([grid_only, buy_now, buy_now_10pct, wait_3yr])
 
     return {
         "rows": rows,
@@ -156,7 +158,48 @@ def _build_comparison_rows(data: SiteData, *, household_kwh: int = 700, horizon_
         "decline_scenario_label": "Flat",
         "cost_of_inaction_rows": cost_of_inaction_rows,
         "collective_purchasing_rows": collective_purchasing_rows,
+        "cumulative_cost_chart_svg": cumulative_cost_chart.svg,
+        "cumulative_cost_chart_rows": cumulative_cost_chart.table_rows,
+        "cumulative_cost_chart_series_labels": [d.label for d in (grid_only, buy_now, buy_now_10pct, wait_3yr)],
     }
+
+
+def _build_cumulative_cost_chart(decisions: list):
+    """Cumulative nominal cost over time, one line per decision already
+    shown in the main comparison table - built entirely from
+    DecisionResult.annual_cash_flows, already computed above, via the
+    shared charts/svg_line_chart.py builder. No new cash-flow math; this
+    is presentation only. See ACCESSIBILITY.md's chart decision record
+    for the design constraints this must satisfy (inline SVG, table-backed,
+    no colour-only series encoding).
+    """
+    series = []
+    running_total_by_decision = []
+    for d in decisions:
+        points = []
+        running_total = 0.0
+        for flow in d.annual_cash_flows:
+            running_total += flow.total_nominal_cad
+            points.append((float(flow.year), round(running_total, 2)))
+        series.append(ChartSeries(label=d.label, points=points))
+        running_total_by_decision.append((d.label, running_total))
+
+    cheapest_label, cheapest_total = min(running_total_by_decision, key=lambda pair: pair[1])
+    most_expensive_label, most_expensive_total = max(running_total_by_decision, key=lambda pair: pair[1])
+
+    return build_cumulative_cost_line_chart(
+        series=series,
+        x_label="Year",
+        y_label="Cumulative nominal cost (CAD)",
+        accessible_name="Cumulative household cost over the planning horizon, by decision",
+        accessible_description=(
+            f"Line chart showing cumulative nominal cost by year for {len(decisions)} decisions. "
+            f"By the end of the horizon shown, {cheapest_label} has the lowest cumulative cost at "
+            f"{cad(cheapest_total)}, and {most_expensive_label} has the highest at "
+            f"{cad(most_expensive_total)}. This is a modelled range under stated assumptions, not a "
+            "prediction or a guarantee."
+        ),
+    )
 
 
 def _build_cost_of_inaction_rows(decisions: list) -> list[dict]:
